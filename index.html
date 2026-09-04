@@ -881,12 +881,12 @@
         </div>
 
         <!-- Tab 3: Sidebar & Author Info (NEW!) -->
-                <!-- Tab: Top Features & Visual Banners -->
+                <!-- Tab: Top Features & Visual Banners        <!-- Tab: Top Features & Visual Banners -->
         <div id="tab-banners" class="tab-pane">
           <div class="control-group">
             <div class="control-group-title">頂部功能開關</div>
             <div class="switch-row">
-              <span class="switch-label">啟用 3 格圖文視覺選單 (Visual Banner)</span>
+              <span class="switch-label">啟用圖文視覺選單 (Visual Banner)</span>
               <label class="switch">
                 <input type="checkbox" id="check-showVisualBanner" checked onchange="updateSetting('showVisualBanner', this.checked)">
                 <span class="slider-toggle"></span>
@@ -902,65 +902,145 @@
           </div>
 
           <div class="control-group">
-            <div class="control-group-title">圖文選單 · 第 1 格</div>
+            <div class="control-group-title">視覺選單設定 (1 ~ 5 格可選)</div>
             <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">浮動大標題</label>
-              <input type="text" id="input-banner1Title" value="流亡者地圖" oninput="updateSetting('banner1Title', this.value)">
+              <div class="control-label-row">
+                <span class="control-label">選單格數 (可選 1 ~ 5 格)</span>
+              </div>
+              <div class="radio-card-grid" style="grid-template-columns: repeat(5, 1fr);">
+                <div class="radio-card" data-val="1" onclick="setBannerCount(1, this)">1 格</div>
+                <div class="radio-card" data-val="2" onclick="setBannerCount(2, this)">2 格</div>
+                <div class="radio-card active" data-val="3" onclick="setBannerCount(3, this)">3 格</div>
+                <div class="radio-card" data-val="4" onclick="setBannerCount(4, this)">4 格</div>
+                <div class="radio-card" data-val="5" onclick="setBannerCount(5, this)">5 格</div>
+              </div>
             </div>
+
             <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">上方小標語 / 前綴</label>
-              <input type="text" id="input-banner1Sub" value="近未來寫實奇門遁甲" oninput="updateSetting('banner1Sub', this.value)">
-            </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">背景圖片網址 (URL)</label>
-              <input type="text" id="input-banner1Img" value="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner1Img', this.value)">
-            </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">超連結網址 (URL)</label>
-              <input type="text" id="input-banner1Link" value="/search/label/流亡者地圖" oninput="updateSetting('banner1Link', this.value)">
+              <div class="control-label-row">
+                <span class="control-label">排列方式</span>
+              </div>
+              <div class="radio-card-grid cols-2">
+                <div class="radio-card active" data-val="equal" onclick="setBannerLayout('equal', this)">均勻放一排</div>
+                <div class="radio-card" data-val="hero" onclick="setBannerLayout('hero', this)">第一個放大 (焦點主圖)</div>
+              </div>
+              <div style="font-size: 11.5px; color: var(--text-muted); margin-top: 6px; line-height: 1.45; background: var(--surface-100); padding: 8px 10px; border-radius: 6px;">
+                💡 <strong>焦點主圖效果（如圖二）</strong>：當選擇 3 格或 5 格時，第 1 格會自動以大尺寸置左跨兩列呈現，其餘卡片於右側優雅排列。
+              </div>
             </div>
           </div>
 
           <div class="control-group">
-            <div class="control-group-title">圖文選單 · 第 2 格</div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">浮動大標題</label>
-              <input type="text" id="input-banner2Title" value="懸疑系列" oninput="updateSetting('banner2Title', this.value)">
-            </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">上方小標語 / 前綴</label>
-              <input type="text" id="input-banner2Sub" value="沒有人是局外人" oninput="updateSetting('banner2Sub', this.value)">
-            </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">背景圖片網址 (URL)</label>
-              <input type="text" id="input-banner2Img" value="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner2Img', this.value)">
-            </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">超連結網址 (URL)</label>
-              <input type="text" id="input-banner2Link" value="/search/label/懸疑系列" oninput="updateSetting('banner2Link', this.value)">
-            </div>
-          </div>
+            <div class="control-group-title">各格圖文詳細設定</div>
 
-          <div class="control-group">
-            <div class="control-group-title">圖文選單 · 第 3 格</div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">浮動大標題</label>
-              <input type="text" id="input-banner3Title" value="小品故事" oninput="updateSetting('banner3Title', this.value)">
+            <!-- Card 1 -->
+            <div id="banner-card-block-1" class="control-item" style="background: var(--surface-50); padding: 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 12px;">
+              <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px; color: var(--primary);">圖文格 · 第 1 格 (焦點主格)</div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">浮動大標題</label>
+                <input type="text" id="input-banner1Title" value="流亡者地圖" oninput="updateSetting('banner1Title', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">上方小標語 / 前綴</label>
+                <input type="text" id="input-banner1Sub" value="近未來寫實奇門遁甲" oninput="updateSetting('banner1Sub', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">背景圖片網址 (URL)</label>
+                <input type="text" id="input-banner1Img" value="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80" oninput="updateSetting('banner1Img', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">超連結網址 (URL)</label>
+                <input type="text" id="input-banner1Link" value="/search/label/流亡者地圖" oninput="updateSetting('banner1Link', this.value)">
+              </div>
             </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">上方小標語 / 前綴</label>
-              <input type="text" id="input-banner3Sub" value="問世間" oninput="updateSetting('banner3Sub', this.value)">
+
+            <!-- Card 2 -->
+            <div id="banner-card-block-2" class="control-item" style="background: var(--surface-50); padding: 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 12px;">
+              <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px; color: var(--surface-800);">圖文格 · 第 2 格</div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">浮動大標題</label>
+                <input type="text" id="input-banner2Title" value="懸疑系列" oninput="updateSetting('banner2Title', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">上方小標語 / 前綴</label>
+                <input type="text" id="input-banner2Sub" value="沒有人是局外人" oninput="updateSetting('banner2Sub', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">背景圖片網址 (URL)</label>
+                <input type="text" id="input-banner2Img" value="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner2Img', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">超連結網址 (URL)</label>
+                <input type="text" id="input-banner2Link" value="/search/label/懸疑系列" oninput="updateSetting('banner2Link', this.value)">
+              </div>
             </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">背景圖片網址 (URL)</label>
-              <input type="text" id="input-banner3Img" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner3Img', this.value)">
+
+            <!-- Card 3 -->
+            <div id="banner-card-block-3" class="control-item" style="background: var(--surface-50); padding: 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 12px;">
+              <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px; color: var(--surface-800);">圖文格 · 第 3 格</div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">浮動大標題</label>
+                <input type="text" id="input-banner3Title" value="小品故事" oninput="updateSetting('banner3Title', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">上方小標語 / 前綴</label>
+                <input type="text" id="input-banner3Sub" value="問世間" oninput="updateSetting('banner3Sub', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">背景圖片網址 (URL)</label>
+                <input type="text" id="input-banner3Img" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner3Img', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">超連結網址 (URL)</label>
+                <input type="text" id="input-banner3Link" value="/search/label/小品故事" oninput="updateSetting('banner3Link', this.value)">
+              </div>
             </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:4px;">超連結網址 (URL)</label>
-              <input type="text" id="input-banner3Link" value="/search/label/小品故事" oninput="updateSetting('banner3Link', this.value)">
+
+            <!-- Card 4 -->
+            <div id="banner-card-block-4" class="control-item" style="background: var(--surface-50); padding: 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 12px; display: none;">
+              <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px; color: var(--surface-800);">圖文格 · 第 4 格</div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">浮動大標題</label>
+                <input type="text" id="input-banner4Title" value="數位裝備" oninput="updateSetting('banner4Title', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">上方小標語 / 前綴</label>
+                <input type="text" id="input-banner4Sub" value="探索科技與日常生活" oninput="updateSetting('banner4Sub', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">背景圖片網址 (URL)</label>
+                <input type="text" id="input-banner4Img" value="https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner4Img', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">超連結網址 (URL)</label>
+                <input type="text" id="input-banner4Link" value="/search/label/數位裝備" oninput="updateSetting('banner4Link', this.value)">
+              </div>
+            </div>
+
+            <!-- Card 5 -->
+            <div id="banner-card-block-5" class="control-item" style="background: var(--surface-50); padding: 12px; border: 1px solid var(--surface-200); border-radius: 8px; display: none;">
+              <div style="font-weight: 700; font-size: 12px; margin-bottom: 8px; color: var(--surface-800);">圖文格 · 第 5 格</div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">浮動大標題</label>
+                <input type="text" id="input-banner5Title" value="公路漫遊" oninput="updateSetting('banner5Title', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">上方小標語 / 前綴</label>
+                <input type="text" id="input-banner5Sub" value="遠方的地平線與探索" oninput="updateSetting('banner5Sub', this.value)">
+              </div>
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">背景圖片網址 (URL)</label>
+                <input type="text" id="input-banner5Img" value="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner5Img', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 2px;">超連結網址 (URL)</label>
+                <input type="text" id="input-banner5Link" value="/search/label/公路漫遊" oninput="updateSetting('banner5Link', this.value)">
+              </div>
             </div>
           </div>
         </div>
+
+        iv>
 
         <div id="tab-sidebar" class="tab-pane">
           <div class="control-group">
@@ -984,18 +1064,54 @@
           </div>
 
           <div class="control-group">
-            <div class="control-group-title">社群與聯絡連結</div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:6px;">GitHub 連結</label>
-              <input type="text" id="input-socialGithub" value="https://github.com" placeholder="例如 https://github.com/yourname" oninput="updateSetting('socialGithub', this.value)">
+            <div class="control-group-title">社群與自訂按鈕連結 (標題與網址均可自訂)</div>
+            
+            <!-- Link 1 -->
+            <div class="control-item" style="background: var(--surface-50); padding: 10px 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 10px;">
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">按鈕名稱 1</label>
+                <input type="text" id="input-social1Title" value="GitHub" placeholder="例如：GitHub、作品集、FB" oninput="updateSetting('social1Title', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">連結網址 1</label>
+                <input type="text" id="input-social1Link" value="https://github.com" placeholder="https://..." oninput="updateSetting('social1Link', this.value)">
+              </div>
             </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:6px;">Twitter / X 連結</label>
-              <input type="text" id="input-socialTwitter" value="https://twitter.com" placeholder="例如 https://twitter.com/yourname" oninput="updateSetting('socialTwitter', this.value)">
+
+            <!-- Link 2 -->
+            <div class="control-item" style="background: var(--surface-50); padding: 10px 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 10px;">
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">按鈕名稱 2</label>
+                <input type="text" id="input-social2Title" value="Twitter" placeholder="例如：Twitter / X、Instagram" oninput="updateSetting('social2Title', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">連結網址 2</label>
+                <input type="text" id="input-social2Link" value="https://twitter.com" placeholder="https://..." oninput="updateSetting('social2Link', this.value)">
+              </div>
             </div>
-            <div class="control-item">
-              <label class="control-label" style="display:block; margin-bottom:6px;">Email 聯絡 (選填)</label>
-              <input type="text" id="input-socialEmail" value="" placeholder="your.email@example.com" oninput="updateSetting('socialEmail', this.value)">
+
+            <!-- Link 3 -->
+            <div class="control-item" style="background: var(--surface-50); padding: 10px 12px; border: 1px solid var(--surface-200); border-radius: 8px; margin-bottom: 10px;">
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">按鈕名稱 3</label>
+                <input type="text" id="input-social3Title" value="Email" placeholder="例如：Email、聯絡我、Threads" oninput="updateSetting('social3Title', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">連結網址 3</label>
+                <input type="text" id="input-social3Link" value="" placeholder="mailto:your.email@example.com 或網址" oninput="updateSetting('social3Link', this.value)">
+              </div>
+            </div>
+
+            <!-- Link 4 -->
+            <div class="control-item" style="background: var(--surface-50); padding: 10px 12px; border: 1px solid var(--surface-200); border-radius: 8px;">
+              <div style="margin-bottom: 6px;">
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">按鈕名稱 4 (選填)</label>
+                <input type="text" id="input-social4Title" value="作品專欄" placeholder="例如：個人主頁、YouTube" oninput="updateSetting('social4Title', this.value)">
+              </div>
+              <div>
+                <label class="control-label" style="display:block; font-size: 11px; margin-bottom: 3px; color: var(--text-muted);">連結網址 4</label>
+                <input type="text" id="input-social4Link" value="" placeholder="https://..." oninput="updateSetting('social4Link', this.value)">
+              </div>
             </div>
           </div>
 
@@ -1360,6 +1476,8 @@
       // Top Features & Banners
       showVisualBanner: true,
       showFeaturedPost: true,
+      bannerCount: 3,
+      bannerLayout: 'equal', // 'equal' | 'hero'
       banner1Title: '流亡者地圖',
       banner1Sub: '近未來寫實奇門遁甲',
       banner1Img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop&q=80',
@@ -1375,13 +1493,28 @@
       banner3Img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&auto=format&fit=crop&q=80',
       banner3Link: '/search/label/小品故事',
 
+      banner4Title: '數位裝備',
+      banner4Sub: '探索科技與日常生活',
+      banner4Img: 'https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=700&auto=format&fit=crop&q=80',
+      banner4Link: '/search/label/數位裝備',
+
+      banner5Title: '公路漫遊',
+      banner5Sub: '遠方的地平線與探索',
+      banner5Img: 'https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=700&auto=format&fit=crop&q=80',
+      banner5Link: '/search/label/公路漫遊',
+
       authorName: 'Phil Ko',
       authorTitle: '解決方案顧問 / 技術創作者',
       authorBio: '熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！',
       authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
-      socialGithub: 'https://github.com',
-      socialTwitter: 'https://twitter.com',
-      socialEmail: '',
+      social1Title: 'GitHub',
+      social1Link: 'https://github.com',
+      social2Title: 'Twitter',
+      social2Link: 'https://twitter.com',
+      social3Title: 'Email',
+      social3Link: '',
+      social4Title: '作品專欄',
+      social4Link: '',
       sidebarTagsTitle: '熱門分類',
 
       // Colors
@@ -1577,6 +1710,31 @@
     }
 
     // Tab switching
+        function setBannerCount(num, el) {
+      state.bannerCount = num;
+      const parent = el.closest('.radio-card-grid');
+      if (parent) {
+        parent.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+      }
+      // Show/hide corresponding card blocks in panel
+      for (let i = 1; i <= 5; i++) {
+        const blk = document.getElementById('banner-card-block-' + i);
+        if (blk) blk.style.display = (i <= num) ? 'block' : 'none';
+      }
+      renderPreview();
+    }
+
+    function setBannerLayout(layout, el) {
+      state.bannerLayout = layout;
+      const parent = el.closest('.radio-card-grid');
+      if (parent) {
+        parent.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+      }
+      renderPreview();
+    }
+
     function switchTab(tabId, el) {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
@@ -1767,38 +1925,76 @@
         // Posts Column
         html += `<div style="flex: 1; min-width: 0;">`;
 
-        // Top Feature 1: 3-Tile Visual Banner
+        // Top Feature 1: Flexible Visual Banners (1 ~ 5 Tiles, Equal or Hero Grid)
         if (state.showVisualBanner) {
+          const bCount = Math.min(5, Math.max(1, state.bannerCount || 3));
+          const isHero = state.bannerLayout === 'hero';
+          const isMob = state.device === 'mobile';
+
+          let gridStyle = '';
+          if (isMob) {
+            gridStyle = 'display: flex; flex-direction: column; gap: 12px;';
+          } else if (isHero && bCount === 5) {
+            gridStyle = 'display: grid; grid-template-columns: 1.35fr 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; height: 380px;';
+          } else if (isHero && bCount === 3) {
+            gridStyle = 'display: grid; grid-template-columns: 1.4fr 1fr; grid-template-rows: 1fr 1fr; gap: 14px; height: 360px;';
+          } else if (isHero && bCount === 4) {
+            gridStyle = 'display: grid; grid-template-columns: 1.35fr 1fr; grid-template-rows: repeat(3, 1fr); gap: 12px; height: 360px;';
+          } else if (isHero && bCount === 2) {
+            gridStyle = 'display: grid; grid-template-columns: 1.6fr 1fr; gap: 14px; height: 200px;';
+          } else {
+            // Equal layout
+            gridStyle = `display: grid; grid-template-columns: repeat(${bCount}, 1fr); gap: 14px;`;
+          }
+
           html += `
             <div style="margin-bottom: 28px;">
-              <div style="display: grid; grid-template-columns: repeat(${state.device === 'mobile' ? 1 : 3}, 1fr); gap: 16px;">
-                <!-- Banner 1 -->
-                <a href="${state.banner1Link || '#'}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; height: 170px; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s;">
-                  <img src="${state.banner1Img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
-                  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
-                  <div style="position: relative; z-index: 3; color: white;">
-                    <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${state.banner1Sub}</div>
-                    <h4 style="font-size: 18px; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${state.banner1Title}</h4>
-                  </div>
-                </a>
-                <!-- Banner 2 -->
-                <a href="${state.banner2Link || '#'}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; height: 170px; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s;">
-                  <img src="${state.banner2Img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
-                  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
-                  <div style="position: relative; z-index: 3; color: white;">
-                    <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${state.banner2Sub}</div>
-                    <h4 style="font-size: 18px; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${state.banner2Title}</h4>
-                  </div>
-                </a>
-                <!-- Banner 3 -->
-                <a href="${state.banner3Link || '#'}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; height: 170px; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s;">
-                  <img src="${state.banner3Img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
-                  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
-                  <div style="position: relative; z-index: 3; color: white;">
-                    <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${state.banner3Sub}</div>
-                    <h4 style="font-size: 18px; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${state.banner3Title}</h4>
-                  </div>
-                </a>
+              <div style="${gridStyle}">
+          `;
+
+          for (let i = 1; i <= bCount; i++) {
+            const title = state['banner' + i + 'Title'] || ('精選專題 ' + i);
+            const sub = state['banner' + i + 'Sub'] || '';
+            const img = state['banner' + i + 'Img'] || 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop&q=80';
+            const link = state['banner' + i + 'Link'] || '#';
+
+            let itemGridPos = '';
+            let titleSize = '17.5px';
+            let cardHeight = (bCount === 1 ? '220px' : (bCount === 2 ? '190px' : '170px'));
+
+            if (!isMob && isHero) {
+              if (bCount === 5) {
+                if (i === 1) { itemGridPos = 'grid-column: 1 / 2; grid-row: 1 / 3; height: 100%;'; titleSize = '24px'; }
+                else if (i === 2) { itemGridPos = 'grid-column: 2 / 3; grid-row: 1 / 2; height: 100%;'; }
+                else if (i === 3) { itemGridPos = 'grid-column: 3 / 4; grid-row: 1 / 2; height: 100%;'; }
+                else if (i === 4) { itemGridPos = 'grid-column: 2 / 3; grid-row: 2 / 3; height: 100%;'; }
+                else if (i === 5) { itemGridPos = 'grid-column: 3 / 4; grid-row: 2 / 3; height: 100%;'; }
+              } else if (bCount === 3) {
+                if (i === 1) { itemGridPos = 'grid-column: 1 / 2; grid-row: 1 / 3; height: 100%;'; titleSize = '24px'; }
+                else if (i === 2) { itemGridPos = 'grid-column: 2 / 3; grid-row: 1 / 2; height: 100%;'; }
+                else if (i === 3) { itemGridPos = 'grid-column: 2 / 3; grid-row: 2 / 3; height: 100%;'; }
+              }
+            } else {
+              itemGridPos = `height: ${cardHeight};`;
+            }
+
+            if (isMob) {
+              itemGridPos = 'height: 160px;';
+            }
+
+            html += `
+              <a href="${link}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s; ${itemGridPos}" onmouseover="this.style.transform='translateY(-3px)'" onmouseout="this.style.transform='none'">
+                <img src="${img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+                <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
+                <div style="position: relative; z-index: 3; color: white;">
+                  ${sub ? `<div style="font-size: 11.5px; color: rgba(255, 255, 255, 0.88); margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${sub}</div>` : ''}
+                  <h4 style="font-size: ${titleSize}; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${title}</h4>
+                </div>
+              </a>
+            `;
+          }
+
+          html += `
               </div>
             </div>
           `;
@@ -1909,9 +2105,10 @@
                   ${state.authorBio}
                 </p>
                 <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
-                  ${state.socialGithub ? `<a href="${state.socialGithub}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">GitHub</a>` : ''}
-                  ${state.socialTwitter ? `<a href="${state.socialTwitter}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">Twitter</a>` : ''}
-                  ${state.socialEmail ? `<a href="mailto:${state.socialEmail}" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">Email</a>` : ''}
+                  ${state.social1Link ? `<a href="${state.social1Link}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">${state.social1Title || 'Link 1'}</a>` : ''}
+                  ${state.social2Link ? `<a href="${state.social2Link}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">${state.social2Title || 'Link 2'}</a>` : ''}
+                  ${state.social3Link ? `<a href="${state.social3Link}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">${state.social3Title || 'Link 3'}</a>` : ''}
+                  ${state.social4Link ? `<a href="${state.social4Link}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">${state.social4Title || 'Link 4'}</a>` : ''}
                 </div>
               </div>
 
@@ -2065,6 +2262,16 @@
       const safeB3Sub = escXml(state.banner3Sub);
       const safeB3Img = escUrl(state.banner3Img);
       const safeB3Link = escUrl(state.banner3Link);
+
+      const safeB4Title = escXml(state.banner4Title);
+      const safeB4Sub = escXml(state.banner4Sub);
+      const safeB4Img = escUrl(state.banner4Img);
+      const safeB4Link = escUrl(state.banner4Link);
+
+      const safeB5Title = escXml(state.banner5Title);
+      const safeB5Sub = escXml(state.banner5Sub);
+      const safeB5Img = escUrl(state.banner5Img);
+      const safeB5Link = escUrl(state.banner5Link);
 
 
       const sTag = '<' + 'script>';
@@ -2240,21 +2447,67 @@
   }
 
   
-  /* Visual Image Banners (3-Tile) */
+  /* Visual Image Banners (1 ~ 5 Tiles, Equal or Hero Grid) */
   .visual-banners-container {
     margin-bottom: 32px;
   }
-  .visual-banners-inner {
+  
+  /* Equal layout */
+  .visual-banners-inner.equal-1 { display: grid; grid-template-columns: 1fr; }
+  .visual-banners-inner.equal-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .visual-banners-inner.equal-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .visual-banners-inner.equal-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .visual-banners-inner.equal-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .visual-banners-inner.equal-1 .visual-banner-item { height: 220px; }
+  .visual-banners-inner.equal-2 .visual-banner-item { height: 190px; }
+  .visual-banners-inner.equal-3 .visual-banner-item { height: 175px; }
+  .visual-banners-inner.equal-4 .visual-banner-item { height: 165px; }
+  .visual-banners-inner.equal-5 .visual-banner-item { height: 160px; }
+
+  /* Hero layout for 3 tiles */
+  .visual-banners-inner.hero-3 {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 360px;
   }
+  .visual-banners-inner.hero-3 .visual-banner-item:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    height: 100%;
+  }
+  .visual-banners-inner.hero-3 .visual-banner-item:nth-child(1) .visual-banner-title {
+    font-size: 23px;
+  }
+
+  /* Hero layout for 5 tiles (Like Image 2!) */
+  .visual-banners-inner.hero-5 {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 380px;
+  }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    height: 100%;
+  }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(1) .visual-banner-title {
+    font-size: 24px;
+  }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; height: 100%; }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; height: 100%; }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; height: 100%; }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; height: 100%; }
+
   .visual-banner-item {
     text-decoration: none;
     position: relative;
     border-radius: var(--radius-card);
     overflow: hidden;
-    height: 175px;
+    min-height: 160px;
     display: flex;
     align-items: flex-end;
     padding: 18px;
@@ -2264,7 +2517,7 @@
   }
   .visual-banner-item:hover {
     transform: translateY(-3px);
-    box-shadow: 0 10px 24px -2px rgba(0,0,0,0.2);
+    box-shadow: 0 10px 24px -2px rgba(0,0,0,0.22);
   }
   .visual-banner-img-wrap img {
     position: absolute;
@@ -2290,18 +2543,36 @@
     color: #ffffff;
   }
   .visual-banner-sub {
-    font-size: 11px;
-    color: rgba(255, 255, 255, 0.85);
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.88);
     margin-bottom: 4px;
     font-weight: 500;
     letter-spacing: 0.02em;
   }
   .visual-banner-title {
-    font-size: 18px;
+    font-size: 17.5px;
     font-weight: 700;
     line-height: 1.3;
     color: #ffffff;
     letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 768px) {
+    .visual-banners-inner.hero-5,
+    .visual-banners-inner.hero-3,
+    .visual-banners-inner.equal-3,
+    .visual-banners-inner.equal-4,
+    .visual-banners-inner.equal-5 {
+      display: flex !important;
+      flex-direction: column !important;
+      height: auto !important;
+      gap: 12px !important;
+    }
+    .visual-banner-item {
+      height: 160px !important;
+      grid-column: auto !important;
+      grid-row: auto !important;
+    }
   }
 
   /* Featured Post Hero Box (Blogger Native FeaturedPost) */
@@ -2766,45 +3037,41 @@
     <div class='layout-wrapper'>
       <!-- Posts Stream -->
       <main class='content-column'>
-      <!-- Top Feature 1: 3-Tile Visual Banner -->
-      ` + (state.showVisualBanner ? `
-      <div class='visual-banners-container'>
-        <div class='visual-banners-inner'>
-          <a class='visual-banner-item' href='` + (safeB1Link || '#') + `'>
-            <div class='visual-banner-img-wrap'>
-              <img src='` + safeB1Img + `' alt='` + safeB1Title + `' loading='lazy'/>
-              <div class='visual-banner-overlay'></div>
-            </div>
-            <div class='visual-banner-content'>
-              <div class='visual-banner-sub'>` + safeB1Sub + `</div>
-              <h3 class='visual-banner-title'>` + safeB1Title + `</h3>
-            </div>
-          </a>
+      <!-- Top Feature 1: Visual Banners (1 ~ 5 Tiles, Equal or Hero Layout) -->
+      ` + (state.showVisualBanner ? (function() {
+        const bCnt = Math.min(5, Math.max(1, state.bannerCount || 3));
+        const isH = state.bannerLayout === 'hero';
+        let layoutClass = 'equal-' + bCnt;
+        if (isH && (bCnt === 3 || bCnt === 5)) {
+          layoutClass = 'hero-' + bCnt;
+        }
 
-          <a class='visual-banner-item' href='` + (safeB2Link || '#') + `'>
-            <div class='visual-banner-img-wrap'>
-              <img src='` + safeB2Img + `' alt='` + safeB2Title + `' loading='lazy'/>
-              <div class='visual-banner-overlay'></div>
-            </div>
-            <div class='visual-banner-content'>
-              <div class='visual-banner-sub'>` + safeB2Sub + `</div>
-              <h3 class='visual-banner-title'>` + safeB2Title + `</h3>
-            </div>
-          </a>
+        const bData = [
+          { t: safeB1Title, s: safeB1Sub, i: safeB1Img, l: safeB1Link },
+          { t: safeB2Title, s: safeB2Sub, i: safeB2Img, l: safeB2Link },
+          { t: safeB3Title, s: safeB3Sub, i: safeB3Img, l: safeB3Link },
+          { t: safeB4Title, s: safeB4Sub, i: safeB4Img, l: safeB4Link },
+          { t: safeB5Title, s: safeB5Sub, i: safeB5Img, l: safeB5Link }
+        ];
 
-          <a class='visual-banner-item' href='` + (safeB3Link || '#') + `'>
+        let bHtml = `<div class='visual-banners-container'><div class='visual-banners-inner ` + layoutClass + `'>`;
+        for (let idx = 0; idx < bCnt; idx++) {
+          const item = bData[idx];
+          bHtml += `
+          <a class='visual-banner-item' href='` + (item.l || '#') + `'>
             <div class='visual-banner-img-wrap'>
-              <img src='` + safeB3Img + `' alt='` + safeB3Title + `' loading='lazy'/>
+              <img src='` + item.i + `' alt='` + item.t + `' loading='lazy'/>
               <div class='visual-banner-overlay'></div>
             </div>
             <div class='visual-banner-content'>
-              <div class='visual-banner-sub'>` + safeB3Sub + `</div>
-              <h3 class='visual-banner-title'>` + safeB3Title + `</h3>
+              ` + (item.s ? `<div class='visual-banner-sub'>` + item.s + `</div>` : '') + `
+              <h3 class='visual-banner-title'>` + item.t + `</h3>
             </div>
-          </a>
-        </div>
-      </div>
-      ` : '') + `
+          </a>`;
+        }
+        bHtml += `</div></div>`;
+        return bHtml;
+      })() : '') + `
 
       <!-- Top Feature 2: Blogger Native Featured Post (Scheme B) -->
       <b:if cond='data:view.isHomepage'>
@@ -3014,9 +3281,10 @@
                 <div class='author-job-title'>${safeAuthorTitle}</div>
                 <p class='author-description-text'>${safeAuthorBio}</p>
                 <div class='author-social-links'>
-                  ` + (state.socialGithub ? `<a href='${state.socialGithub}' target='_blank' rel='noopener' class='social-btn'>GitHub</a>` : '') + `
-                  ` + (state.socialTwitter ? `<a href='${state.socialTwitter}' target='_blank' rel='noopener' class='social-btn'>Twitter</a>` : '') + `
-                  ` + (state.socialEmail ? `<a href='mailto:${state.socialEmail}' class='social-btn'>Email</a>` : '') + `
+                  ` + (state.social1Link ? `<a href='` + escUrl(state.social1Link) + `' target='_blank' rel='noopener' class='social-btn'>` + escXml(state.social1Title || 'Link 1') + `</a>` : '') + `
+                  ` + (state.social2Link ? `<a href='` + escUrl(state.social2Link) + `' target='_blank' rel='noopener' class='social-btn'>` + escXml(state.social2Title || 'Link 2') + `</a>` : '') + `
+                  ` + (state.social3Link ? `<a href='` + escUrl(state.social3Link) + `' target='_blank' rel='noopener' class='social-btn'>` + escXml(state.social3Title || 'Link 3') + `</a>` : '') + `
+                  ` + (state.social4Link ? `<a href='` + escUrl(state.social4Link) + `' target='_blank' rel='noopener' class='social-btn'>` + escXml(state.social4Title || 'Link 4') + `</a>` : '') + `
                 </div>
               </div>
             </b:includable>

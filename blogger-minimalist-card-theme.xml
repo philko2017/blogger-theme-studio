@@ -167,6 +167,197 @@
     
   }
 
+  
+  /* Visual Image Banners (1 ~ 5 Tiles, Equal or Hero Grid) */
+  .visual-banners-container {
+    margin-bottom: 32px;
+  }
+  
+  /* Equal layout */
+  .visual-banners-inner.equal-1 { display: grid; grid-template-columns: 1fr; }
+  .visual-banners-inner.equal-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .visual-banners-inner.equal-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .visual-banners-inner.equal-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .visual-banners-inner.equal-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  .visual-banners-inner.equal-1 .visual-banner-item { height: 220px; }
+  .visual-banners-inner.equal-2 .visual-banner-item { height: 190px; }
+  .visual-banners-inner.equal-3 .visual-banner-item { height: 175px; }
+  .visual-banners-inner.equal-4 .visual-banner-item { height: 165px; }
+  .visual-banners-inner.equal-5 .visual-banner-item { height: 160px; }
+
+  /* Hero layout for 3 tiles */
+  .visual-banners-inner.hero-3 {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 360px;
+  }
+  .visual-banners-inner.hero-3 .visual-banner-item:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    height: 100%;
+  }
+  .visual-banners-inner.hero-3 .visual-banner-item:nth-child(1) .visual-banner-title {
+    font-size: 23px;
+  }
+
+  /* Hero layout for 5 tiles (Like Image 2!) */
+  .visual-banners-inner.hero-5 {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 380px;
+  }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(1) {
+    grid-column: 1 / 2;
+    grid-row: 1 / 3;
+    height: 100%;
+  }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(1) .visual-banner-title {
+    font-size: 24px;
+  }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; height: 100%; }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; height: 100%; }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; height: 100%; }
+  .visual-banners-inner.hero-5 .visual-banner-item:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; height: 100%; }
+
+  .visual-banner-item {
+    text-decoration: none;
+    position: relative;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    min-height: 160px;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+  }
+  .visual-banner-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px -2px rgba(0,0,0,0.22);
+  }
+  .visual-banner-img-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.4s ease;
+  }
+  .visual-banner-item:hover .visual-banner-img-wrap img {
+    transform: scale(1.06);
+  }
+  .visual-banner-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.05) 100%);
+    z-index: 2;
+  }
+  .visual-banner-content {
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+  }
+  .visual-banner-sub {
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 4px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .visual-banner-title {
+    font-size: 17.5px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  @media (max-width: 768px) {
+    .visual-banners-inner.hero-5,
+    .visual-banners-inner.hero-3,
+    .visual-banners-inner.equal-3,
+    .visual-banners-inner.equal-4,
+    .visual-banners-inner.equal-5 {
+      display: flex !important;
+      flex-direction: column !important;
+      height: auto !important;
+      gap: 12px !important;
+    }
+    .visual-banner-item {
+      height: 160px !important;
+      grid-column: auto !important;
+      grid-row: auto !important;
+    }
+  }
+
+  /* Featured Post Hero Box (Blogger Native FeaturedPost) */
+  .featured-hero-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 36px;
+  }
+  .featured-hero-thumb {
+    flex: 1.2;
+    position: relative;
+    min-height: 240px;
+    background: var(--border-color);
+  }
+  .featured-hero-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute; top: 0; left: 0;
+  }
+  .featured-hero-badge {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 4px;
+    background: var(--accent); color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    z-index: 5;
+  }
+  .featured-hero-body {
+    flex: 1.5;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-hero-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin: 10px 0;
+  }
+  .featured-hero-title a:hover { color: var(--accent); }
+  .section-divider-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  @media (max-width: 768px) {
+    .visual-banners-inner { grid-template-columns: 1fr; }
+    .featured-hero-box { flex-direction: column; }
+    .featured-hero-thumb { min-height: 200px; }
+  }
+
   /* Post Cards Grid */
   .posts-grid {
     display: grid;
@@ -567,6 +758,85 @@
     <div class='layout-wrapper'>
       <!-- Posts Stream -->
       <main class='content-column'>
+      <!-- Top Feature 1: Visual Banners (1 ~ 5 Tiles, Equal or Hero Layout) -->
+      <div class='visual-banners-container'><div class='visual-banners-inner equal-3'>
+          <a class='visual-banner-item' href='/search/label/流亡者地圖'>
+            <div class='visual-banner-img-wrap'>
+              <img src='https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&amp;auto=format&amp;fit=crop&amp;q=80' alt='流亡者地圖' loading='lazy'/>
+              <div class='visual-banner-overlay'></div>
+            </div>
+            <div class='visual-banner-content'>
+              <div class='visual-banner-sub'>近未來寫實奇門遁甲</div>
+              <h3 class='visual-banner-title'>流亡者地圖</h3>
+            </div>
+          </a>
+          <a class='visual-banner-item' href='/search/label/懸疑系列'>
+            <div class='visual-banner-img-wrap'>
+              <img src='https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=700&amp;auto=format&amp;fit=crop&amp;q=80' alt='懸疑系列' loading='lazy'/>
+              <div class='visual-banner-overlay'></div>
+            </div>
+            <div class='visual-banner-content'>
+              <div class='visual-banner-sub'>沒有人是局外人</div>
+              <h3 class='visual-banner-title'>懸疑系列</h3>
+            </div>
+          </a>
+          <a class='visual-banner-item' href='/search/label/小品故事'>
+            <div class='visual-banner-img-wrap'>
+              <img src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&amp;auto=format&amp;fit=crop&amp;q=80' alt='小品故事' loading='lazy'/>
+              <div class='visual-banner-overlay'></div>
+            </div>
+            <div class='visual-banner-content'>
+              <div class='visual-banner-sub'>問世間</div>
+              <h3 class='visual-banner-title'>小品故事</h3>
+            </div>
+          </a></div></div>
+
+      <!-- Top Feature 2: Blogger Native Featured Post (Scheme B) -->
+      <b:if cond='data:view.isHomepage'>
+        <b:section id='feature-post-section' name='置頂精選文章區' maxwidgets='1' showaddelement='yes'>
+          <b:widget id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
+            <b:includable id='main'>
+              <b:if cond='data:post.title'>
+                <div class='featured-hero-box'>
+                  <b:if cond='data:post.firstImageUrl'>
+                    <div class='featured-hero-thumb'>
+                      <a expr:href='data:post.url'>
+                        <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
+                      </a>
+                      <span class='featured-hero-badge'>★ 精選推薦</span>
+                    </div>
+                  </b:if>
+                  <div class='featured-hero-body'>
+                    <div class='card-meta-top'>
+                      <b:if cond='data:post.labels'>
+                        <b:loop values='data:post.labels' var='label'>
+                          <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
+                        </b:loop>
+                      </b:if>
+                      <span class='card-date'><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
+                    </div>
+                    <h2 class='featured-hero-title'>
+                      <a expr:href='data:post.url'><data:post.title/></a>
+                    </h2>
+                    <div class='card-snippet'>
+                      <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 150, links: false, linebreaks: false }'/>
+                    </div>
+                    <div style='margin-top: 14px;'>
+                      <a class='card-readmore' expr:href='data:post.url'>閱讀專題全文 →</a>
+                    </div>
+                  </div>
+                </div>
+              </b:if>
+            </b:includable>
+          </b:widget>
+        </b:section>
+      </b:if>
+
+      <div class='section-divider-title'>
+        <span>開始探險 »</span>
+        <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>全部文章列表</span>
+      </div>
+
         <b:section id='main-posts' name='網誌文章主區' showaddelement='no'>
           <b:widget id='Blog1' locked='true' title='網誌文章' type='Blog' version='2'>
             <!-- Main includable -->
@@ -731,6 +1001,7 @@
                 <div class='author-social-links'>
                   <a href='https://github.com' target='_blank' rel='noopener' class='social-btn'>GitHub</a>
                   <a href='https://twitter.com' target='_blank' rel='noopener' class='social-btn'>Twitter</a>
+                  
                   
                 </div>
               </div>
