@@ -807,9 +807,21 @@
         <b:section id='header' name='部落格標頭區 (Header)' class='header' maxwidgets='1' showaddelement='no'>
           <b:widget id='Header1' locked='true' title='網站標題' type='Header' version='2'>
             <b:includable id='main'>
-              <a expr:href='data:blog.homepageUrl'><data:title/></a>
-              <b:if cond='data:description'>
-                <div class='brand-tagline'><data:description/></div>
+              <b:if cond='data:useImage'>
+                <a expr:href='data:blog.homepageUrl' style='display: flex; align-items: center; gap: 12px;'>
+                  <img expr:alt='data:title' expr:src='data:sourceUrl' style='max-height: 44px; width: auto; object-fit: contain;'/>
+                  <b:if cond='data:imagePlacement != "REPLACE"'>
+                    <div>
+                      <span class='brand-logo-title'><data:title/></span>
+                      <b:if cond='data:description'><div class='brand-tagline'><data:description/></div></b:if>
+                    </div>
+                  </b:if>
+                </a>
+              <b:else/>
+                <a expr:href='data:blog.homepageUrl'><data:title/></a>
+                <b:if cond='data:description'>
+                  <div class='brand-tagline'><data:description/></div>
+                </b:if>
               </b:if>
             </b:includable>
           </b:widget>
@@ -1096,16 +1108,18 @@
       <!-- Sidebar Section -->
       <aside class='sidebar-column'>
         <b:section id='sidebar' name='側邊欄小工具 (Sidebar)' class='sidebar' showaddelement='yes'>
-          <!-- Author Card Widget (HTML Widget: Always reliably rendered & 100% matches Editor) -->
-          <b:widget id='HTML2' locked='false' title='關於作者' type='HTML' version='2'>
+          <!-- Author Card Widget (Native Image Widget: Directly uploadable in Blogger Backend!) -->
+          <b:widget id='Image10' locked='false' title='Phil Ko' type='Image' version='2'>
             <b:includable id='main'>
               <div class='sidebar-widget author-card-box'>
                 <div class='author-avatar-wrap'>
-                  <img src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&amp;auto=format&amp;fit=crop&amp;q=80' alt='Phil Ko' class='author-avatar-img'/>
+                  <img expr:alt='data:title ?: "Phil Ko"' expr:src='data:sourceUrl ?: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&amp;auto=format&amp;fit=crop&amp;q=80"' class='author-avatar-img'/>
                 </div>
-                <h4 class='author-display-name'>Phil Ko</h4>
+                <h4 class='author-display-name'><b:eval expr='data:title ?: "Phil Ko"'/></h4>
                 <div class='author-job-title'>解決方案顧問 / 技術創作者</div>
-                <p class='author-description-text'>熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！</p>
+                <p class='author-description-text'>
+                  <b:eval expr='data:caption ?: "熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！"'/>
+                </p>
                 <div class='author-social-links'>
                   <a href='https://github.com' target='_blank' rel='noopener' class='social-btn'>GitHub</a>
                   <a href='https://twitter.com' target='_blank' rel='noopener' class='social-btn'>Twitter</a>

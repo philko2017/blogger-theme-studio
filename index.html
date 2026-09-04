@@ -902,6 +902,10 @@
           </div>
 
           <div class="control-group">
+                      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; font-size: 12px; line-height: 1.55; color: #1e40af;">
+            💡 <strong>Blogger 官方圖床換圖提示</strong>：<br>
+            編輯器內設定的是版型架構與範例預覽。將產生的代碼貼到 Blogger 後，您可直接前往 Blogger <strong>「版面配置 &gt; INTRO SECTION」</strong> 點擊各格小工具的 <strong>鉛筆圖示</strong>，直接使用 Blogger 內建功能「從電腦上傳圖片」存入 Google 官方相簿圖庫！
+          </div>
             <div class="control-group-title">視覺選單設定 (1 ~ 5 格可選)</div>
             <div class="control-item">
               <div class="control-label-row">
@@ -1044,6 +1048,10 @@
 
         <div id="tab-sidebar" class="tab-pane">
           <div class="control-group">
+                      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; font-size: 12px; line-height: 1.55; color: #1e40af;">
+            💡 <strong>作者頭像原生更換提示</strong>：<br>
+            側邊欄「關於作者」已完整串接為 Blogger 原生圖片小工具。套用至 Blogger 後，您可隨時在 Blogger <strong>「版面配置 &gt; 側邊欄」</strong> 點擊鉛筆圖示，直接從電腦上傳最新大頭貼與修改自我介紹！
+          </div>
             <div class="control-group-title">側邊欄作者簡介卡片 (實機保證顯示)</div>
             <div class="control-item">
               <label class="control-label" style="display:block; margin-bottom:6px;">作者名稱</label>
@@ -1336,7 +1344,12 @@
           </div>
 
           <div class="control-group">
-            <div class="control-group-title">自訂基本文字</div>
+                      <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; font-size: 12px; line-height: 1.55; color: #1e40af;">
+            🖼️ <strong>Logo 與網站小圖示 (Favicon) 設定指引</strong>：<br>
+            • <strong>頂部 Logo 圖片</strong>：可在 Blogger <strong>「版面配置 &gt; 部落格標頭區」</strong> 點擊鉛筆，選擇「從電腦上傳圖片」取代或並列文字標題。<br>
+            • <strong>網站小圖示 (Favicon)</strong>：可至 Blogger 後台 <strong>「設定 &gt; 基本 &gt; 網站圖示」</strong>，直接上傳 100KB 以下的正方形圖檔，瀏覽器標籤頁就會自動顯示專屬圖示！
+          </div>
+          <div class="control-group-title">自訂基本文字</div>
             <div class="control-item">
               <label class="control-label" style="display:block; margin-bottom:6px;">部落格名稱</label>
               <input type="text" id="input-blogTitle" value="極簡思維筆記" oninput="updateSetting('blogTitle', this.value)">
@@ -3086,9 +3099,21 @@
         <b:section id='header' name='部落格標頭區 (Header)' class='header' maxwidgets='1' showaddelement='no'>
           <b:widget id='Header1' locked='true' title='網站標題' type='Header' version='2'>
             <b:includable id='main'>
-              <a expr:href='data:blog.homepageUrl'><data:title/></a>
-              <b:if cond='data:description'>
-                <div class='brand-tagline'><data:description/></div>
+              <b:if cond='data:useImage'>
+                <a expr:href='data:blog.homepageUrl' style='display: flex; align-items: center; gap: 12px;'>
+                  <img expr:alt='data:title' expr:src='data:sourceUrl' style='max-height: 44px; width: auto; object-fit: contain;'/>
+                  <b:if cond='data:imagePlacement != "REPLACE"'>
+                    <div>
+                      <span class='brand-logo-title'><data:title/></span>
+                      <b:if cond='data:description'><div class='brand-tagline'><data:description/></div></b:if>
+                    </div>
+                  </b:if>
+                </a>
+              <b:else/>
+                <a expr:href='data:blog.homepageUrl'><data:title/></a>
+                <b:if cond='data:description'>
+                  <div class='brand-tagline'><data:description/></div>
+                </b:if>
               </b:if>
             </b:includable>
           </b:widget>
@@ -3359,16 +3384,18 @@
       <!-- Sidebar Section -->
       <aside class='sidebar-column'>
         <b:section id='sidebar' name='側邊欄小工具 (Sidebar)' class='sidebar' showaddelement='yes'>
-          <!-- Author Card Widget (HTML Widget: Always reliably rendered & 100% matches Editor) -->
-          <b:widget id='HTML2' locked='false' title='關於作者' type='HTML' version='2'>
+          <!-- Author Card Widget (Native Image Widget: Directly uploadable in Blogger Backend!) -->
+          <b:widget id='Image10' locked='false' title='${safeAuthorName}' type='Image' version='2'>
             <b:includable id='main'>
               <div class='sidebar-widget author-card-box'>
                 <div class='author-avatar-wrap'>
-                  <img src='${safeAvatar}' alt='${safeAuthorName}' class='author-avatar-img'/>
+                  <img expr:alt='data:title ?: "${safeAuthorName}"' expr:src='data:sourceUrl ?: "${safeAvatar}"' class='author-avatar-img'/>
                 </div>
-                <h4 class='author-display-name'>${safeAuthorName}</h4>
+                <h4 class='author-display-name'><b:eval expr='data:title ?: "${safeAuthorName}"'/></h4>
                 <div class='author-job-title'>${safeAuthorTitle}</div>
-                <p class='author-description-text'>${safeAuthorBio}</p>
+                <p class='author-description-text'>
+                  <b:eval expr='data:caption ?: "${safeAuthorBio}"'/>
+                </p>
                 <div class='author-social-links'>
                   ` + (state.social1Link ? `<a href='` + escUrl(state.social1Link) + `' target='_blank' rel='noopener' class='social-btn'>` + escXml(state.social1Title || 'Link 1') + `</a>` : '') + `
                   ` + (state.social2Link ? `<a href='` + escUrl(state.social2Link) + `' target='_blank' rel='noopener' class='social-btn'>` + escXml(state.social2Title || 'Link 2') + `</a>` : '') + `
