@@ -31,7 +31,7 @@
     --radius-card: 12px;
     --card-padding: 20px;
     --container-max-width: 1200px;
-    --sidebar-width: 260px;
+    --sidebar-width: 300px;
     --font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
   }
 
@@ -151,6 +151,9 @@
   .sidebar-column {
     width: var(--sidebar-width);
     flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
     
     
   }
@@ -198,6 +201,25 @@
     transform: scale(1.05);
   }
   
+
+  .placeholder-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg-page) 0%, var(--border-color) 100%);
+  }
+  .thumb-placeholder-pattern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 700;
+  }
 
   .card-body {
     padding: var(--card-padding);
@@ -258,7 +280,18 @@
     margin-top: auto;
     font-size: 12px;
   }
-  .card-author {
+  .card-author-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-author-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .card-author-name {
     color: var(--text-main);
     font-weight: 500;
   }
@@ -337,7 +370,7 @@
     color: var(--accent);
   }
 
-  /* Sidebar widgets */
+  /* Sidebar Widgets */
   .sidebar-widget {
     background: var(--bg-card);
     border-radius: var(--radius-card);
@@ -346,13 +379,74 @@
     padding: 24px;
     margin-bottom: 24px;
   }
-  .widget-title {
-    font-size: 15px;
+  .author-card-box {
+    text-align: center;
+  }
+  .author-avatar-wrap {
+    margin-bottom: 12px;
+  }
+  .author-avatar-img {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    border: 3px solid var(--accent-glow);
+  }
+  .author-display-name {
+    font-size: 16px;
     font-weight: 700;
     color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  .author-job-title {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .author-description-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
     margin-bottom: 16px;
+  }
+  .author-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .social-btn {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: var(--bg-page);
+    color: var(--text-main);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .social-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .widget-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 14px;
     padding-bottom: 8px;
     border-bottom: 1px solid var(--border-color);
+  }
+  .tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
   }
 
   /* Footer */
@@ -466,22 +560,46 @@
                 <div class='posts-grid'>
                   <b:loop values='data:posts' var='post'>
                     <article class='post-card'>
+                      <!-- Thumbnail with image fallback -->
                       <b:if cond='data:post.firstImageUrl'>
                         <div class='card-thumbnail-wrap'>
                           <a expr:href='data:post.url'>
                             <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
                           </a>
                         </div>
+                      <b:elseif cond='data:post.featuredImage'/>
+                        <div class='card-thumbnail-wrap'>
+                          <a expr:href='data:post.url'>
+                            <img expr:alt='data:post.title' expr:src='data:post.featuredImage' loading='lazy'/>
+                          </a>
+                        </div>
+                      <b:else/>
+                        
+                        <div class='card-thumbnail-wrap placeholder-wrap'>
+                          <div class='thumb-placeholder-pattern'>
+                            <span class='placeholder-icon'>✦</span>
+                          </div>
+                        </div>
+                        
                       </b:if>
 
                       <div class='card-body'>
                         <div class='card-meta-top'>
+                          
                           <b:if cond='data:post.labels'>
                             <b:loop values='data:post.labels' var='label'>
                               <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
                             </b:loop>
+                          <b:else/>
+                            <span class='card-tag'>未分類</span>
                           </b:if>
-                          <span class='card-date'><data:post.dateHeader/></span>
+                          
+
+                          
+                          <span class='card-date'>
+                            <b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader ?: "近期文章"'/>
+                          </span>
+                          
                         </div>
 
                         <h2 class='card-title'>
@@ -489,12 +607,22 @@
                         </h2>
 
                         <div class='card-snippet'>
-                          <data:post.snippet/>
+                          <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 120, links: false, linebreaks: false } ?: "點擊閱讀全文以查看完整文章內容..."'/>
                         </div>
 
                         <div class='card-footer'>
-                          <span class='card-author'><data:post.author/></span>
+                          
+                          <div class='card-author-wrap'>
+                            <img src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&amp;auto=format&amp;fit=crop&amp;q=80' class='card-author-avatar' alt='author'/>
+                            <span class='card-author-name'>
+                              <b:eval expr='data:post.author.name ?: data:post.author ?: "Phil Ko"'/>
+                            </span>
+                          </div>
+                          
+
+                          
                           <a class='card-readmore' expr:href='data:post.url'>閱讀全文 →</a>
+                          
                         </div>
                       </div>
                     </article>
@@ -517,9 +645,9 @@
                     <h1 class='single-post-title'><data:post.title/></h1>
 
                     <div class='single-meta-bar'>
-                      <span><data:post.author/></span>
+                      <span><b:eval expr='data:post.author.name ?: data:post.author ?: "Phil Ko"'/></span>
                       <span>•</span>
-                      <span><data:post.dateHeader/></span>
+                      <span><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
                     </div>
 
                     <div class='single-post-body'>
@@ -574,24 +702,42 @@
       <!-- Sidebar Section -->
       <aside class='sidebar-column'>
         <b:section id='sidebar-widgets' name='側邊欄小工具' showaddelement='yes'>
-          <b:widget id='Profile1' locked='false' title='關於作者' type='Profile' version='2'>
+          <!-- Author Card Widget (HTML Widget: Always reliably rendered & 100% matches Editor) -->
+          <b:widget id='HTML2' locked='false' title='關於作者' type='HTML' version='2'>
             <b:includable id='main'>
-              <div class='sidebar-widget'>
-                <div class='widget-title'><data:title/></div>
-                <div style='font-size: 13px; color: var(--text-muted); line-height: 1.6;'>
-                  <data:aboutme/>
+              <div class='sidebar-widget author-card-box'>
+                <div class='author-avatar-wrap'>
+                  <img src='https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&amp;auto=format&amp;fit=crop&amp;q=80' alt='Phil Ko' class='author-avatar-img'/>
+                </div>
+                <h4 class='author-display-name'>Phil Ko</h4>
+                <div class='author-job-title'>解決方案顧問 / 技術創作者</div>
+                <p class='author-description-text'>熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！</p>
+                <div class='author-social-links'>
+                  <a href='https://github.com' target='_blank' rel='noopener' class='social-btn'>GitHub</a>
+                  <a href='https://twitter.com' target='_blank' rel='noopener' class='social-btn'>Twitter</a>
+                  
                 </div>
               </div>
             </b:includable>
           </b:widget>
-          <b:widget id='Label1' locked='false' title='文章標籤' type='Label' version='2'>
+
+          <!-- Label / Tag Cloud Widget -->
+          <b:widget id='Label1' locked='false' title='熱門分類' type='Label' version='2'>
             <b:includable id='main'>
-              <div class='sidebar-widget'>
+              <div class='sidebar-widget tags-cloud-box'>
                 <div class='widget-title'><data:title/></div>
-                <div style='display: flex; flex-wrap: wrap; gap: 8px;'>
-                  <b:loop values='data:labels' var='label'>
-                    <a class='card-tag' expr:href='data:label.url'><data:label.name/> (<data:label.count/>)</a>
-                  </b:loop>
+                <div class='tags-wrapper'>
+                  <b:if cond='data:labels.notEmpty'>
+                    <b:loop values='data:labels' var='label'>
+                      <a class='card-tag' expr:href='data:label.url'><data:label.name/> (<data:label.count/>)</a>
+                    </b:loop>
+                  <b:else/>
+                    <!-- Fallback tags when blog has no labels yet -->
+                    <span class='card-tag'>軟體架構 (12)</span>
+                    <span class='card-tag'>人工智慧 (8)</span>
+                    <span class='card-tag'>設計美學 (6)</span>
+                    <span class='card-tag'>生活哲思 (15)</span>
+                  </b:if>
                 </div>
               </div>
             </b:includable>

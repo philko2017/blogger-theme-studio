@@ -719,6 +719,17 @@
       </nav>
 
       <div class="controls-content">
+        <!-- Preset Description Info Banner -->
+        <div id="preset-info-card" style="background: var(--surface-50); border: 1px solid var(--surface-200); border-radius: 8px; padding: 12px 14px; margin-bottom: 20px; font-size: 12px; line-height: 1.55;">
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px;">
+            <strong id="preset-info-name" style="font-size: 13px; color: var(--surface-900);">現代科技靛藍 (Modern Indigo)</strong>
+            <span id="preset-info-tag" style="font-size: 11px; padding: 2px 6px; border-radius: 4px; background: #e0e7ff; color: #3730a3; font-weight: 600;">科技理性</span>
+          </div>
+          <p id="preset-info-desc" style="color: var(--text-muted); margin: 0;">
+            以 Slate 冷灰搭配科技靛藍，高對比且極簡俐落，專為技術架構、數位產品與專業諮詢打造。
+          </p>
+        </div>
+
         <!-- Tab 1: Layout -->
         <div id="tab-layout" class="tab-pane active">
           <div class="control-group">
@@ -786,7 +797,7 @@
                 <span class="control-label">卡片圓角半徑</span>
                 <span class="control-value-badge" id="val-cardRadius">12px</span>
               </div>
-              <input type="range" min="0" max="28" step="2" value="12" oninput="updateSetting('cardRadius', this.value, 'px')">
+              <input type="range" id="slider-cardRadius" min="0" max="28" step="2" value="12" oninput="updateSetting('cardRadius', this.value, 'px')">
             </div>
 
             <div class="control-item">
@@ -1185,7 +1196,7 @@
           <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
           複製代碼
         </button>
-        <button class="btn btn-success" onclick="downloadXmlFile()">下載 XML 檔案</button>
+        <button class="btn btn-success" onclick="downloadXmlFile()">一鍵下載 XML</button>
       </div>
     </div>
   </div>
@@ -1298,8 +1309,12 @@
     };
 
     // Presets
-    const presets = {
+    // Presets with rich metadata and refined palettes
+    var presets = {
       'modern-indigo': {
+        name: '現代科技靛藍 (Modern Indigo)',
+        tag: '科技理性',
+        desc: '以 Slate 冷灰搭配科技靛藍，高對比且極簡俐落，專為技術架構、數位產品與專業諮詢打造。',
         accent: '#4f46e5',
         cardRadius: 12,
         cardShadow: 'subtle',
@@ -1313,10 +1328,12 @@
         darkCardBg: '#13151f',
         darkText: '#f8fafc',
         darkMuted: '#94a3b8',
-        darkBorder: '#1e2235',
-        gridCols: 2
+        darkBorder: '#1e2235'
       },
       'clean-mono': {
+        name: '純粹黑白極簡 (Minimal Mono)',
+        tag: '包浩斯美學',
+        desc: '去除非必要色彩，以純粹黑白灰階與 1px 細緻邊框劃分空間，適合深度思考與文字愛好者。',
         accent: '#18181b',
         cardRadius: 4,
         cardShadow: 'none',
@@ -1330,15 +1347,17 @@
         darkCardBg: '#18181b',
         darkText: '#f4f4f5',
         darkMuted: '#a1a1aa',
-        darkBorder: '#27272a',
-        gridCols: 2
+        darkBorder: '#27272a'
       },
       'nordic-emerald': {
+        name: '北歐森林翡翠 (Nordic Forest)',
+        tag: '自然專注',
+        desc: '溫和鼠尾草灰底色融入深林翡翠綠，視覺舒適柔和、防疲勞，適合生活美學與哲思隨筆。',
         accent: '#059669',
         cardRadius: 16,
         cardShadow: 'subtle',
         cardBorder: 'none',
-        lightBg: '#f4f7f5',
+        lightBg: '#f2f7f4',
         lightCardBg: '#ffffff',
         lightText: '#064e3b',
         lightMuted: '#4b5563',
@@ -1347,10 +1366,12 @@
         darkCardBg: '#0c271e',
         darkText: '#ecfdf5',
         darkMuted: '#a7f3d0',
-        darkBorder: '#134e40',
-        gridCols: 2
+        darkBorder: '#134e40'
       },
       'warm-editorial': {
+        name: '人文雜誌琥珀 (Warm Editorial)',
+        tag: '經典紙本',
+        desc: '道林紙米白微黃底色搭暖木琥珀，洋溢典雅雜誌氛圍，專為長篇閱讀與藝文評論設計。',
         accent: '#d97706',
         cardRadius: 8,
         cardShadow: 'subtle',
@@ -1364,10 +1385,12 @@
         darkCardBg: '#292524',
         darkText: '#fafaf9',
         darkMuted: '#a8a29e',
-        darkBorder: '#44403c',
-        gridCols: 2
+        darkBorder: '#44403c'
       },
       'cyber-violet': {
+        name: '深邃極客紫 (Cyber Violet)',
+        tag: '霓虹暗夜',
+        desc: '深邃星空黑夜點綴電子紫羅蘭霓虹光芒，具備強烈視覺張力，適合開源技術與極客日誌。',
         accent: '#8b5cf6',
         cardRadius: 16,
         cardShadow: 'elevated',
@@ -1381,8 +1404,7 @@
         darkCardBg: '#150f28',
         darkText: '#f5f3ff',
         darkMuted: '#c4b5fd',
-        darkBorder: '#2e1f57',
-        gridCols: 3
+        darkBorder: '#2e1f57'
       }
     };
 
@@ -1391,6 +1413,15 @@
       if (!p) return;
       Object.assign(state, p);
 
+      // Update description banner
+      const bName = document.getElementById('preset-info-name');
+      const bTag = document.getElementById('preset-info-tag');
+      const bDesc = document.getElementById('preset-info-desc');
+      if (bName && p.name) bName.textContent = p.name;
+      if (bTag && p.tag) bTag.textContent = p.tag;
+      if (bDesc && p.desc) bDesc.textContent = p.desc;
+
+      // Sync color controls
       const elAccent = document.getElementById('color-accent');
       if (elAccent) elAccent.value = state.accent;
       const hexAccent = document.getElementById('hex-accent');
@@ -1402,6 +1433,25 @@
         if (inp) inp.value = state[c];
         const hex = document.getElementById('hex-' + c);
         if (hex) hex.textContent = state[c];
+      });
+
+      // Sync card styling controls
+      const rSlider = document.getElementById('slider-cardRadius');
+      if (rSlider) rSlider.value = state.cardRadius;
+      const rBadge = document.getElementById('val-cardRadius');
+      if (rBadge) rBadge.textContent = state.cardRadius + 'px';
+
+      // Sync radio buttons for shadow and border
+      document.querySelectorAll('.radio-card').forEach(card => {
+        const clickAttr = card.getAttribute('onclick') || '';
+        if (clickAttr.includes("'cardShadow'")) {
+          if (card.dataset.val === state.cardShadow) card.classList.add('active');
+          else card.classList.remove('active');
+        }
+        if (clickAttr.includes("'cardBorder'")) {
+          if (card.dataset.val === state.cardBorder) card.classList.add('active');
+          else card.classList.remove('active');
+        }
       });
 
       renderPreview();
@@ -2663,16 +2713,17 @@
     // Download XML file
     function downloadXmlFile() {
       const xml = generateBloggerXml();
-      const blob = new Blob([xml], { type: 'text/xml;charset=utf-8' });
+      // Use application/octet-stream to prevent Chrome from sniffing DOCTYPE html and appending .html
+      const blob = new Blob([xml], { type: 'application/octet-stream' });
       const url = URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = 'blogger-minimalist-card-theme.xml';
+      a.download = 'blogger-theme.xml';
       document.body.appendChild(a);
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      showToast('已成功下載 theme.xml 檔案！');
+      showToast('已成功下載 blogger-theme.xml 檔案！');
     }
 
     // Toast
