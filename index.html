@@ -712,6 +712,7 @@
       <nav class="tabs-nav">
         <button class="tab-btn active" onclick="switchTab('tab-layout', this)">佈局結構</button>
         <button class="tab-btn" onclick="switchTab('tab-cards', this)">卡片樣式</button>
+        <button class="tab-btn" onclick="switchTab('tab-banners', this)">頂部精選</button>
         <button class="tab-btn" onclick="switchTab('tab-sidebar', this)">側欄與作者</button>
         <button class="tab-btn" onclick="switchTab('tab-colors', this)">色彩與深色</button>
         <button class="tab-btn" onclick="switchTab('tab-typography', this)">字型排版</button>
@@ -874,6 +875,87 @@
         </div>
 
         <!-- Tab 3: Sidebar & Author Info (NEW!) -->
+                <!-- Tab: Top Features & Visual Banners -->
+        <div id="tab-banners" class="tab-pane">
+          <div class="control-group">
+            <div class="control-group-title">頂部功能開關</div>
+            <div class="switch-row">
+              <span class="switch-label">啟用 3 格圖文視覺選單 (Visual Banner)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showVisualBanner" checked onchange="updateSetting('showVisualBanner', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <span class="switch-label">啟用 Blogger 原生置頂文章小工具 (Featured Post)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showFeaturedPost" checked onchange="updateSetting('showFeaturedPost', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">圖文選單 · 第 1 格</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">浮動大標題</label>
+              <input type="text" id="input-banner1Title" value="流亡者地圖" oninput="updateSetting('banner1Title', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">上方小標語 / 前綴</label>
+              <input type="text" id="input-banner1Sub" value="近未來寫實奇門遁甲" oninput="updateSetting('banner1Sub', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">背景圖片網址 (URL)</label>
+              <input type="text" id="input-banner1Img" value="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner1Img', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">超連結網址 (URL)</label>
+              <input type="text" id="input-banner1Link" value="/search/label/流亡者地圖" oninput="updateSetting('banner1Link', this.value)">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">圖文選單 · 第 2 格</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">浮動大標題</label>
+              <input type="text" id="input-banner2Title" value="懸疑系列" oninput="updateSetting('banner2Title', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">上方小標語 / 前綴</label>
+              <input type="text" id="input-banner2Sub" value="沒有人是局外人" oninput="updateSetting('banner2Sub', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">背景圖片網址 (URL)</label>
+              <input type="text" id="input-banner2Img" value="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner2Img', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">超連結網址 (URL)</label>
+              <input type="text" id="input-banner2Link" value="/search/label/懸疑系列" oninput="updateSetting('banner2Link', this.value)">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">圖文選單 · 第 3 格</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">浮動大標題</label>
+              <input type="text" id="input-banner3Title" value="小品故事" oninput="updateSetting('banner3Title', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">上方小標語 / 前綴</label>
+              <input type="text" id="input-banner3Sub" value="問世間" oninput="updateSetting('banner3Sub', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">背景圖片網址 (URL)</label>
+              <input type="text" id="input-banner3Img" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&auto=format&fit=crop&q=80" oninput="updateSetting('banner3Img', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:4px;">超連結網址 (URL)</label>
+              <input type="text" id="input-banner3Link" value="/search/label/小品故事" oninput="updateSetting('banner3Link', this.value)">
+            </div>
+          </div>
+        </div>
+
         <div id="tab-sidebar" class="tab-pane">
           <div class="control-group">
             <div class="control-group-title">側邊欄作者簡介卡片 (實機保證顯示)</div>
@@ -1269,6 +1351,24 @@
       thumbZoom: true,
 
       // Author & Sidebar Profile
+      // Top Features & Banners
+      showVisualBanner: true,
+      showFeaturedPost: true,
+      banner1Title: '流亡者地圖',
+      banner1Sub: '近未來寫實奇門遁甲',
+      banner1Img: 'https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=700&auto=format&fit=crop&q=80',
+      banner1Link: '/search/label/流亡者地圖',
+
+      banner2Title: '懸疑系列',
+      banner2Sub: '沒有人是局外人',
+      banner2Img: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=700&auto=format&fit=crop&q=80',
+      banner2Link: '/search/label/懸疑系列',
+
+      banner3Title: '小品故事',
+      banner3Sub: '問世間',
+      banner3Img: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=700&auto=format&fit=crop&q=80',
+      banner3Link: '/search/label/小品故事',
+
       authorName: 'Phil Ko',
       authorTitle: '解決方案顧問 / 技術創作者',
       authorBio: '熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！',
@@ -1660,6 +1760,81 @@
 
         // Posts Column
         html += `<div style="flex: 1; min-width: 0;">`;
+
+        // Top Feature 1: 3-Tile Visual Banner
+        if (state.showVisualBanner) {
+          html += `
+            <div style="margin-bottom: 28px;">
+              <div style="display: grid; grid-template-columns: repeat(${state.device === 'mobile' ? 1 : 3}, 1fr); gap: 16px;">
+                <!-- Banner 1 -->
+                <a href="${state.banner1Link || '#'}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; height: 170px; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s;">
+                  <img src="${state.banner1Img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+                  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
+                  <div style="position: relative; z-index: 3; color: white;">
+                    <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${state.banner1Sub}</div>
+                    <h4 style="font-size: 18px; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${state.banner1Title}</h4>
+                  </div>
+                </a>
+                <!-- Banner 2 -->
+                <a href="${state.banner2Link || '#'}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; height: 170px; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s;">
+                  <img src="${state.banner2Img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+                  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
+                  <div style="position: relative; z-index: 3; color: white;">
+                    <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${state.banner2Sub}</div>
+                    <h4 style="font-size: 18px; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${state.banner2Title}</h4>
+                  </div>
+                </a>
+                <!-- Banner 3 -->
+                <a href="${state.banner3Link || '#'}" style="text-decoration: none; position: relative; border-radius: ${state.cardRadius}px; overflow: hidden; height: 170px; display: flex; align-items: flex-end; padding: 18px; box-shadow: ${shadowCss}; border: ${borderCss}; transition: transform 0.25s, box-shadow 0.25s;">
+                  <img src="${state.banner3Img}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: 1;">
+                  <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.3) 55%, rgba(0,0,0,0.05) 100%); z-index: 2;"></div>
+                  <div style="position: relative; z-index: 3; color: white;">
+                    <div style="font-size: 11px; opacity: 0.85; margin-bottom: 4px; font-weight: 500; letter-spacing: 0.02em;">${state.banner3Sub}</div>
+                    <h4 style="font-size: 18px; font-weight: 700; line-height: 1.3; color: #ffffff; letter-spacing: -0.01em;">${state.banner3Title}</h4>
+                  </div>
+                </a>
+              </div>
+            </div>
+          `;
+        }
+
+        // Top Feature 2: Blogger Native Featured Post Hero Card
+        if (state.showFeaturedPost) {
+          html += `
+            <div style="margin-bottom: 32px; background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; overflow: hidden; display: flex; flex-direction: ${state.device === 'mobile' ? 'column' : 'row'};">
+              <div style="flex: 1.2; position: relative; min-height: 220px; background: ${border};">
+                <img src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=800&auto=format&fit=crop&q=80" style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0;">
+                <span style="position: absolute; top: 14px; left: 14px; font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 4px; background: ${state.accent}; color: white; box-shadow: 0 2px 8px rgba(0,0,0,0.35);">★ 精選推薦</span>
+              </div>
+              <div style="flex: 1.5; padding: 24px 28px; display: flex; flex-direction: column; justify-content: center;">
+                <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px;">
+                  <span style="font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 4px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder};">奇門遁甲</span>
+                  <span style="font-size: 12px; color: ${muted};">2026 年 9 月 01 日</span>
+                </div>
+                <h2 style="font-size: 20px; font-weight: 700; color: ${text}; line-height: 1.35; margin-bottom: 10px; letter-spacing: -0.01em;">
+                  流亡者地圖：近未來寫實奇門遁甲實戰錄
+                </h2>
+                <p style="font-size: 13.5px; color: ${muted}; line-height: 1.6; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                  當古老的遁甲格局與近未來的神經感應網交織，在迷霧籠罩的都市暗巷中，沒有人能真正置身事外...
+                </p>
+                <div>
+                  <span style="display: inline-flex; align-items: center; gap: 4px; font-size: 13px; font-weight: 600; color: ${activeAccent};">
+                    閱讀專題全文 →
+                  </span>
+                </div>
+              </div>
+            </div>
+          `;
+        }
+
+        // Section Title Divider
+        html += `
+          <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 18px; padding-bottom: 8px; border-bottom: 1px solid ${border};">
+            <span style="font-size: 15px; font-weight: 700; color: ${text};">開始探險 »</span>
+            <span style="font-size: 12px; color: ${muted}; font-weight: 500;">全部文章列表</span>
+          </div>
+        `;
+
         html += `<div style="display: grid; grid-template-columns: repeat(${state.device === 'mobile' ? 1 : state.gridCols}, 1fr); gap: ${state.cardGap}px;">`;
 
         samplePosts.forEach(post => {
@@ -1870,6 +2045,21 @@
       const safeAuthorBio = escXml(state.authorBio);
       const safeBlogTitle = escXml(state.blogTitle);
       const safeTagsTitle = escXml(state.sidebarTagsTitle);
+      const safeB1Title = escXml(state.banner1Title);
+      const safeB1Sub = escXml(state.banner1Sub);
+      const safeB1Img = escUrl(state.banner1Img);
+      const safeB1Link = escUrl(state.banner1Link);
+
+      const safeB2Title = escXml(state.banner2Title);
+      const safeB2Sub = escXml(state.banner2Sub);
+      const safeB2Img = escUrl(state.banner2Img);
+      const safeB2Link = escUrl(state.banner2Link);
+
+      const safeB3Title = escXml(state.banner3Title);
+      const safeB3Sub = escXml(state.banner3Sub);
+      const safeB3Img = escUrl(state.banner3Img);
+      const safeB3Link = escUrl(state.banner3Link);
+
 
       const sTag = '<' + 'script>';
       const eTag = '<' + '/script>';
@@ -2041,6 +2231,133 @@
     gap: 24px;
     ${state.sidebarPosition === 'left' ? 'order: -1;' : ''}
     ${state.sidebarPosition === 'none' ? 'display: none !important;' : ''}
+  }
+
+  
+  /* Visual Image Banners (3-Tile) */
+  .visual-banners-container {
+    margin-bottom: 32px;
+  }
+  .visual-banners-inner {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  .visual-banner-item {
+    text-decoration: none;
+    position: relative;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    height: 175px;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+  }
+  .visual-banner-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px -2px rgba(0,0,0,0.2);
+  }
+  .visual-banner-img-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.4s ease;
+  }
+  .visual-banner-item:hover .visual-banner-img-wrap img {
+    transform: scale(1.06);
+  }
+  .visual-banner-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.05) 100%);
+    z-index: 2;
+  }
+  .visual-banner-content {
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+  }
+  .visual-banner-sub {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.85);
+    margin-bottom: 4px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .visual-banner-title {
+    font-size: 18px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  /* Featured Post Hero Box (Blogger Native FeaturedPost) */
+  .featured-hero-box {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    display: flex;
+    margin-bottom: 36px;
+  }
+  .featured-hero-thumb {
+    flex: 1.2;
+    position: relative;
+    min-height: 240px;
+    background: var(--border-color);
+  }
+  .featured-hero-thumb img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    position: absolute; top: 0; left: 0;
+  }
+  .featured-hero-badge {
+    position: absolute; top: 14px; left: 14px;
+    font-size: 11px; font-weight: 700;
+    padding: 4px 10px; border-radius: 4px;
+    background: var(--accent); color: white;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.35);
+    z-index: 5;
+  }
+  .featured-hero-body {
+    flex: 1.5;
+    padding: 28px 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  .featured-hero-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin: 10px 0;
+  }
+  .featured-hero-title a:hover { color: var(--accent); }
+  .section-divider-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+
+  @media (max-width: 768px) {
+    .visual-banners-inner { grid-template-columns: 1fr; }
+    .featured-hero-box { flex-direction: column; }
+    .featured-hero-thumb { min-height: 200px; }
   }
 
   /* Post Cards Grid */
@@ -2443,6 +2760,92 @@
     <div class='layout-wrapper'>
       <!-- Posts Stream -->
       <main class='content-column'>
+      <!-- Top Feature 1: 3-Tile Visual Banner -->
+      ` + (state.showVisualBanner ? `
+      <div class='visual-banners-container'>
+        <div class='visual-banners-inner'>
+          <a class='visual-banner-item' href='` + (safeB1Link || '#') + `'>
+            <div class='visual-banner-img-wrap'>
+              <img src='` + safeB1Img + `' alt='` + safeB1Title + `' loading='lazy'/>
+              <div class='visual-banner-overlay'></div>
+            </div>
+            <div class='visual-banner-content'>
+              <div class='visual-banner-sub'>` + safeB1Sub + `</div>
+              <h3 class='visual-banner-title'>` + safeB1Title + `</h3>
+            </div>
+          </a>
+
+          <a class='visual-banner-item' href='` + (safeB2Link || '#') + `'>
+            <div class='visual-banner-img-wrap'>
+              <img src='` + safeB2Img + `' alt='` + safeB2Title + `' loading='lazy'/>
+              <div class='visual-banner-overlay'></div>
+            </div>
+            <div class='visual-banner-content'>
+              <div class='visual-banner-sub'>` + safeB2Sub + `</div>
+              <h3 class='visual-banner-title'>` + safeB2Title + `</h3>
+            </div>
+          </a>
+
+          <a class='visual-banner-item' href='` + (safeB3Link || '#') + `'>
+            <div class='visual-banner-img-wrap'>
+              <img src='` + safeB3Img + `' alt='` + safeB3Title + `' loading='lazy'/>
+              <div class='visual-banner-overlay'></div>
+            </div>
+            <div class='visual-banner-content'>
+              <div class='visual-banner-sub'>` + safeB3Sub + `</div>
+              <h3 class='visual-banner-title'>` + safeB3Title + `</h3>
+            </div>
+          </a>
+        </div>
+      </div>
+      ` : '') + `
+
+      <!-- Top Feature 2: Blogger Native Featured Post (Scheme B) -->
+      <b:if cond='data:view.isHomepage'>
+        <b:section id='feature-post-section' name='置頂精選文章區' maxwidgets='1' showaddelement='yes'>
+          <b:widget id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
+            <b:includable id='main'>
+              <b:if cond='data:post.title'>
+                <div class='featured-hero-box'>
+                  <b:if cond='data:post.firstImageUrl'>
+                    <div class='featured-hero-thumb'>
+                      <a expr:href='data:post.url'>
+                        <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
+                      </a>
+                      <span class='featured-hero-badge'>★ 精選推薦</span>
+                    </div>
+                  </b:if>
+                  <div class='featured-hero-body'>
+                    <div class='card-meta-top'>
+                      <b:if cond='data:post.labels'>
+                        <b:loop values='data:post.labels' var='label'>
+                          <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
+                        </b:loop>
+                      </b:if>
+                      <span class='card-date'><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
+                    </div>
+                    <h2 class='featured-hero-title'>
+                      <a expr:href='data:post.url'><data:post.title/></a>
+                    </h2>
+                    <div class='card-snippet'>
+                      <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 150, links: false, linebreaks: false }'/>
+                    </div>
+                    <div style='margin-top: 14px;'>
+                      <a class='card-readmore' expr:href='data:post.url'>閱讀專題全文 →</a>
+                    </div>
+                  </div>
+                </div>
+              </b:if>
+            </b:includable>
+          </b:widget>
+        </b:section>
+      </b:if>
+
+      <div class='section-divider-title'>
+        <span>開始探險 »</span>
+        <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>全部文章列表</span>
+      </div>
+
         <b:section id='main-posts' name='網誌文章主區' showaddelement='no'>
           <b:widget id='Blog1' locked='true' title='網誌文章' type='Blog' version='2'>
             <!-- Main includable -->
