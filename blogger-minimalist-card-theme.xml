@@ -201,6 +201,7 @@
   #intro-section.equal-4 .visual-banner-item { height: 165px; }
   #intro-section.equal-5 .visual-banner-item { height: 160px; }
 
+  /* Hero Grid Heights & Full-Stretch Rules for Both 3 and 5 items */
   #intro-section.hero-3 {
     display: grid;
     grid-template-columns: 1.4fr 1fr;
@@ -208,9 +209,6 @@
     gap: 14px;
     height: 360px;
   }
-  #intro-section.hero-3 > .widget:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; height: 100%; }
-  #intro-section.hero-3 > .widget:nth-child(1) .visual-banner-title { font-size: 24px; }
-
   #intro-section.hero-5 {
     display: grid;
     grid-template-columns: 1.35fr 1fr 1fr;
@@ -218,12 +216,42 @@
     gap: 14px;
     height: 380px;
   }
-  #intro-section.hero-5 > .widget:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; height: 100%; }
-  #intro-section.hero-5 > .widget:nth-child(1) .visual-banner-title { font-size: 24px; }
-  #intro-section.hero-5 > .widget:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; height: 100%; }
-  #intro-section.hero-5 > .widget:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; height: 100%; }
-  #intro-section.hero-5 > .widget:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; height: 100%; }
-  #intro-section.hero-5 > .widget:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; height: 100%; }
+
+  /* Force all nesting levels in Hero mode to fill 100% of grid cells */
+  #intro-section.hero-3 .widget,
+  #intro-section.hero-5 .widget,
+  #intro-section.hero-3 .widget-content,
+  #intro-section.hero-5 .widget-content,
+  #intro-section.hero-3 .visual-banner-item,
+  #intro-section.hero-5 .visual-banner-item {
+    height: 100% !important;
+    min-height: 100% !important;
+    box-sizing: border-box !important;
+  }
+
+  /* Item 1 spans 2 rows vertically */
+  #intro-section.hero-3 > .widget:first-of-type,
+  #intro-section.hero-3 > .widget:nth-child(1),
+  #intro-section.hero-3 #Image1,
+  #intro-section.hero-5 > .widget:first-of-type,
+  #intro-section.hero-5 > .widget:nth-child(1),
+  #intro-section.hero-5 #Image1 {
+    grid-column: 1 / 2 !important;
+    grid-row: 1 / 3 !important;
+    height: 100% !important;
+  }
+  #intro-section.hero-3 > .widget:first-of-type .visual-banner-title,
+  #intro-section.hero-5 > .widget:first-of-type .visual-banner-title,
+  #intro-section.hero-3 #Image1 .visual-banner-title,
+  #intro-section.hero-5 #Image1 .visual-banner-title {
+    font-size: 24px !important;
+  }
+
+  /* Items 2 to 5 grid positions in 5-Hero mode */
+  #intro-section.hero-5 > .widget:nth-of-type(2), #intro-section.hero-5 #Image2 { grid-column: 2 / 3 !important; grid-row: 1 / 2 !important; height: 100% !important; }
+  #intro-section.hero-5 > .widget:nth-of-type(3), #intro-section.hero-5 #Image3 { grid-column: 3 / 4 !important; grid-row: 1 / 2 !important; height: 100% !important; }
+  #intro-section.hero-5 > .widget:nth-of-type(4), #intro-section.hero-5 #Image4 { grid-column: 2 / 3 !important; grid-row: 2 / 3 !important; height: 100% !important; }
+  #intro-section.hero-5 > .widget:nth-of-type(5), #intro-section.hero-5 #Image5 { grid-column: 3 / 4 !important; grid-row: 2 / 3 !important; height: 100% !important; }
 
   @media (max-width: 768px) {
     #intro-section.hero-5, #intro-section.hero-3,
@@ -907,40 +935,42 @@
   
   <div class='featured-post-wrapper'>
     <b:section id='feature-post-section' name='置頂精選文章 (Featured Post)' class='feature-section' showaddelement='yes' maxwidgets='1'>
-      <b:widget id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
+      <b:widget cond='data:view.isHomepage' id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
+        <b:widget-settings>
+          <b:widget-setting name='showSnippet'>true</b:widget-setting>
+          <b:widget-setting name='showPostTitle'>true</b:widget-setting>
+          <b:widget-setting name='showFirstImage'>true</b:widget-setting>
+          <b:widget-setting name='useMostRecentPost'>true</b:widget-setting>
+        </b:widget-settings>
         <b:includable id='main'>
-          <b:if cond='data:view.isHomepage'>
-            <b:if cond='data:post.title'>
-              <div class='featured-hero-box'>
-                <b:if cond='data:post.firstImageUrl'>
-                  <div class='featured-hero-thumb'>
-                    <a expr:href='data:post.url'>
-                      <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
-                    </a>
-                    <span class='featured-hero-badge'>★ 精選推薦</span>
+          <b:if cond='data:postTitle != ""'>
+            <div class='featured-hero-box'>
+              <b:if cond='data:postFirstImage != ""'>
+                <div class='featured-hero-thumb'>
+                  <a expr:href='data:postUrl'>
+                    <img expr:alt='data:postTitle' expr:src='data:postFirstImage' loading='lazy'/>
+                  </a>
+                  <span class='featured-hero-badge'>★ 精選推薦</span>
+                </div>
+              </b:if>
+              <div class='featured-hero-body'>
+                <div class='card-meta-top'>
+                  <span class='card-tag'>精選焦點</span>
+                  <span class='card-date'>置頂專案</span>
+                </div>
+                <h2 class='featured-hero-title'>
+                  <a expr:href='data:postUrl'><data:postTitle/></a>
+                </h2>
+                <b:if cond='data:postSummary != ""'>
+                  <div class='card-snippet'>
+                    <data:postSummary/>
                   </div>
                 </b:if>
-                <div class='featured-hero-body'>
-                  <div class='card-meta-top'>
-                    <b:if cond='data:post.labels'>
-                      <b:loop values='data:post.labels' var='label'>
-                        <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
-                      </b:loop>
-                    </b:if>
-                    <span class='card-date'><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
-                  </div>
-                  <h2 class='featured-hero-title'>
-                    <a expr:href='data:post.url'><data:post.title/></a>
-                  </h2>
-                  <div class='card-snippet'>
-                    <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 150, links: false, linebreaks: false }'/>
-                  </div>
-                  <div style='margin-top: 14px;'>
-                    <a class='card-readmore' expr:href='data:post.url'>閱讀專題全文 →</a>
-                  </div>
+                <div style='margin-top: 14px;'>
+                  <a class='card-readmore' expr:href='data:postUrl'>閱讀專題全文 →</a>
                 </div>
               </div>
-            </b:if>
+            </div>
           </b:if>
         </b:includable>
       </b:widget>
