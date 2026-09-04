@@ -975,6 +975,13 @@
           <div class="control-group">
             <div class="control-group-title">深色模式色彩 (Dark Theme)</div>
             <div class="color-picker-row">
+              <span class="color-label">深色模式重點色 (標籤/按鈕)</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-darkAccent" value="#818cf8" onchange="updateColor('darkAccent', this.value)">
+                <span class="color-hex" id="hex-darkAccent">#818cf8</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
               <span class="color-label">深色背景</span>
               <div class="color-input-wrapper">
                 <input type="color" id="color-darkBg" value="#090a0f" onchange="updateColor('darkBg', this.value)">
@@ -1285,6 +1292,7 @@
       darkMuted: '#94a3b8',
       darkBorder: '#1e2235',
       darkStrategy: 'auto',
+      darkAccent: '#818cf8',
 
       // Typography
       fontFamily: 'inter-tc',
@@ -1316,6 +1324,7 @@
         tag: '科技理性',
         desc: '以 Slate 冷灰搭配科技靛藍，高對比且極簡俐落，專為技術架構、數位產品與專業諮詢打造。',
         accent: '#4f46e5',
+        darkAccent: '#818cf8',
         cardRadius: 12,
         cardShadow: 'subtle',
         cardBorder: 'thin',
@@ -1335,6 +1344,7 @@
         tag: '包浩斯美學',
         desc: '去除非必要色彩，以純粹黑白灰階與 1px 細緻邊框劃分空間，適合深度思考與文字愛好者。',
         accent: '#18181b',
+        darkAccent: '#f4f4f5',
         cardRadius: 4,
         cardShadow: 'none',
         cardBorder: 'thin',
@@ -1354,6 +1364,7 @@
         tag: '自然專注',
         desc: '溫和鼠尾草灰底色融入深林翡翠綠，視覺舒適柔和、防疲勞，適合生活美學與哲思隨筆。',
         accent: '#059669',
+        darkAccent: '#34d399',
         cardRadius: 16,
         cardShadow: 'subtle',
         cardBorder: 'none',
@@ -1373,6 +1384,7 @@
         tag: '經典紙本',
         desc: '道林紙米白微黃底色搭暖木琥珀，洋溢典雅雜誌氛圍，專為長篇閱讀與藝文評論設計。',
         accent: '#d97706',
+        darkAccent: '#fbbf24',
         cardRadius: 8,
         cardShadow: 'subtle',
         cardBorder: 'thin',
@@ -1392,6 +1404,7 @@
         tag: '霓虹暗夜',
         desc: '深邃星空黑夜點綴電子紫羅蘭霓虹光芒，具備強烈視覺張力，適合開源技術與極客日誌。',
         accent: '#8b5cf6',
+        darkAccent: '#c4b5fd',
         cardRadius: 16,
         cardShadow: 'elevated',
         cardBorder: 'thin',
@@ -1427,7 +1440,7 @@
       const hexAccent = document.getElementById('hex-accent');
       if (hexAccent) hexAccent.textContent = state.accent;
 
-      ['lightBg', 'lightCardBg', 'lightText', 'lightMuted', 'lightBorder',
+      ['lightBg', 'lightCardBg', 'lightText', 'lightMuted', 'lightBorder', 'darkAccent',
        'darkBg', 'darkCardBg', 'darkText', 'darkMuted', 'darkBorder'].forEach(c => {
         const inp = document.getElementById('color-' + c);
         if (inp) inp.value = state[c];
@@ -1576,6 +1589,12 @@
       const muted = isDark ? state.darkMuted : state.lightMuted;
       const border = isDark ? state.darkBorder : state.lightBorder;
 
+      // Active accent & tag styling for light/dark modes
+      const activeAccent = isDark ? (state.darkAccent || '#818cf8') : state.accent;
+      const tagBg = isDark ? 'rgba(255, 255, 255, 0.08)' : `${state.accent}14`;
+      const tagBorder = isDark ? '1px solid rgba(255, 255, 255, 0.16)' : `1px solid ${state.accent}30`;
+      const tagText = isDark ? activeAccent : state.accent;
+
       // Shadow mapping
       let shadowCss = 'none';
       if (state.cardShadow === 'subtle') {
@@ -1603,7 +1622,7 @@
 
       // 1. Reading Progress Bar
       if (state.readingProgress) {
-        html += `<div style="height: 3px; background: ${state.accent}; width: 68%; position: sticky; top: 0; left: 0; z-index: 100;"></div>`;
+        html += `<div style="height: 3px; background: ${activeAccent}; width: 68%; position: sticky; top: 0; left: 0; z-index: 100;"></div>`;
       }
 
       // 2. Navigation Header
@@ -1655,7 +1674,7 @@
               <!-- Content -->
               <div style="padding: ${state.cardPadding}px; display: flex; flex-direction: column; flex: 1;">
                 <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
-                  ${state.showTags ? `<span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: ${state.accent}1a; color: ${state.accent};">${post.tag}</span>` : ''}
+                  ${state.showTags ? `<span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 3px 9px; border-radius: 4px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder}; transition: all 0.2s;">${post.tag}</span>` : ''}
                   ${state.showDate ? `<span style="font-size: 12px; color: ${muted};">${post.date}</span>` : ''}
                 </div>
 
@@ -1674,7 +1693,7 @@
                   ` : '<div></div>'}
 
                   ${state.showReadMore ? `
-                    <span style="font-size: 12px; font-weight: 600; color: ${state.accent}; display: flex; align-items: center; gap: 4px;">
+                    <span style="font-size: 12px; font-weight: 600; color: ${activeAccent}; display: flex; align-items: center; gap: 4px;">
                       閱讀全文 →
                     </span>
                   ` : ''}
@@ -1704,7 +1723,7 @@
               <div style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: 24px; text-align: center;">
                 <img src="${state.authorAvatar}" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; display: block; border: 3px solid ${state.accent}33;">
                 <h4 style="font-size: 16px; font-weight: 700; color: ${text}; margin-bottom: 4px;">${state.authorName}</h4>
-                <p style="font-size: 12px; color: ${state.accent}; font-weight: 600; margin-bottom: 12px;">${state.authorTitle}</p>
+                <p style="font-size: 12px; color: ${activeAccent}; font-weight: 600; margin-bottom: 12px;">${state.authorTitle}</p>
                 <p style="font-size: 13px; color: ${muted}; line-height: 1.5; margin-bottom: 16px;">
                   ${state.authorBio}
                 </p>
@@ -1719,10 +1738,10 @@
               <div style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: 20px;">
                 <div style="font-size: 14px; font-weight: 700; color: ${text}; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid ${border};">${state.sidebarTagsTitle}</div>
                 <div style="display: flex; flex-wrap: wrap; gap: 8px;">
-                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">軟體架構 (12)</span>
-                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">人工智慧 (8)</span>
-                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">設計美學 (6)</span>
-                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">生活哲思 (15)</span>
+                  <span style="font-size: 12px; padding: 4px 12px; border-radius: 20px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder}; font-weight: 500;">軟體架構 (12)</span>
+                  <span style="font-size: 12px; padding: 4px 12px; border-radius: 20px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder}; font-weight: 500;">人工智慧 (8)</span>
+                  <span style="font-size: 12px; padding: 4px 12px; border-radius: 20px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder}; font-weight: 500;">設計美學 (6)</span>
+                  <span style="font-size: 12px; padding: 4px 12px; border-radius: 20px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder}; font-weight: 500;">生活哲思 (15)</span>
                 </div>
               </div>
             </aside>
@@ -1739,7 +1758,7 @@
             </div>
 
             <div style="margin-bottom: 24px;">
-              <span style="display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 4px; background: ${state.accent}1a; color: ${state.accent}; margin-bottom: 12px;">軟體架構</span>
+              <span style="display: inline-block; font-size: 12px; font-weight: 600; padding: 4px 12px; border-radius: 4px; background: ${tagBg}; color: ${tagText}; border: ${tagBorder}; margin-bottom: 12px;">軟體架構</span>
               <h1 style="font-size: ${state.device === 'mobile' ? '22px' : '32px'}; font-weight: ${state.titleWeight}; color: ${text}; line-height: 1.3; margin-bottom: 14px; letter-spacing: -0.02em;">
                 如何設計一個高效能且靈活的現代軟體架構
               </h1>
@@ -1801,7 +1820,7 @@
       // 5. Back to top button
       if (state.backToTop) {
         html += `
-          <button style="position: fixed; bottom: 24px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: ${state.accent}; color: white; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 90;">
+          <button style="position: fixed; bottom: 24px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: ${activeAccent}; color: white; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 90;">
             ↑
           </button>
         `;
@@ -1878,6 +1897,9 @@
     --accent: ${state.accent};
     --accent-hover: ${state.accent}ee;
     --accent-glow: ${state.accent}1a;
+    --tag-bg: ${state.accent}12;
+    --tag-text: ${state.accent};
+    --tag-border: ${state.accent}30;
     --bg-page: ${state.lightBg};
     --bg-card: ${state.lightCardBg};
     --text-main: ${state.lightText};
@@ -1893,6 +1915,12 @@
   }
 
   html.dark {
+    --accent: ${state.darkAccent || '#818cf8'};
+    --accent-hover: ${state.darkAccent || '#818cf8'}ee;
+    --accent-glow: rgba(255, 255, 255, 0.12);
+    --tag-bg: rgba(255, 255, 255, 0.08);
+    --tag-text: ${state.darkAccent || '#818cf8'};
+    --tag-border: rgba(255, 255, 255, 0.16);
     --bg-page: ${state.darkBg};
     --bg-card: ${state.darkCardBg};
     --text-main: ${state.darkText};
@@ -2095,10 +2123,17 @@
   .card-tag {
     font-size: 11px;
     font-weight: 600;
-    padding: 2px 8px;
+    padding: 3px 9px;
     border-radius: 4px;
-    background: var(--accent-glow);
-    color: var(--accent);
+    background: var(--tag-bg);
+    color: var(--tag-text);
+    border: 1px solid var(--tag-border);
+    transition: all 0.2s ease;
+  }
+  .card-tag:hover {
+    background: var(--accent);
+    color: #ffffff;
+    border-color: var(--accent);
   }
   .card-date {
     color: var(--text-muted);
