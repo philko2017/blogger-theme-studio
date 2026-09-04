@@ -1,0 +1,2701 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blogger 現代極簡卡片版型視覺編輯器 | Blogger Theme Studio</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4f46e5;
+      --primary-hover: #4338ca;
+      --surface-0: #ffffff;
+      --surface-50: #f8fafc;
+      --surface-100: #f1f5f9;
+      --surface-200: #e2e8f0;
+      --surface-300: #cbd5e1;
+      --surface-700: #334155;
+      --surface-800: #1e293b;
+      --surface-900: #0f172a;
+      --text-main: #0f172a;
+      --text-muted: #64748b;
+      --sidebar-width: 380px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif;
+      background-color: var(--surface-100);
+      color: var(--text-main);
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Header */
+    header.app-header {
+      background: var(--surface-0);
+      border-bottom: 1px solid var(--surface-200);
+      padding: 0 20px;
+      height: 60px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      z-index: 30;
+      flex-shrink: 0;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .brand-icon {
+      width: 34px;
+      height: 34px;
+      background: linear-gradient(135deg, #ff5722 0%, #ff8a65 100%);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 2px 6px rgba(255, 87, 34, 0.3);
+    }
+    .brand-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--surface-900);
+      letter-spacing: -0.01em;
+    }
+    .brand-tag {
+      font-size: 11px;
+      padding: 2px 7px;
+      border-radius: 20px;
+      background: #e0e7ff;
+      color: #3730a3;
+      font-weight: 600;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .preset-selector {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    .preset-selector select {
+      padding: 6px 12px;
+      border: 1px solid var(--surface-200);
+      border-radius: 6px;
+      background: var(--surface-50);
+      font-size: 13px;
+      color: var(--surface-800);
+      outline: none;
+      cursor: pointer;
+      font-weight: 500;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: none;
+    }
+    .btn-secondary {
+      background: var(--surface-100);
+      color: var(--surface-700);
+      border: 1px solid var(--surface-200);
+    }
+    .btn-secondary:hover {
+      background: var(--surface-200);
+      color: var(--surface-900);
+    }
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 1px 3px rgba(79, 70, 229, 0.3);
+    }
+    .btn-primary:hover {
+      background: var(--primary-hover);
+    }
+    .btn-success {
+      background: #059669;
+      color: white;
+    }
+    .btn-success:hover {
+      background: #047857;
+    }
+
+    /* Main Container */
+    .main-workspace {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Left Controls Sidebar */
+    aside.controls-panel {
+      width: var(--sidebar-width);
+      background: var(--surface-0);
+      border-right: 1px solid var(--surface-200);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      height: 100%;
+      z-index: 20;
+    }
+
+    .tabs-nav {
+      display: flex;
+      border-bottom: 1px solid var(--surface-200);
+      background: var(--surface-50);
+      overflow-x: auto;
+      flex-shrink: 0;
+    }
+    .tab-btn {
+      flex: 1;
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 11.5px;
+      font-weight: 600;
+      color: var(--text-muted);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      white-space: nowrap;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover {
+      color: var(--surface-800);
+      background: rgba(0,0,0,0.02);
+    }
+    .tab-btn.active {
+      color: var(--primary);
+      background: var(--surface-0);
+      border-bottom-color: var(--primary);
+    }
+
+    .controls-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 20px;
+    }
+
+    .tab-pane {
+      display: none;
+    }
+    .tab-pane.active {
+      display: block;
+    }
+
+    .control-group {
+      margin-bottom: 24px;
+    }
+    .control-group-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .control-item {
+      margin-bottom: 14px;
+    }
+    .control-item:last-child {
+      margin-bottom: 0;
+    }
+    .control-label-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+    .control-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--surface-800);
+    }
+    .control-value-badge {
+      font-size: 12px;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-muted);
+      background: var(--surface-100);
+      padding: 2px 6px;
+      border-radius: 4px;
+    }
+
+    /* Form Controls */
+    input[type="range"] {
+      width: 100%;
+      height: 5px;
+      background: var(--surface-200);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
+      cursor: pointer;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      background: var(--primary);
+      cursor: pointer;
+      border: 2px solid white;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+    }
+
+    input[type="text"], textarea {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--surface-200);
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      color: var(--surface-900);
+      background: var(--surface-50);
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    input[type="text"]:focus, textarea:focus {
+      border-color: var(--primary);
+      background: white;
+    }
+    textarea {
+      resize: vertical;
+      min-height: 64px;
+      line-height: 1.5;
+    }
+
+    .radio-card-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+    .radio-card-grid.cols-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .radio-card {
+      border: 1px solid var(--surface-200);
+      border-radius: 6px;
+      padding: 8px 6px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--surface-700);
+      background: var(--surface-50);
+    }
+    .radio-card:hover {
+      border-color: var(--surface-300);
+      background: var(--surface-100);
+    }
+    .radio-card.active {
+      border-color: var(--primary);
+      background: #eef2ff;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .color-picker-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--surface-50);
+      border: 1px solid var(--surface-200);
+      border-radius: 6px;
+      margin-bottom: 8px;
+    }
+    .color-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--surface-700);
+    }
+    .color-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .color-input-wrapper input[type="color"] {
+      -webkit-appearance: none;
+      border: 1px solid var(--surface-300);
+      width: 24px;
+      height: 24px;
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+      padding: 0;
+    }
+    .color-input-wrapper input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+    .color-input-wrapper input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 3px;
+    }
+    .color-hex {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 11px;
+      color: var(--text-muted);
+      width: 58px;
+    }
+
+    .switch-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+    }
+    .switch-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--surface-800);
+    }
+    .switch {
+      position: relative;
+      display: inline-block;
+      width: 38px;
+      height: 22px;
+    }
+    .switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    .slider-toggle {
+      position: absolute;
+      cursor: pointer;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background-color: var(--surface-300);
+      transition: .2s;
+      border-radius: 22px;
+    }
+    .slider-toggle:before {
+      position: absolute;
+      content: "";
+      height: 16px;
+      width: 16px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: .2s;
+      border-radius: 50%;
+    }
+    input:checked + .slider-toggle {
+      background-color: var(--primary);
+    }
+    input:checked + .slider-toggle:before {
+      transform: translateX(16px);
+    }
+
+    /* Preview Canvas Area */
+    main.preview-area {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      background: #18181b;
+      overflow: hidden;
+    }
+
+    .preview-toolbar {
+      height: 48px;
+      background: #27272a;
+      border-bottom: 1px solid #3f3f46;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 16px;
+      color: #e4e4e7;
+      flex-shrink: 0;
+    }
+
+    .preview-mode-switch {
+      display: flex;
+      background: #18181b;
+      padding: 2px;
+      border-radius: 6px;
+    }
+    .mode-btn {
+      padding: 5px 12px;
+      font-size: 12px;
+      font-weight: 500;
+      color: #a1a1aa;
+      background: transparent;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .mode-btn.active {
+      background: #3f3f46;
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .device-switch {
+      display: flex;
+      gap: 6px;
+    }
+    .device-btn {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: transparent;
+      border: 1px solid #3f3f46;
+      border-radius: 6px;
+      color: #a1a1aa;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    .device-btn:hover {
+      background: #3f3f46;
+      color: white;
+    }
+    .device-btn.active {
+      background: var(--primary);
+      border-color: var(--primary);
+      color: white;
+    }
+
+    .preview-theme-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .dark-toggle-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #3f3f46;
+      border: 1px solid #52525b;
+      color: #f4f4f5;
+      padding: 5px 10px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .dark-toggle-btn:hover {
+      background: #52525b;
+    }
+
+    .preview-viewport-wrapper {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 24px;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      background: #09090b;
+    }
+
+    .preview-frame {
+      background: white;
+      width: 100%;
+      max-width: 100%;
+      min-height: 800px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      border-radius: 8px;
+      overflow: hidden;
+      transition: max-width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+      position: relative;
+    }
+    .preview-frame.tablet {
+      max-width: 768px;
+    }
+    .preview-frame.mobile {
+      max-width: 390px;
+      border-radius: 28px;
+      border: 8px solid #27272a;
+    }
+
+    /* Modal Styling */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 100;
+      padding: 20px;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-card {
+      background: var(--surface-0);
+      width: 900px;
+      max-width: 100%;
+      max-height: 88vh;
+      border-radius: 12px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--surface-200);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .modal-title {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--surface-900);
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 20px;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      flex: 1;
+    }
+    .code-preview-box {
+      background: #0f172a;
+      color: #e2e8f0;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 12px;
+      line-height: 1.6;
+      padding: 16px;
+      border-radius: 8px;
+      max-height: 480px;
+      overflow: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .modal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--surface-200);
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      background: var(--surface-50);
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #10b981;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 10px 15px -3px rgba(0,0,0,0.2);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 200;
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+
+    #preview-root {
+      min-height: 100%;
+      display: flex;
+      flex-direction: column;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .icon {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      stroke-width: 2;
+      stroke: currentColor;
+      fill: none;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      vertical-align: middle;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top App Header -->
+  <header class="app-header">
+    <div class="brand">
+      <div class="brand-icon">B</div>
+      <div>
+        <span class="brand-title">Blogger Theme Studio</span>
+        <span class="brand-tag">極簡卡片版型</span>
+      </div>
+    </div>
+
+    <div class="header-actions">
+      <div class="preset-selector">
+        <label for="preset-select">風格風格預設：</label>
+        <select id="preset-select" onchange="applyPreset(this.value)">
+          <option value="modern-indigo">現代科技靛藍 (Modern Indigo)</option>
+          <option value="clean-mono">純粹黑白極簡 (Minimal Mono)</option>
+          <option value="nordic-emerald">北歐森林翡翠 (Nordic Forest)</option>
+          <option value="warm-editorial">人文雜誌琥珀 (Warm Editorial)</option>
+          <option value="cyber-violet">深邃極客紫 (Cyber Violet)</option>
+        </select>
+      </div>
+
+      <button class="btn btn-secondary" onclick="openGuideModal()">
+        <svg class="icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+        安裝教學
+      </button>
+
+      <button class="btn btn-secondary" onclick="openCodeModal()">
+        <svg class="icon" viewBox="0 0 24 24"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        檢視 XML
+      </button>
+
+      <button class="btn btn-primary" onclick="copyXmlCode()">
+        <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+        一鍵複製 XML 程式碼
+      </button>
+
+      <button class="btn btn-success" onclick="downloadXmlFile()">
+        <svg class="icon" viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" x2="12" y1="15" y2="3"/></svg>
+        下載 theme.xml
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Workspace -->
+  <div class="main-workspace">
+    <!-- Left Controls Sidebar -->
+    <aside class="controls-panel">
+      <nav class="tabs-nav">
+        <button class="tab-btn active" onclick="switchTab('tab-layout', this)">佈局結構</button>
+        <button class="tab-btn" onclick="switchTab('tab-cards', this)">卡片樣式</button>
+        <button class="tab-btn" onclick="switchTab('tab-sidebar', this)">側欄與作者</button>
+        <button class="tab-btn" onclick="switchTab('tab-colors', this)">色彩與深色</button>
+        <button class="tab-btn" onclick="switchTab('tab-typography', this)">字型排版</button>
+        <button class="tab-btn" onclick="switchTab('tab-components', this)">功能模組</button>
+      </nav>
+
+      <div class="controls-content">
+        <!-- Tab 1: Layout -->
+        <div id="tab-layout" class="tab-pane active">
+          <div class="control-group">
+            <div class="control-group-title">網格排版</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">文章卡片網格欄數</span>
+              </div>
+              <div class="radio-card-grid">
+                <div class="radio-card" data-val="1" onclick="setSetting('gridCols', 1, this)">1 欄 (清單)</div>
+                <div class="radio-card active" data-val="2" onclick="setSetting('gridCols', 2, this)">2 欄 (經典)</div>
+                <div class="radio-card" data-val="3" onclick="setSetting('gridCols', 3, this)">3 欄 (精巧)</div>
+              </div>
+            </div>
+
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">卡片間距 (Gap)</span>
+                <span class="control-value-badge" id="val-cardGap">24px</span>
+              </div>
+              <input type="range" min="16" max="40" step="4" value="24" oninput="updateSetting('cardGap', this.value, 'px')">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">側邊欄配置</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">側邊欄位置</span>
+              </div>
+              <div class="radio-card-grid">
+                <div class="radio-card active" data-val="right" onclick="setSetting('sidebarPosition', 'right', this)">右側欄</div>
+                <div class="radio-card" data-val="left" onclick="setSetting('sidebarPosition', 'left', this)">左側欄</div>
+                <div class="radio-card" data-val="none" onclick="setSetting('sidebarPosition', 'none', this)">隱藏無欄</div>
+              </div>
+            </div>
+
+            <div class="control-item" id="sidebar-width-item">
+              <div class="control-label-row">
+                <span class="control-label">側邊欄寬度</span>
+                <span class="control-value-badge" id="val-sidebarWidth">300px</span>
+              </div>
+              <input type="range" min="260" max="380" step="10" value="300" oninput="updateSetting('sidebarWidth', this.value, 'px')">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">版心容器寬度</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">最大容器寬度</span>
+                <span class="control-value-badge" id="val-containerWidth">1200px</span>
+              </div>
+              <input type="range" min="1000" max="1440" step="20" value="1200" oninput="updateSetting('containerWidth', this.value, 'px')">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 2: Card Styles -->
+        <div id="tab-cards" class="tab-pane">
+          <div class="control-group">
+            <div class="control-group-title">幾何造型</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">卡片圓角半徑</span>
+                <span class="control-value-badge" id="val-cardRadius">12px</span>
+              </div>
+              <input type="range" min="0" max="28" step="2" value="12" oninput="updateSetting('cardRadius', this.value, 'px')">
+            </div>
+
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">卡片內邊距 (Padding)</span>
+                <span class="control-value-badge" id="val-cardPadding">20px</span>
+              </div>
+              <input type="range" min="14" max="32" step="2" value="20" oninput="updateSetting('cardPadding', this.value, 'px')">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">層次與陰影</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">卡片陰影強度</span>
+              </div>
+              <div class="radio-card-grid">
+                <div class="radio-card" data-val="none" onclick="setSetting('cardShadow', 'none', this)">平坦無陰影</div>
+                <div class="radio-card active" data-val="subtle" onclick="setSetting('cardShadow', 'subtle', this)">細緻微陰影</div>
+                <div class="radio-card" data-val="elevated" onclick="setSetting('cardShadow', 'elevated', this)">立體浮雕</div>
+              </div>
+            </div>
+
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">卡片邊框線條</span>
+              </div>
+              <div class="radio-card-grid">
+                <div class="radio-card" data-val="none" onclick="setSetting('cardBorder', 'none', this)">無邊框</div>
+                <div class="radio-card active" data-val="thin" onclick="setSetting('cardBorder', 'thin', this)">1px 極細線</div>
+                <div class="radio-card" data-val="medium" onclick="setSetting('cardBorder', 'medium', this)">2px 輪廓</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">縮圖與無圖優化</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">縮圖長寬比</span>
+              </div>
+              <div class="radio-card-grid">
+                <div class="radio-card active" data-val="16/9" onclick="setSetting('thumbRatio', '16/9', this)">16 : 9</div>
+                <div class="radio-card" data-val="4/3" onclick="setSetting('thumbRatio', '4/3', this)">4 : 3</div>
+                <div class="radio-card" data-val="2/1" onclick="setSetting('thumbRatio', '2/1', this)">2 : 1</div>
+              </div>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">無圖片文章自動顯示極簡漸層佔位圖</span>
+              <label class="switch">
+                <input type="checkbox" id="check-fallbackThumb" checked onchange="updateSetting('fallbackThumb', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">滑鼠懸停微幅上浮動畫</span>
+              <label class="switch">
+                <input type="checkbox" id="check-hoverLift" checked onchange="updateSetting('hoverLift', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+
+            <div class="switch-row">
+              <span class="switch-label">縮圖懸停微放大動態</span>
+              <label class="switch">
+                <input type="checkbox" id="check-thumbZoom" checked onchange="updateSetting('thumbZoom', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 3: Sidebar & Author Info (NEW!) -->
+        <div id="tab-sidebar" class="tab-pane">
+          <div class="control-group">
+            <div class="control-group-title">側邊欄作者簡介卡片 (實機保證顯示)</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">作者名稱</label>
+              <input type="text" id="input-authorName" value="Phil Ko" oninput="updateSetting('authorName', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">身分／職稱說明</label>
+              <input type="text" id="input-authorTitle" value="解決方案顧問 / 技術創作者" oninput="updateSetting('authorTitle', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">自我介紹內容</label>
+              <textarea id="input-authorBio" oninput="updateSetting('authorBio', this.value)">熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！</textarea>
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">頭像圖片網址 (URL)</label>
+              <input type="text" id="input-authorAvatar" value="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80" oninput="updateSetting('authorAvatar', this.value)">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">社群與聯絡連結</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">GitHub 連結</label>
+              <input type="text" id="input-socialGithub" value="https://github.com" placeholder="例如 https://github.com/yourname" oninput="updateSetting('socialGithub', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">Twitter / X 連結</label>
+              <input type="text" id="input-socialTwitter" value="https://twitter.com" placeholder="例如 https://twitter.com/yourname" oninput="updateSetting('socialTwitter', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">Email 聯絡 (選填)</label>
+              <input type="text" id="input-socialEmail" value="" placeholder="your.email@example.com" oninput="updateSetting('socialEmail', this.value)">
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">標籤分類小工具</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">分類區塊標題</label>
+              <input type="text" id="input-sidebarTagsTitle" value="熱門分類" oninput="updateSetting('sidebarTagsTitle', this.value)">
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 4: Colors & Dark Mode -->
+        <div id="tab-colors" class="tab-pane">
+          <div class="control-group">
+            <div class="control-group-title">全域強調色 (Accent)</div>
+            <div class="color-picker-row">
+              <span class="color-label">品牌重點色</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-accent" value="#4f46e5" onchange="updateColor('accent', this.value)">
+                <span class="color-hex" id="hex-accent">#4f46e5</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">淺色模式色彩 (Light Theme)</div>
+            <div class="color-picker-row">
+              <span class="color-label">頁面背景</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-lightBg" value="#f8fafc" onchange="updateColor('lightBg', this.value)">
+                <span class="color-hex" id="hex-lightBg">#f8fafc</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">卡片背景</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-lightCardBg" value="#ffffff" onchange="updateColor('lightCardBg', this.value)">
+                <span class="color-hex" id="hex-lightCardBg">#ffffff</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">主要文字</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-lightText" value="#0f172a" onchange="updateColor('lightText', this.value)">
+                <span class="color-hex" id="hex-lightText">#0f172a</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">次要文字/摘要</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-lightMuted" value="#64748b" onchange="updateColor('lightMuted', this.value)">
+                <span class="color-hex" id="hex-lightMuted">#64748b</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">邊框線條</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-lightBorder" value="#e2e8f0" onchange="updateColor('lightBorder', this.value)">
+                <span class="color-hex" id="hex-lightBorder">#e2e8f0</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">深色模式色彩 (Dark Theme)</div>
+            <div class="color-picker-row">
+              <span class="color-label">深色背景</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-darkBg" value="#090a0f" onchange="updateColor('darkBg', this.value)">
+                <span class="color-hex" id="hex-darkBg">#090a0f</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">深色卡片背景</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-darkCardBg" value="#13151f" onchange="updateColor('darkCardBg', this.value)">
+                <span class="color-hex" id="hex-darkCardBg">#13151f</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">深色主要文字</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-darkText" value="#f8fafc" onchange="updateColor('darkText', this.value)">
+                <span class="color-hex" id="hex-darkText">#f8fafc</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">深色次要文字</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-darkMuted" value="#94a3b8" onchange="updateColor('darkMuted', this.value)">
+                <span class="color-hex" id="hex-darkMuted">#94a3b8</span>
+              </div>
+            </div>
+            <div class="color-picker-row">
+              <span class="color-label">深色邊框線條</span>
+              <div class="color-input-wrapper">
+                <input type="color" id="color-darkBorder" value="#1e2235" onchange="updateColor('darkBorder', this.value)">
+                <span class="color-hex" id="hex-darkBorder">#1e2235</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">深色模式初始策略</div>
+            <div class="control-item">
+              <div class="radio-card-grid">
+                <div class="radio-card active" data-val="auto" onclick="setSetting('darkStrategy', 'auto', this)">跟隨系統</div>
+                <div class="radio-card" data-val="light" onclick="setSetting('darkStrategy', 'light', this)">預設淺色</div>
+                <div class="radio-card" data-val="dark" onclick="setSetting('darkStrategy', 'dark', this)">預設深色</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 5: Typography -->
+        <div id="tab-typography" class="tab-pane">
+          <div class="control-group">
+            <div class="control-group-title">字型搭配</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">主要字型組合</span>
+              </div>
+              <div class="radio-card-grid cols-2">
+                <div class="radio-card active" data-val="inter-tc" onclick="setSetting('fontFamily', 'inter-tc', this)">Inter + 黑體</div>
+                <div class="radio-card" data-val="system" onclick="setSetting('fontFamily', 'system', this)">現代系統無襯線</div>
+                <div class="radio-card" data-val="serif" onclick="setSetting('fontFamily', 'serif', this)">經典優雅襯線體</div>
+                <div class="radio-card" data-val="rounded" onclick="setSetting('fontFamily', 'rounded', this)">圓體親和風格</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">文章內容與摘要</div>
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">卡片摘要行數截斷</span>
+              </div>
+              <div class="radio-card-grid">
+                <div class="radio-card" data-val="2" onclick="setSetting('lineClamp', 2, this)">2 行 (簡潔)</div>
+                <div class="radio-card active" data-val="3" onclick="setSetting('lineClamp', 3, this)">3 行 (適中)</div>
+                <div class="radio-card" data-val="4" onclick="setSetting('lineClamp', 4, this)">4 行 (詳盡)</div>
+              </div>
+            </div>
+
+            <div class="control-item">
+              <div class="control-label-row">
+                <span class="control-label">文章標題字重</span>
+              </div>
+              <div class="radio-card-grid cols-2">
+                <div class="radio-card active" data-val="700" onclick="setSetting('titleWeight', 700, this)">700 粗體 (Bold)</div>
+                <div class="radio-card" data-val="600" onclick="setSetting('titleWeight', 600, this)">600 半粗體 (Semibold)</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tab 6: Components & Toggles -->
+        <div id="tab-components" class="tab-pane">
+          <div class="control-group">
+            <div class="control-group-title">卡片元素開關</div>
+            <div class="switch-row">
+              <span class="switch-label">顯示分類標籤 (Tags)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showTags" checked onchange="updateSetting('showTags', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <span class="switch-label">顯示發布日期</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showDate" checked onchange="updateSetting('showDate', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <span class="switch-label">顯示作者頭像與姓名</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showAuthor" checked onchange="updateSetting('showAuthor', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <span class="switch-label">顯示「閱讀更多 →」按鈕</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showReadMore" checked onchange="updateSetting('showReadMore', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">功能模組</div>
+            <div class="switch-row">
+              <span class="switch-label">頂部閱讀進度條 (Progress Bar)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-readingProgress" checked onchange="updateSetting('readingProgress', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <span class="switch-label">置頂導覽列 (Sticky Header)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-stickyHeader" checked onchange="updateSetting('stickyHeader', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
+              <span class="switch-label">平滑返回頂部按鈕 (Back to Top)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-backToTop" checked onchange="updateSetting('backToTop', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <div class="control-group-title">自訂基本文字</div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">部落格名稱</label>
+              <input type="text" id="input-blogTitle" value="極簡思維筆記" oninput="updateSetting('blogTitle', this.value)">
+            </div>
+            <div class="control-item">
+              <label class="control-label" style="display:block; margin-bottom:6px;">標語說明 (Tagline)</label>
+              <input type="text" id="input-blogTagline" value="記錄技術探索、設計美學與日常思考" oninput="updateSetting('blogTagline', this.value)">
+            </div>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Right Live Interactive Preview -->
+    <main class="preview-area">
+      <!-- Preview Toolbar -->
+      <div class="preview-toolbar">
+        <div class="preview-mode-switch">
+          <button class="mode-btn active" onclick="setPreviewView('grid', this)">首頁卡片列表</button>
+          <button class="mode-btn" onclick="setPreviewView('single', this)">文章內頁閱讀</button>
+        </div>
+
+        <div class="device-switch">
+          <button class="device-btn active" title="電腦桌面" onclick="setDevice('desktop', this)">
+            <svg class="icon" viewBox="0 0 24 24"><rect width="20" height="14" x="2" y="3" rx="2"/><line x1="8" x2="16" y1="21" y2="21"/><line x1="12" x2="12" y1="17" y2="21"/></svg>
+          </button>
+          <button class="device-btn" title="平板" onclick="setDevice('tablet', this)">
+            <svg class="icon" viewBox="0 0 24 24"><rect width="16" height="20" x="4" y="2" rx="2"/><line x1="12" x2="12.01" y1="18" y2="18"/></svg>
+          </button>
+          <button class="device-btn" title="手機" onclick="setDevice('mobile', this)">
+            <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="20" x="5" y="2" rx="2"/><line x1="12" x2="12.01" y1="17" y2="17"/></svg>
+          </button>
+        </div>
+
+        <div class="preview-theme-toggle">
+          <button class="dark-toggle-btn" id="preview-dark-btn" onclick="togglePreviewDark()">
+            <span id="dark-icon">🌙</span>
+            <span id="dark-text">切換深色預覽</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Preview Frame Viewport -->
+      <div class="preview-viewport-wrapper">
+        <div class="preview-frame" id="preview-frame-container">
+          <div id="preview-root"></div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- Code Modal -->
+  <div class="modal-overlay" id="code-modal">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">產生的 Blogger 主題 XML 原始碼</div>
+        <button class="modal-close" onclick="closeModal('code-modal')">✕</button>
+      </div>
+      <div class="modal-body">
+        <div style="margin-bottom: 12px; font-size: 13px; color: var(--text-muted);">
+          這是針對 Google Blogger 深度最佳化的完整版型 XML 代碼，已整合您所調整的極簡卡片版型、側欄作者卡片與深色模式支援。
+        </div>
+        <pre class="code-preview-box" id="xml-code-view"></pre>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" onclick="closeModal('code-modal')">關閉</button>
+        <button class="btn btn-primary" onclick="copyXmlCode()">
+          <svg class="icon" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2"/><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"/></svg>
+          複製代碼
+        </button>
+        <button class="btn btn-success" onclick="downloadXmlFile()">下載 XML 檔案</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Guide Modal -->
+  <div class="modal-overlay" id="guide-modal">
+    <div class="modal-card" style="width: 700px;">
+      <div class="modal-header">
+        <div class="modal-title">如何套用至 Google Blogger 後台（完整步驟）</div>
+        <button class="modal-close" onclick="closeModal('guide-modal')">✕</button>
+      </div>
+      <div class="modal-body" style="font-size: 14px; line-height: 1.7; color: var(--surface-800);">
+        <ol style="padding-left: 20px; display: flex; flex-direction: column; gap: 14px;">
+          <li>
+            <strong>第一步：備份現有主題（建議）</strong><br>
+            登入 <a href="https://www.blogger.com" target="_blank" style="color: var(--primary);">Google Blogger</a> 後台，點擊左側選單的 <strong>「主題」</strong>。在「我的主題」右上角的「自訂」按鈕旁邊，點擊 <strong>倒三角形選單 (▼)</strong>，選擇 <strong>「備份」</strong> 下載備份檔案。
+          </li>
+          <li>
+            <strong>第二步：進入 HTML 編輯模式</strong><br>
+            再次點擊倒三角形選單，選擇 <strong>「編輯 HTML」</strong>。
+          </li>
+          <li>
+            <strong>第三步：貼上新產生的 XML 代碼</strong><br>
+            使用快捷鍵 <kbd style="background:var(--surface-200); padding:2px 6px; border-radius:4px;">Ctrl + A</kbd> (Mac 為 <kbd style="background:var(--surface-200); padding:2px 6px; border-radius:4px;">Cmd + A</kbd>) 全選所有舊代碼並刪除清空。<br>
+            點擊本編輯器右上角 <strong>「一鍵複製 XML 程式碼」</strong>，貼上 (<kbd style="background:var(--surface-200); padding:2px 6px; border-radius:4px;">Ctrl + V</kbd>) 至 Blogger 後台編輯器。
+          </li>
+          <li>
+            <strong>第四步：儲存並查看部落格</strong><br>
+            點擊 Blogger 編輯器右上角橘黃色的 <strong>「儲存 (磁碟片圖示)」</strong>。儲存完成後，點擊左下角「瀏覽網誌」，即可看到前台與編輯器完全一致的現代極簡卡片版型！
+          </li>
+        </ol>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" onclick="closeModal('guide-modal')">我知道了</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast-msg">
+    <svg class="icon" viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toast-text">已成功複製 Blogger XML 程式碼至剪貼簿！</span>
+  </div>
+
+  <script>
+    // State management
+    var state = {
+      // Layout
+      gridCols: 2,
+      cardGap: 24,
+      sidebarPosition: 'right', // 'right', 'left', 'none'
+      sidebarWidth: 300,
+      containerWidth: 1200,
+
+      // Cards
+      cardRadius: 12,
+      cardPadding: 20,
+      cardShadow: 'subtle', // 'none', 'subtle', 'elevated'
+      cardBorder: 'thin', // 'none', 'thin', 'medium'
+      thumbRatio: '16/9',
+      fallbackThumb: true,
+      hoverLift: true,
+      thumbZoom: true,
+
+      // Author & Sidebar Profile
+      authorName: 'Phil Ko',
+      authorTitle: '解決方案顧問 / 技術創作者',
+      authorBio: '熱愛現代軟體工程、系統設計與使用者體驗美學。歡迎在這裡交流探討！',
+      authorAvatar: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=160&auto=format&fit=crop&q=80',
+      socialGithub: 'https://github.com',
+      socialTwitter: 'https://twitter.com',
+      socialEmail: '',
+      sidebarTagsTitle: '熱門分類',
+
+      // Colors
+      accent: '#4f46e5',
+      lightBg: '#f8fafc',
+      lightCardBg: '#ffffff',
+      lightText: '#0f172a',
+      lightMuted: '#64748b',
+      lightBorder: '#e2e8f0',
+
+      darkBg: '#090a0f',
+      darkCardBg: '#13151f',
+      darkText: '#f8fafc',
+      darkMuted: '#94a3b8',
+      darkBorder: '#1e2235',
+      darkStrategy: 'auto',
+
+      // Typography
+      fontFamily: 'inter-tc',
+      lineClamp: 3,
+      titleWeight: 700,
+
+      // Components
+      showTags: true,
+      showDate: true,
+      showAuthor: true,
+      showReadMore: true,
+      readingProgress: true,
+      stickyHeader: true,
+      backToTop: true,
+      blogTitle: '極簡思維筆記',
+      blogTagline: '記錄技術探索、設計美學與日常思考',
+
+      // Preview state
+      previewMode: 'grid', // 'grid' | 'single'
+      previewDark: false,
+      device: 'desktop'
+    };
+
+    // Presets
+    const presets = {
+      'modern-indigo': {
+        accent: '#4f46e5',
+        cardRadius: 12,
+        cardShadow: 'subtle',
+        cardBorder: 'thin',
+        lightBg: '#f8fafc',
+        lightCardBg: '#ffffff',
+        lightText: '#0f172a',
+        lightMuted: '#64748b',
+        lightBorder: '#e2e8f0',
+        darkBg: '#090a0f',
+        darkCardBg: '#13151f',
+        darkText: '#f8fafc',
+        darkMuted: '#94a3b8',
+        darkBorder: '#1e2235',
+        gridCols: 2
+      },
+      'clean-mono': {
+        accent: '#18181b',
+        cardRadius: 4,
+        cardShadow: 'none',
+        cardBorder: 'thin',
+        lightBg: '#ffffff',
+        lightCardBg: '#ffffff',
+        lightText: '#18181b',
+        lightMuted: '#71717a',
+        lightBorder: '#e4e4e7',
+        darkBg: '#09090b',
+        darkCardBg: '#18181b',
+        darkText: '#f4f4f5',
+        darkMuted: '#a1a1aa',
+        darkBorder: '#27272a',
+        gridCols: 2
+      },
+      'nordic-emerald': {
+        accent: '#059669',
+        cardRadius: 16,
+        cardShadow: 'subtle',
+        cardBorder: 'none',
+        lightBg: '#f4f7f5',
+        lightCardBg: '#ffffff',
+        lightText: '#064e3b',
+        lightMuted: '#4b5563',
+        lightBorder: '#d1fae5',
+        darkBg: '#061611',
+        darkCardBg: '#0c271e',
+        darkText: '#ecfdf5',
+        darkMuted: '#a7f3d0',
+        darkBorder: '#134e40',
+        gridCols: 2
+      },
+      'warm-editorial': {
+        accent: '#d97706',
+        cardRadius: 8,
+        cardShadow: 'subtle',
+        cardBorder: 'thin',
+        lightBg: '#faf8f5',
+        lightCardBg: '#ffffff',
+        lightText: '#292524',
+        lightMuted: '#78716c',
+        lightBorder: '#e7e5e4',
+        darkBg: '#1c1917',
+        darkCardBg: '#292524',
+        darkText: '#fafaf9',
+        darkMuted: '#a8a29e',
+        darkBorder: '#44403c',
+        gridCols: 2
+      },
+      'cyber-violet': {
+        accent: '#8b5cf6',
+        cardRadius: 16,
+        cardShadow: 'elevated',
+        cardBorder: 'thin',
+        lightBg: '#f5f3ff',
+        lightCardBg: '#ffffff',
+        lightText: '#1e1b4b',
+        lightMuted: '#6b7280',
+        lightBorder: '#ddd6fe',
+        darkBg: '#090514',
+        darkCardBg: '#150f28',
+        darkText: '#f5f3ff',
+        darkMuted: '#c4b5fd',
+        darkBorder: '#2e1f57',
+        gridCols: 3
+      }
+    };
+
+    function applyPreset(key) {
+      const p = presets[key];
+      if (!p) return;
+      Object.assign(state, p);
+
+      const elAccent = document.getElementById('color-accent');
+      if (elAccent) elAccent.value = state.accent;
+      const hexAccent = document.getElementById('hex-accent');
+      if (hexAccent) hexAccent.textContent = state.accent;
+
+      ['lightBg', 'lightCardBg', 'lightText', 'lightMuted', 'lightBorder',
+       'darkBg', 'darkCardBg', 'darkText', 'darkMuted', 'darkBorder'].forEach(c => {
+        const inp = document.getElementById('color-' + c);
+        if (inp) inp.value = state[c];
+        const hex = document.getElementById('hex-' + c);
+        if (hex) hex.textContent = state[c];
+      });
+
+      renderPreview();
+    }
+
+    // Tab switching
+    function switchTab(tabId, el) {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      el.classList.add('active');
+      const pane = document.getElementById(tabId);
+      if (pane) pane.classList.add('active');
+    }
+
+    // Setting updates
+    function updateSetting(key, val, unit = '') {
+      state[key] = val;
+      const badge = document.getElementById('val-' + key);
+      if (badge) badge.textContent = val + unit;
+      renderPreview();
+    }
+
+    function setSetting(key, val, el) {
+      state[key] = val;
+      const parent = el.closest('.radio-card-grid');
+      if (parent) {
+        parent.querySelectorAll('.radio-card').forEach(c => c.classList.remove('active'));
+        el.classList.add('active');
+      }
+      if (key === 'sidebarPosition') {
+        const item = document.getElementById('sidebar-width-item');
+        if (item) item.style.display = (val === 'none') ? 'none' : 'block';
+      }
+      renderPreview();
+    }
+
+    function updateColor(key, val) {
+      state[key] = val;
+      const hexSpan = document.getElementById('hex-' + key);
+      if (hexSpan) hexSpan.textContent = val;
+      renderPreview();
+    }
+
+    // View controls
+    function setPreviewView(mode, el) {
+      state.previewMode = mode;
+      document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      renderPreview();
+    }
+
+    function setDevice(device, el) {
+      state.device = device;
+      document.querySelectorAll('.device-btn').forEach(b => b.classList.remove('active'));
+      el.classList.add('active');
+      const frame = document.getElementById('preview-frame-container');
+      if (frame) {
+        frame.className = 'preview-frame ' + (device === 'desktop' ? '' : device);
+      }
+    }
+
+    function togglePreviewDark() {
+      state.previewDark = !state.previewDark;
+      const icon = document.getElementById('dark-icon');
+      const text = document.getElementById('dark-text');
+      if (state.previewDark) {
+        if (icon) icon.textContent = '☀️';
+        if (text) text.textContent = '切換淺色預覽';
+      } else {
+        if (icon) icon.textContent = '🌙';
+        if (text) text.textContent = '切換深色預覽';
+      }
+      renderPreview();
+    }
+
+    // Sample data for preview
+    const samplePosts = [
+      {
+        id: 1,
+        title: '如何設計一個高效能且靈活的現代軟體架構',
+        tag: '軟體架構',
+        date: '2026 年 8 月 28 日',
+        snippet: '在日益複雜的分散式系統中，如何保持核心模組的高凝聚力與低耦合性，是每一位資深工程師與架構師必須深入思考的課題...',
+        image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=700&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 2,
+        title: '極簡主義生活提案：在資訊洪流中找回思維留白',
+        tag: '生活哲思',
+        date: '2026 年 8 月 15 日',
+        snippet: '過多的通知與無意義的數據只會吞噬我們的專注力。學會定期為大腦清理緩存，建立個人的心智過濾網，專注在最重要的 20% 核心價值。',
+        image: 'https://images.unsplash.com/photo-1499750310107-5fef28a66643?w=700&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 3,
+        title: '探索生成式 AI 在日常工作流中的最佳實踐',
+        tag: '人工智慧',
+        date: '2026 年 8 月 03 日',
+        snippet: '從自動化腳本生成到智能知識庫檢索，結合本地大模型與外部工具鏈，如何將日常繁瑣的工作自動化，釋放更多創造力。',
+        image: 'https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=700&auto=format&fit=crop&q=80'
+      },
+      {
+        id: 4,
+        title: '色彩與排版美學：給工程師的視覺設計速查手冊',
+        tag: '設計美學',
+        date: '2026 年 7 月 22 日',
+        snippet: '排版不僅僅是美化，更是視覺資訊傳達的效率保證。掌握文字行高階梯、對比度規範與網格系統，讓你的介面質感翻倍。',
+        image: 'https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?w=700&auto=format&fit=crop&q=80'
+      }
+    ];
+
+    // Render Preview
+    function renderPreview() {
+      const root = document.getElementById('preview-root');
+      if (!root) return;
+      const isDark = state.previewDark;
+
+      // Determine active colors
+      const bg = isDark ? state.darkBg : state.lightBg;
+      const cardBg = isDark ? state.darkCardBg : state.lightCardBg;
+      const text = isDark ? state.darkText : state.lightText;
+      const muted = isDark ? state.darkMuted : state.lightMuted;
+      const border = isDark ? state.darkBorder : state.lightBorder;
+
+      // Shadow mapping
+      let shadowCss = 'none';
+      if (state.cardShadow === 'subtle') {
+        shadowCss = isDark ? '0 4px 20px -2px rgba(0,0,0,0.4)' : '0 4px 16px -2px rgba(0,0,0,0.06)';
+      } else if (state.cardShadow === 'elevated') {
+        shadowCss = isDark ? '0 12px 30px -4px rgba(0,0,0,0.6)' : '0 10px 25px -3px rgba(0,0,0,0.1)';
+      }
+
+      // Border mapping
+      let borderCss = 'none';
+      if (state.cardBorder === 'thin') borderCss = `1px solid ${border}`;
+      if (state.cardBorder === 'medium') borderCss = `2px solid ${border}`;
+
+      // Font mapping
+      let fontStack = "'Inter', 'Noto Sans TC', sans-serif";
+      if (state.fontFamily === 'system') fontStack = "system-ui, -apple-system, sans-serif";
+      if (state.fontFamily === 'serif') fontStack = "'Georgia', 'Noto Serif TC', serif";
+      if (state.fontFamily === 'rounded') fontStack = "'M PLUS Rounded 1c', sans-serif";
+
+      root.style.backgroundColor = bg;
+      root.style.color = text;
+      root.style.fontFamily = fontStack;
+
+      let html = '';
+
+      // 1. Reading Progress Bar
+      if (state.readingProgress) {
+        html += `<div style="height: 3px; background: ${state.accent}; width: 68%; position: sticky; top: 0; left: 0; z-index: 100;"></div>`;
+      }
+
+      // 2. Navigation Header
+      const headerSticky = state.stickyHeader ? 'position: sticky; top: 0; z-index: 50; backdrop-filter: blur(10px);' : '';
+      const headerBg = isDark ? 'rgba(19, 21, 31, 0.88)' : 'rgba(255, 255, 255, 0.88)';
+
+      html += `
+        <header style="background: ${headerBg}; border-bottom: 1px solid ${border}; padding: 16px 24px; ${headerSticky} transition: all 0.2s;">
+          <div style="max-width: ${state.containerWidth}px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <div>
+              <div style="font-size: 20px; font-weight: ${state.titleWeight}; color: ${text}; letter-spacing: -0.02em;">${state.blogTitle}</div>
+              <div style="font-size: 12px; color: ${muted}; margin-top: 2px;">${state.blogTagline}</div>
+            </div>
+
+            <nav style="display: flex; align-items: center; gap: 20px;">
+              <a href="javascript:void(0)" onclick="setPreviewView('grid', document.querySelectorAll('.mode-btn')[0])" style="text-decoration: none; color: ${state.previewMode === 'grid' ? state.accent : text}; font-size: 14px; font-weight: 500;">首頁</a>
+              <a href="javascript:void(0)" style="text-decoration: none; color: ${muted}; font-size: 14px; font-weight: 500;">分類標籤</a>
+              <a href="javascript:void(0)" style="text-decoration: none; color: ${muted}; font-size: 14px; font-weight: 500;">關於我</a>
+              <button onclick="togglePreviewDark()" style="background: ${isDark ? '#27272a' : '#f1f5f9'}; border: 1px solid ${border}; color: ${text}; width: 34px; height: 34px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 15px;">
+                ${isDark ? '☀️' : '🌙'}
+              </button>
+            </nav>
+          </div>
+        </header>
+      `;
+
+      // 3. Main Body Container
+      html += `<div style="max-width: ${state.containerWidth}px; margin: 32px auto; padding: 0 20px; flex: 1; width: 100%;">`;
+
+      if (state.previewMode === 'grid') {
+        const isSidebar = state.sidebarPosition !== 'none';
+        const sidebarOrder = state.sidebarPosition === 'left' ? -1 : 1;
+
+        html += `<div style="display: flex; gap: 32px; flex-direction: ${state.device === 'mobile' ? 'column' : 'row'};">`;
+
+        // Posts Column
+        html += `<div style="flex: 1; min-width: 0;">`;
+        html += `<div style="display: grid; grid-template-columns: repeat(${state.device === 'mobile' ? 1 : state.gridCols}, 1fr); gap: ${state.cardGap}px;">`;
+
+        samplePosts.forEach(post => {
+          const liftStyle = state.hoverLift ? 'transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;' : '';
+          html += `
+            <article style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; overflow: hidden; display: flex; flex-direction: column; cursor: pointer; ${liftStyle}" onclick="setPreviewView('single', document.querySelectorAll('.mode-btn')[1])">
+              <!-- Thumbnail -->
+              <div style="position: relative; width: 100%; aspect-ratio: ${state.thumbRatio}; overflow: hidden; background: ${border};">
+                <img src="${post.image}" alt="${post.title}" style="width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease;" class="${state.thumbZoom ? 'zoomable-thumb' : ''}">
+              </div>
+
+              <!-- Content -->
+              <div style="padding: ${state.cardPadding}px; display: flex; flex-direction: column; flex: 1;">
+                <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;">
+                  ${state.showTags ? `<span style="display: inline-block; font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; background: ${state.accent}1a; color: ${state.accent};">${post.tag}</span>` : ''}
+                  ${state.showDate ? `<span style="font-size: 12px; color: ${muted};">${post.date}</span>` : ''}
+                </div>
+
+                <h3 style="font-size: 17px; font-weight: ${state.titleWeight}; color: ${text}; line-height: 1.4; margin-bottom: 10px; letter-spacing: -0.01em;">${post.title}</h3>
+
+                <p style="font-size: 13px; color: ${muted}; line-height: 1.6; margin-bottom: 16px; display: -webkit-box; -webkit-line-clamp: ${state.lineClamp}; -webkit-box-orient: vertical; overflow: hidden; flex: 1;">
+                  ${post.snippet}
+                </p>
+
+                <div style="display: flex; align-items: center; justify-content: space-between; padding-top: 14px; border-top: 1px solid ${border}; margin-top: auto;">
+                  ${state.showAuthor ? `
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                      <img src="${state.authorAvatar}" style="width: 24px; height: 24px; border-radius: 50%; object-fit: cover;">
+                      <span style="font-size: 12px; font-weight: 500; color: ${text};">${state.authorName}</span>
+                    </div>
+                  ` : '<div></div>'}
+
+                  ${state.showReadMore ? `
+                    <span style="font-size: 12px; font-weight: 600; color: ${state.accent}; display: flex; align-items: center; gap: 4px;">
+                      閱讀全文 →
+                    </span>
+                  ` : ''}
+                </div>
+              </div>
+            </article>
+          `;
+        });
+
+        html += `</div>`; // End Grid
+
+        // Pagination
+        html += `
+          <div style="display: flex; justify-content: center; gap: 12px; margin-top: 40px;">
+            <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid ${border}; background: ${cardBg}; color: ${muted}; font-size: 13px; cursor: not-allowed;" disabled>← 較新的文章</button>
+            <button style="padding: 8px 16px; border-radius: 6px; border: 1px solid ${border}; background: ${cardBg}; color: ${text}; font-size: 13px; cursor: pointer; font-weight: 500;">較舊的文章 →</button>
+          </div>
+        `;
+
+        html += `</div>`; // End Posts Column
+
+        // Sidebar
+        if (isSidebar && state.device !== 'mobile') {
+          html += `
+            <aside style="width: ${state.sidebarWidth}px; flex-shrink: 0; order: ${sidebarOrder}; display: flex; flex-direction: column; gap: 24px;">
+              <!-- Author Card (Linked with State!) -->
+              <div style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: 24px; text-align: center;">
+                <img src="${state.authorAvatar}" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; display: block; border: 3px solid ${state.accent}33;">
+                <h4 style="font-size: 16px; font-weight: 700; color: ${text}; margin-bottom: 4px;">${state.authorName}</h4>
+                <p style="font-size: 12px; color: ${state.accent}; font-weight: 600; margin-bottom: 12px;">${state.authorTitle}</p>
+                <p style="font-size: 13px; color: ${muted}; line-height: 1.5; margin-bottom: 16px;">
+                  ${state.authorBio}
+                </p>
+                <div style="display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                  ${state.socialGithub ? `<a href="${state.socialGithub}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">GitHub</a>` : ''}
+                  ${state.socialTwitter ? `<a href="${state.socialTwitter}" target="_blank" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">Twitter</a>` : ''}
+                  ${state.socialEmail ? `<a href="mailto:${state.socialEmail}" style="font-size: 12px; padding: 4px 10px; border-radius: 4px; background: ${isDark ? '#27272a' : '#f1f5f9'}; color: ${text}; text-decoration: none;">Email</a>` : ''}
+                </div>
+              </div>
+
+              <!-- Popular Tags -->
+              <div style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: 20px;">
+                <div style="font-size: 14px; font-weight: 700; color: ${text}; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid ${border};">${state.sidebarTagsTitle}</div>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">軟體架構 (12)</span>
+                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">人工智慧 (8)</span>
+                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">設計美學 (6)</span>
+                  <span style="font-size: 12px; padding: 4px 10px; border-radius: 20px; background: ${state.accent}1a; color: ${state.accent}; font-weight: 500;">生活哲思 (15)</span>
+                </div>
+              </div>
+            </aside>
+          `;
+        }
+
+        html += `</div>`;
+      } else {
+        // --- Single Post View ---
+        html += `
+          <div style="max-width: 820px; margin: 0 auto; background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: ${state.device === 'mobile' ? '20px' : '40px'};">
+            <div style="margin-bottom: 16px;">
+              <a href="javascript:void(0)" onclick="setPreviewView('grid', document.querySelectorAll('.mode-btn')[0])" style="text-decoration: none; color: ${state.accent}; font-size: 13px; font-weight: 600;">← 返回文章列表</a>
+            </div>
+
+            <div style="margin-bottom: 24px;">
+              <span style="display: inline-block; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 4px; background: ${state.accent}1a; color: ${state.accent}; margin-bottom: 12px;">軟體架構</span>
+              <h1 style="font-size: ${state.device === 'mobile' ? '22px' : '32px'}; font-weight: ${state.titleWeight}; color: ${text}; line-height: 1.3; margin-bottom: 14px; letter-spacing: -0.02em;">
+                如何設計一個高效能且靈活的現代軟體架構
+              </h1>
+              <div style="display: flex; align-items: center; gap: 12px; font-size: 13px; color: ${muted}; border-bottom: 1px solid ${border}; padding-bottom: 20px;">
+                <img src="${state.authorAvatar}" style="width: 28px; height: 28px; border-radius: 50%; object-fit: cover;">
+                <span style="font-weight: 500; color: ${text};">${state.authorName}</span>
+                <span>•</span>
+                <span>2026 年 8 月 28 日</span>
+                <span>•</span>
+                <span>閱讀時間 6 分鐘</span>
+              </div>
+            </div>
+
+            <div style="width: 100%; border-radius: ${Math.max(4, state.cardRadius - 4)}px; overflow: hidden; margin-bottom: 28px;">
+              <img src="${samplePosts[0].image}" style="width: 100%; max-height: 400px; object-fit: cover;">
+            </div>
+
+            <div style="font-size: 16px; line-height: 1.8; color: ${text};">
+              <p style="margin-bottom: 20px;">
+                在當今快速迭代的網路應用環境中，系統架構的彈性與可維護性決定了產品能夠走得多遠。許多團隊在初期為了趕工，往往堆砌過多的技術債，直到日後每一次更新都牽一髮而動全身。
+              </p>
+
+              <blockquote style="border-left: 4px solid ${state.accent}; padding: 16px 20px; background: ${isDark ? '#1a1d2e' : '#f8fafc'}; border-radius: 0 8px 8px 0; margin: 24px 0; color: ${muted}; font-style: italic;">
+                「過早的最佳化是萬惡之源，但忽視基礎架構的整潔性則是災難的起點。」
+              </blockquote>
+
+              <h2 style="font-size: 22px; font-weight: 700; margin: 32px 0 16px; color: ${text};">一、領域驅動設計與邊界劃分</h2>
+              <p style="margin-bottom: 20px;">
+                模組化的首要關鍵在於明確的「邊界上下文 (Bounded Context)」。不同業務模組之間僅能透過定義良好的介面 (API Contract) 進行溝通，避免直接穿透底層資料庫或強相依內部邏輯。
+              </p>
+            </div>
+
+            <div style="margin-top: 48px; padding-top: 24px; border-top: 1px solid ${border};">
+              <h3 style="font-size: 18px; font-weight: 700; color: ${text}; margin-bottom: 16px;">留言回覆</h3>
+              <div style="padding: 16px; background: ${isDark ? '#1a1d2e' : '#f8fafc'}; border-radius: 8px; border: 1px solid ${border}; font-size: 13px; color: ${muted};">
+                Blogger 官方留言系統已整合於 XML 中，發布後訪客可直接登入 Google 帳號發表回覆。
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      html += `</div>`; // End Main Container
+
+      // 4. Footer
+      html += `
+        <footer style="background: ${cardBg}; border-top: 1px solid ${border}; padding: 32px 20px; margin-top: auto; text-align: center; font-size: 13px; color: ${muted};">
+          <div style="max-width: ${state.containerWidth}px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; gap: 12px;">
+            <div>© 2026 ${state.blogTitle}. 本主題由 Blogger Theme Studio 視覺化產生.</div>
+            <div style="display: flex; gap: 16px; font-size: 12px;">
+              <a href="#" style="color: ${muted}; text-decoration: none;">隱私權政策</a>
+              <a href="#" style="color: ${muted}; text-decoration: none;">RSS 訂閱</a>
+              <a href="#" style="color: ${muted}; text-decoration: none;">聯絡站長</a>
+            </div>
+          </div>
+        </footer>
+      `;
+
+      // 5. Back to top button
+      if (state.backToTop) {
+        html += `
+          <button style="position: fixed; bottom: 24px; right: 24px; width: 42px; height: 42px; border-radius: 50%; background: ${state.accent}; color: white; border: none; box-shadow: 0 4px 12px rgba(0,0,0,0.25); cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; z-index: 90;">
+            ↑
+          </button>
+        `;
+      }
+
+      root.innerHTML = html;
+    }
+
+    // Generate clean Blogger XML Theme
+    function generateBloggerXml() {
+      const isAutoDark = state.darkStrategy === 'auto';
+      const isDefaultDark = state.darkStrategy === 'dark';
+
+      let shadowLight = 'none';
+      if (state.cardShadow === 'subtle') shadowLight = '0 4px 16px -2px rgba(0,0,0,0.06)';
+      if (state.cardShadow === 'elevated') shadowLight = '0 10px 25px -3px rgba(0,0,0,0.1)';
+
+      let shadowDark = 'none';
+      if (state.cardShadow === 'subtle') shadowDark = '0 4px 20px -2px rgba(0,0,0,0.4)';
+      if (state.cardShadow === 'elevated') shadowDark = '0 12px 30px -4px rgba(0,0,0,0.6)';
+
+      let borderLight = 'none';
+      if (state.cardBorder === 'thin') borderLight = `1px solid ${state.lightBorder}`;
+      if (state.cardBorder === 'medium') borderLight = `2px solid ${state.lightBorder}`;
+
+      let borderDark = 'none';
+      if (state.cardBorder === 'thin') borderDark = `1px solid ${state.darkBorder}`;
+      if (state.cardBorder === 'medium') borderDark = `2px solid ${state.darkBorder}`;
+
+      let fontCss = "'Inter', 'Noto Sans TC', system-ui, -apple-system, sans-serif";
+      if (state.fontFamily === 'system') fontCss = "system-ui, -apple-system, sans-serif";
+      if (state.fontFamily === 'serif') fontCss = "'Georgia', 'Noto Serif TC', serif";
+      if (state.fontFamily === 'rounded') fontCss = "'M PLUS Rounded 1c', sans-serif";
+
+      
+      function escXml(s) {
+        if (!s) return "";
+        return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+      }
+      function escUrl(u) {
+        if (!u) return "";
+        return String(u).replace(/&/g, "&amp;");
+      }
+      const safeAvatar = escUrl(state.authorAvatar);
+      const safeAuthorName = escXml(state.authorName);
+      const safeAuthorTitle = escXml(state.authorTitle);
+      const safeAuthorBio = escXml(state.authorBio);
+      const safeBlogTitle = escXml(state.blogTitle);
+      const safeTagsTitle = escXml(state.sidebarTagsTitle);
+
+      const sTag = '<' + 'script>';
+      const eTag = '<' + '/script>';
+
+      const xml = `<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html>
+<html b:css='false' b:defaultwidgetversion='2' b:layoutsversion='3' expr:dir='data:blog.languageDirection' expr:lang='data:blog.locale' xmlns='http://www.w3.org/1999/xhtml' xmlns:b='http://www.google.com/2005/gml/b' xmlns:data='http://www.google.com/2005/gml/data' xmlns:expr='http://www.google.com/2005/gml/expr'>
+<head>
+  <meta charset='utf-8'/>
+  <meta content='width=device-width, initial-scale=1' name='viewport'/>
+  <title><data:blog.pageTitle/></title>
+  <b:include data='blog' name='all-head-content'/>
+
+  <!-- Google Web Fonts -->
+  <link rel='preconnect' href='https://fonts.googleapis.com'/>
+  <link rel='preconnect' href='https://fonts.gstatic.com' crossorigin='crossorigin'/>
+  <link href='https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Noto+Sans+TC:wght@400;500;600;700&amp;display=swap' rel='stylesheet'/>
+
+  <b:skin><![CDATA[
+  /* ==========================================================================
+     Blogger Theme Studio - Modern Minimalist Card Theme
+     ========================================================================== */
+
+  :root {
+    --accent: ${state.accent};
+    --accent-hover: ${state.accent}ee;
+    --accent-glow: ${state.accent}1a;
+    --bg-page: ${state.lightBg};
+    --bg-card: ${state.lightCardBg};
+    --text-main: ${state.lightText};
+    --text-muted: ${state.lightMuted};
+    --border-color: ${state.lightBorder};
+    --card-shadow: ${shadowLight};
+    --card-border: ${borderLight};
+    --radius-card: ${state.cardRadius}px;
+    --card-padding: ${state.cardPadding}px;
+    --container-max-width: ${state.containerWidth}px;
+    --sidebar-width: ${state.sidebarWidth}px;
+    --font-family: ${fontCss};
+  }
+
+  html.dark {
+    --bg-page: ${state.darkBg};
+    --bg-card: ${state.darkCardBg};
+    --text-main: ${state.darkText};
+    --text-muted: ${state.darkMuted};
+    --border-color: ${state.darkBorder};
+    --card-shadow: ${shadowDark};
+    --card-border: ${borderDark};
+  }
+
+  /* Reset & Base */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    background-color: var(--bg-page);
+    color: var(--text-main);
+    font-family: var(--font-family);
+    line-height: 1.6;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+  }
+
+  a { color: inherit; text-decoration: none; transition: color 0.15s; }
+  a:hover { color: var(--accent); }
+
+  /* Reading Progress Bar */
+  #reading-progress-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 3px;
+    background: var(--accent);
+    width: 0%;
+    z-index: 1000;
+    transition: width 0.1s;
+  }
+
+  /* Navigation Header */
+  .site-header {
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-color);
+    padding: 18px 24px;
+    ${state.stickyHeader ? 'position: sticky; top: 0; z-index: 100; backdrop-filter: blur(12px);' : ''}
+  }
+  .header-inner {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .brand-logo a {
+    font-size: 22px;
+    font-weight: ${state.titleWeight};
+    color: var(--text-main);
+    letter-spacing: -0.02em;
+  }
+  .brand-tagline {
+    font-size: 12px;
+    color: var(--text-muted);
+    margin-top: 2px;
+  }
+  .header-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .nav-link {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+  .nav-link:hover, .nav-link.active {
+    color: var(--accent);
+  }
+
+  .theme-toggle-button {
+    background: var(--bg-page);
+    border: 1px solid var(--border-color);
+    color: var(--text-main);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+  .theme-toggle-button:hover {
+    transform: scale(1.05);
+    border-color: var(--accent);
+  }
+
+  /* Main Layout */
+  .site-main-container {
+    max-width: var(--container-max-width);
+    margin: 36px auto;
+    padding: 0 20px;
+    flex: 1;
+    width: 100%;
+  }
+
+  .layout-wrapper {
+    display: flex;
+    gap: 32px;
+  }
+  .content-column {
+    flex: 1;
+    min-width: 0;
+  }
+  .sidebar-column {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    ${state.sidebarPosition === 'left' ? 'order: -1;' : ''}
+    ${state.sidebarPosition === 'none' ? 'display: none !important;' : ''}
+  }
+
+  /* Post Cards Grid */
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(${state.gridCols}, 1fr);
+    gap: ${state.cardGap}px;
+  }
+
+  .post-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    ${state.hoverLift ? 'transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;' : ''}
+  }
+  ${state.hoverLift ? `
+  .post-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 28px -4px rgba(0,0,0,0.12);
+  }
+  ` : ''}
+
+  .card-thumbnail-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: ${state.thumbRatio};
+    overflow: hidden;
+    background: var(--border-color);
+  }
+  .card-thumbnail-wrap img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    ${state.thumbZoom ? 'transition: transform 0.4s ease;' : ''}
+  }
+  ${state.thumbZoom ? `
+  .post-card:hover .card-thumbnail-wrap img {
+    transform: scale(1.05);
+  }
+  ` : ''}
+
+  .placeholder-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, var(--bg-page) 0%, var(--border-color) 100%);
+  }
+  .thumb-placeholder-pattern {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--accent-glow);
+    color: var(--accent);
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .card-body {
+    padding: var(--card-padding);
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+
+  .card-meta-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 12px;
+  }
+  .card-tag {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+    background: var(--accent-glow);
+    color: var(--accent);
+  }
+  .card-date {
+    color: var(--text-muted);
+  }
+
+  .card-title {
+    font-size: 18px;
+    font-weight: ${state.titleWeight};
+    color: var(--text-main);
+    line-height: 1.4;
+    margin-bottom: 10px;
+    letter-spacing: -0.01em;
+  }
+  .card-title a:hover {
+    color: var(--accent);
+  }
+
+  .card-snippet {
+    font-size: 13.5px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: ${state.lineClamp};
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    flex: 1;
+  }
+
+  .card-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 14px;
+    border-top: 1px solid var(--border-color);
+    margin-top: auto;
+    font-size: 12px;
+  }
+  .card-author-wrap {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card-author-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+  .card-author-name {
+    color: var(--text-main);
+    font-weight: 500;
+  }
+  .card-readmore {
+    font-weight: 600;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  /* Single Post */
+  .single-post-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    padding: 36px;
+  }
+  .single-post-title {
+    font-size: 28px;
+    font-weight: ${state.titleWeight};
+    color: var(--text-main);
+    line-height: 1.3;
+    margin: 12px 0 16px;
+  }
+  .single-meta-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 13px;
+    color: var(--text-muted);
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 28px;
+  }
+  .single-post-body {
+    font-size: 16px;
+    line-height: 1.85;
+    color: var(--text-main);
+  }
+  .single-post-body img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 20px 0;
+  }
+  .single-post-body blockquote {
+    border-left: 4px solid var(--accent);
+    padding: 14px 20px;
+    background: var(--bg-page);
+    border-radius: 0 8px 8px 0;
+    margin: 24px 0;
+    color: var(--text-muted);
+    font-style: italic;
+  }
+
+  /* Pagination */
+  .blog-pager {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin: 40px 0 20px;
+  }
+  .blog-pager a {
+    padding: 9px 18px;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    background: var(--bg-card);
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text-main);
+  }
+  .blog-pager a:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+  }
+
+  /* Sidebar Widgets */
+  .sidebar-widget {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    padding: 24px;
+    margin-bottom: 24px;
+  }
+  .author-card-box {
+    text-align: center;
+  }
+  .author-avatar-wrap {
+    margin-bottom: 12px;
+  }
+  .author-avatar-img {
+    width: 76px;
+    height: 76px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin: 0 auto;
+    display: block;
+    border: 3px solid var(--accent-glow);
+  }
+  .author-display-name {
+    font-size: 16px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  .author-job-title {
+    font-size: 12px;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .author-description-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.55;
+    margin-bottom: 16px;
+  }
+  .author-social-links {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+  .social-btn {
+    font-size: 12px;
+    padding: 5px 12px;
+    border-radius: 4px;
+    background: var(--bg-page);
+    color: var(--text-main);
+    font-weight: 500;
+    border: 1px solid var(--border-color);
+    text-decoration: none;
+    transition: all 0.15s;
+  }
+  .social-btn:hover {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .widget-title {
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin-bottom: 14px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border-color);
+  }
+  .tags-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* Footer */
+  .site-footer {
+    background: var(--bg-card);
+    border-top: 1px solid var(--border-color);
+    padding: 32px 20px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-top: auto;
+  }
+
+  /* Back to Top Button */
+  #back-to-top-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: white;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    transition: opacity 0.2s, transform 0.2s;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 99;
+  }
+  #back-to-top-btn.visible {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  #back-to-top-btn:hover {
+    transform: translateY(-2px);
+  }
+
+  /* Responsive Breakpoints */
+  @media (max-width: 992px) {
+    .layout-wrapper { flex-direction: column; }
+    .sidebar-column { width: 100%; }
+    .posts-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .posts-grid { grid-template-columns: 1fr; }
+    .single-post-card { padding: 20px; }
+  }
+  ]]></b:skin>
+
+  <!-- Prevent FOUC Script -->
+  ` + sTag + `
+    //<![CDATA[
+    (function() {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && ${isDefaultDark ? 'true' : (isAutoDark ? 'prefersDark' : 'false')})) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    })();
+    //]]>
+  ` + eTag + `
+</head>
+<body>
+
+  ` + (state.readingProgress ? `<div id='reading-progress-bar'></div>` : '') + `
+
+  <!-- Header Section -->
+  <header class='site-header'>
+    <div class='header-inner'>
+      <div class='brand-logo'>
+        <b:section id='header-brand' name='部落格標頭' maxwidgets='1' showaddelement='no'>
+          <b:widget id='Header1' locked='true' title='網站標題' type='Header' version='2'>
+            <b:includable id='main'>
+              <a expr:href='data:blog.homepageUrl'><data:title/></a>
+              <b:if cond='data:description'>
+                <div class='brand-tagline'><data:description/></div>
+              </b:if>
+            </b:includable>
+          </b:widget>
+        </b:section>
+      </div>
+
+      <nav class='header-nav'>
+        <a class='nav-link' expr:href='data:blog.homepageUrl'>首頁</a>
+        <button class='theme-toggle-button' id='dark-mode-toggle' title='切換深色/淺色模式' type='button'>
+          <span id='theme-icon'>🌙</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Content Layout -->
+  <div class='site-main-container'>
+    <div class='layout-wrapper'>
+      <!-- Posts Stream -->
+      <main class='content-column'>
+        <b:section id='main-posts' name='網誌文章主區' showaddelement='no'>
+          <b:widget id='Blog1' locked='true' title='網誌文章' type='Blog' version='2'>
+            <!-- Main includable -->
+            <b:includable id='main'>
+              <b:if cond='data:view.isMultipleItems'>
+                <!-- Index Grid View -->
+                <div class='posts-grid'>
+                  <b:loop values='data:posts' var='post'>
+                    <article class='post-card'>
+                      <!-- Thumbnail with image fallback -->
+                      <b:if cond='data:post.firstImageUrl'>
+                        <div class='card-thumbnail-wrap'>
+                          <a expr:href='data:post.url'>
+                            <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
+                          </a>
+                        </div>
+                      <b:elseif cond='data:post.featuredImage'/>
+                        <div class='card-thumbnail-wrap'>
+                          <a expr:href='data:post.url'>
+                            <img expr:alt='data:post.title' expr:src='data:post.featuredImage' loading='lazy'/>
+                          </a>
+                        </div>
+                      <b:else/>
+                        ` + (state.fallbackThumb ? `
+                        <div class='card-thumbnail-wrap placeholder-wrap'>
+                          <div class='thumb-placeholder-pattern'>
+                            <span class='placeholder-icon'>✦</span>
+                          </div>
+                        </div>
+                        ` : '') + `
+                      </b:if>
+
+                      <div class='card-body'>
+                        <div class='card-meta-top'>
+                          ` + (state.showTags ? `
+                          <b:if cond='data:post.labels'>
+                            <b:loop values='data:post.labels' var='label'>
+                              <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
+                            </b:loop>
+                          <b:else/>
+                            <span class='card-tag'>未分類</span>
+                          </b:if>
+                          ` : '') + `
+
+                          ` + (state.showDate ? `
+                          <span class='card-date'>
+                            <b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader ?: "近期文章"'/>
+                          </span>
+                          ` : '') + `
+                        </div>
+
+                        <h2 class='card-title'>
+                          <a expr:href='data:post.url'><data:post.title/></a>
+                        </h2>
+
+                        <div class='card-snippet'>
+                          <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 120, links: false, linebreaks: false } ?: "點擊閱讀全文以查看完整文章內容..."'/>
+                        </div>
+
+                        <div class='card-footer'>
+                          ` + (state.showAuthor ? `
+                          <div class='card-author-wrap'>
+                            <img src='${safeAvatar}' class='card-author-avatar' alt='author'/>
+                            <span class='card-author-name'>
+                              <b:eval expr='data:post.author.name ?: data:post.author ?: "${safeAuthorName}"'/>
+                            </span>
+                          </div>
+                          ` : '<div></div>') + `
+
+                          ` + (state.showReadMore ? `
+                          <a class='card-readmore' expr:href='data:post.url'>閱讀全文 →</a>
+                          ` : '') + `
+                        </div>
+                      </div>
+                    </article>
+                  </b:loop>
+                </div>
+              </b:if>
+
+              <b:if cond='data:view.isSingleItem'>
+                <!-- Single Post View -->
+                <b:loop values='data:posts' var='post'>
+                  <article class='single-post-card'>
+                    <b:if cond='data:post.labels'>
+                      <div style='margin-bottom: 8px;'>
+                        <b:loop values='data:post.labels' var='label'>
+                          <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
+                        </b:loop>
+                      </div>
+                    </b:if>
+
+                    <h1 class='single-post-title'><data:post.title/></h1>
+
+                    <div class='single-meta-bar'>
+                      <span><b:eval expr='data:post.author.name ?: data:post.author ?: "${safeAuthorName}"'/></span>
+                      <span>•</span>
+                      <span><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
+                    </div>
+
+                    <div class='single-post-body'>
+                      <data:post.body/>
+                    </div>
+
+                    <b:include data='post' name='comments'/>
+                  </article>
+                </b:loop>
+              </b:if>
+
+              <!-- Pagination Navigation -->
+              <b:include name='nextprev'/>
+            </b:includable>
+
+            <!-- Required Includables for Blogger Validator -->
+            <b:includable id='nextprev'>
+              <div class='blog-pager'>
+                <b:if cond='data:newerPageUrl'>
+                  <a class='blog-pager-newer-link' expr:href='data:newerPageUrl'>← 較新的文章</a>
+                </b:if>
+                <b:if cond='data:olderPageUrl'>
+                  <a class='blog-pager-older-link' expr:href='data:olderPageUrl'>較舊的文章 →</a>
+                </b:if>
+              </div>
+            </b:includable>
+
+            <b:includable id='comments' var='post'>
+              <b:if cond='data:post.allowComments'>
+                <div class='comments-container' style='margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-color);'>
+                  <h3 style='font-size: 18px; margin-bottom: 16px;'>發表留言</h3>
+                  <b:include data='post' name='comment-form'/>
+                </div>
+              </b:if>
+            </b:includable>
+
+            <b:includable id='comment-form'/>
+            <b:includable id='backlinks'/>
+            <b:includable id='status-message'/>
+            <b:includable id='shareButtons'/>
+            <b:includable id='feedLinks'/>
+            <b:includable id='feedLinksBody'/>
+            <b:includable id='postQuickEdit'/>
+            <b:includable id='commentDeleteIcon'/>
+            <b:includable id='backlinkDeleteIcon'/>
+            <b:includable id='mobile-nextprev'/>
+            <b:includable id='mobile-index-post'/>
+          </b:widget>
+        </b:section>
+      </main>
+
+      <!-- Sidebar Section -->
+      <aside class='sidebar-column'>
+        <b:section id='sidebar-widgets' name='側邊欄小工具' showaddelement='yes'>
+          <!-- Author Card Widget (HTML Widget: Always reliably rendered & 100% matches Editor) -->
+          <b:widget id='HTML2' locked='false' title='關於作者' type='HTML' version='2'>
+            <b:includable id='main'>
+              <div class='sidebar-widget author-card-box'>
+                <div class='author-avatar-wrap'>
+                  <img src='${safeAvatar}' alt='${safeAuthorName}' class='author-avatar-img'/>
+                </div>
+                <h4 class='author-display-name'>${safeAuthorName}</h4>
+                <div class='author-job-title'>${safeAuthorTitle}</div>
+                <p class='author-description-text'>${safeAuthorBio}</p>
+                <div class='author-social-links'>
+                  ` + (state.socialGithub ? `<a href='${state.socialGithub}' target='_blank' rel='noopener' class='social-btn'>GitHub</a>` : '') + `
+                  ` + (state.socialTwitter ? `<a href='${state.socialTwitter}' target='_blank' rel='noopener' class='social-btn'>Twitter</a>` : '') + `
+                  ` + (state.socialEmail ? `<a href='mailto:${state.socialEmail}' class='social-btn'>Email</a>` : '') + `
+                </div>
+              </div>
+            </b:includable>
+          </b:widget>
+
+          <!-- Label / Tag Cloud Widget -->
+          <b:widget id='Label1' locked='false' title='${safeTagsTitle}' type='Label' version='2'>
+            <b:includable id='main'>
+              <div class='sidebar-widget tags-cloud-box'>
+                <div class='widget-title'><data:title/></div>
+                <div class='tags-wrapper'>
+                  <b:if cond='data:labels.notEmpty'>
+                    <b:loop values='data:labels' var='label'>
+                      <a class='card-tag' expr:href='data:label.url'><data:label.name/> (<data:label.count/>)</a>
+                    </b:loop>
+                  <b:else/>
+                    <!-- Fallback tags when blog has no labels yet -->
+                    <span class='card-tag'>軟體架構 (12)</span>
+                    <span class='card-tag'>人工智慧 (8)</span>
+                    <span class='card-tag'>設計美學 (6)</span>
+                    <span class='card-tag'>生活哲思 (15)</span>
+                  </b:if>
+                </div>
+              </div>
+            </b:includable>
+          </b:widget>
+        </b:section>
+      </aside>
+    </div>
+  </div>
+
+  <!-- Footer Section -->
+  <footer class='site-footer'>
+    <div style='max-width: var(--container-max-width); margin: 0 auto;'>
+      <b:section id='footer-section' name='頁尾宣告' maxwidgets='1' showaddelement='no'>
+        <b:widget id='HTML1' locked='true' title='頁尾文字' type='HTML' version='2'>
+          <b:includable id='main'>
+            <div>© ` + sTag + `document.write(new Date().getFullYear())` + eTag + ` <data:blog.title/>. 極簡卡片主題版型.</div>
+          </b:includable>
+        </b:widget>
+      </b:section>
+    </div>
+  </footer>
+
+  ` + (state.backToTop ? `<button id='back-to-top-btn' title='回到頂部' type='button'>↑</button>` : '') + `
+
+  <!-- Interactive Scripts (Dark mode & Progress) -->
+  ` + sTag + `
+    //<![CDATA[
+    document.addEventListener('DOMContentLoaded', function() {
+      // Dark mode toggle listener
+      var toggleBtn = document.getElementById('dark-mode-toggle');
+      var icon = document.getElementById('theme-icon');
+
+      function updateIcon() {
+        if (!icon) return;
+        var isDark = document.documentElement.classList.contains('dark');
+        icon.textContent = isDark ? '☀️' : '🌙';
+      }
+      updateIcon();
+
+      if (toggleBtn) {
+        toggleBtn.addEventListener('click', function() {
+          var isDark = document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', isDark ? 'dark' : 'light');
+          updateIcon();
+        });
+      }
+
+      // Scroll Progress & Back to top
+      var prog = document.getElementById('reading-progress-bar');
+      var topBtn = document.getElementById('back-to-top-btn');
+
+      window.addEventListener('scroll', function() {
+        var h = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+        if (h > 0) {
+          var scrolled = (window.scrollY / h) * 100;
+          if (prog) prog.style.width = scrolled + '%';
+        }
+        if (topBtn) {
+          if (window.scrollY > 300) {
+            topBtn.classList.add('visible');
+          } else {
+            topBtn.classList.remove('visible');
+          }
+        }
+      });
+
+      if (topBtn) {
+        topBtn.addEventListener('click', function() {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+      }
+    });
+    //]]>
+  ` + eTag + `
+</body>
+</html>`;
+
+      return xml;
+    }
+
+    // Modal controls
+    function openCodeModal() {
+      const xml = generateBloggerXml();
+      const view = document.getElementById('xml-code-view');
+      if (view) view.textContent = xml;
+      const modal = document.getElementById('code-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function openGuideModal() {
+      const modal = document.getElementById('guide-modal');
+      if (modal) modal.classList.add('active');
+    }
+
+    function closeModal(id) {
+      const modal = document.getElementById(id);
+      if (modal) modal.classList.remove('active');
+    }
+
+    // Copy XML to clipboard
+    function copyXmlCode() {
+      const xml = generateBloggerXml();
+      navigator.clipboard.writeText(xml).then(() => {
+        showToast('已成功複製 Blogger XML 程式碼至剪貼簿！');
+      }).catch(() => {
+        const ta = document.createElement('textarea');
+        ta.value = xml;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand('copy');
+        document.body.removeChild(ta);
+        showToast('已成功複製 Blogger XML 程式碼至剪貼簿！');
+      });
+    }
+
+    // Download XML file
+    function downloadXmlFile() {
+      const xml = generateBloggerXml();
+      const blob = new Blob([xml], { type: 'text/xml;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'blogger-minimalist-card-theme.xml';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
+      showToast('已成功下載 theme.xml 檔案！');
+    }
+
+    // Toast
+    function showToast(text) {
+      const t = document.getElementById('toast-msg');
+      const msg = document.getElementById('toast-text');
+      if (msg) msg.textContent = text;
+      if (t) {
+        t.classList.add('show');
+        setTimeout(() => t.classList.remove('show'), 3500);
+      }
+    }
+
+    // Initialize immediately and on DOMContentLoaded
+    function initApp() {
+      renderPreview();
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initApp);
+    } else {
+      initApp();
+    }
+  </script>
+</body>
+</html>
