@@ -1,5 +1,10 @@
 # 🎨 Blogger Theme Studio | 現代極簡卡片版型視覺編輯器
 
+## 點開就可以使用
+https://philko2017.github.io/blogger-theme-studio/
+
+<img width="1680" height="958" alt="image" src="https://github.com/user-attachments/assets/d3381d09-5f7c-4cb4-8a43-19078333c389" />
+
 > 一款專為 Google Blogger 打造的開源視覺化版面編輯器與現代極簡卡片主題生成器。  
 > 告別 Blogger 後台繁雜僵化的預設樣式，透過直觀的視覺控制項，一鍵產出乾淨、輕量且相容官方規範的完整主題 XML 代碼。
 
