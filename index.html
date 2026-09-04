@@ -2447,6 +2447,78 @@
   }
 
   
+  /* Top Wrappers for Intro & Featured */
+  .intro-banners-wrapper {
+    max-width: var(--container-max-width);
+    margin: 32px auto 0;
+    padding: 0 20px;
+    width: 100%;
+  }
+  .featured-post-wrapper {
+    max-width: var(--container-max-width);
+    margin: 28px auto 0;
+    padding: 0 20px;
+    width: 100%;
+  }
+  #intro-section {
+    padding: 0;
+    margin: 0;
+  }
+  #intro-section > .widget {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+  }
+  #intro-section.equal-1 { display: grid; grid-template-columns: 1fr; }
+  #intro-section.equal-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  #intro-section.equal-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  #intro-section.equal-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  #intro-section.equal-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
+  #intro-section.equal-1 .visual-banner-item { height: 220px; }
+  #intro-section.equal-2 .visual-banner-item { height: 190px; }
+  #intro-section.equal-3 .visual-banner-item { height: 175px; }
+  #intro-section.equal-4 .visual-banner-item { height: 165px; }
+  #intro-section.equal-5 .visual-banner-item { height: 160px; }
+
+  #intro-section.hero-3 {
+    display: grid;
+    grid-template-columns: 1.4fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 360px;
+  }
+  #intro-section.hero-3 > .widget:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; height: 100%; }
+  #intro-section.hero-3 > .widget:nth-child(1) .visual-banner-title { font-size: 24px; }
+
+  #intro-section.hero-5 {
+    display: grid;
+    grid-template-columns: 1.35fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    gap: 14px;
+    height: 380px;
+  }
+  #intro-section.hero-5 > .widget:nth-child(1) { grid-column: 1 / 2; grid-row: 1 / 3; height: 100%; }
+  #intro-section.hero-5 > .widget:nth-child(1) .visual-banner-title { font-size: 24px; }
+  #intro-section.hero-5 > .widget:nth-child(2) { grid-column: 2 / 3; grid-row: 1 / 2; height: 100%; }
+  #intro-section.hero-5 > .widget:nth-child(3) { grid-column: 3 / 4; grid-row: 1 / 2; height: 100%; }
+  #intro-section.hero-5 > .widget:nth-child(4) { grid-column: 2 / 3; grid-row: 2 / 3; height: 100%; }
+  #intro-section.hero-5 > .widget:nth-child(5) { grid-column: 3 / 4; grid-row: 2 / 3; height: 100%; }
+
+  @media (max-width: 768px) {
+    #intro-section.hero-5, #intro-section.hero-3,
+    #intro-section.equal-3, #intro-section.equal-4, #intro-section.equal-5 {
+      display: flex !important;
+      flex-direction: column !important;
+      height: auto !important;
+      gap: 12px !important;
+    }
+    #intro-section > .widget {
+      height: 160px !important;
+      grid-column: auto !important;
+      grid-row: auto !important;
+    }
+  }
+
   /* Visual Image Banners (1 ~ 5 Tiles, Equal or Hero Grid) */
   .visual-banners-container {
     margin-bottom: 32px;
@@ -3007,11 +3079,11 @@
 
   ` + (state.readingProgress ? `<div id='reading-progress-bar'></div>` : '') + `
 
-  <!-- Header Section -->
+  <!-- 1. HEADER SECTION (Full Width Top) -->
   <header class='site-header'>
     <div class='header-inner'>
       <div class='brand-logo'>
-        <b:section id='header-brand' name='部落格標頭' maxwidgets='1' showaddelement='no'>
+        <b:section id='header' name='部落格標頭區 (Header)' class='header' maxwidgets='1' showaddelement='no'>
           <b:widget id='Header1' locked='true' title='網站標題' type='Header' version='2'>
             <b:includable id='main'>
               <a expr:href='data:blog.homepageUrl'><data:title/></a>
@@ -3032,94 +3104,112 @@
     </div>
   </header>
 
-  <!-- Main Content Layout -->
+  <!-- 2. INTRO SECTION - 5 IMAGE GADGETS (Full Width Band below Header) -->
+  ` + (state.showVisualBanner ? (function() {
+    const bCnt = Math.min(5, Math.max(1, state.bannerCount || 3));
+    const isH = state.bannerLayout === 'hero';
+    let layoutClass = 'equal-' + bCnt;
+    if (isH && (bCnt === 3 || bCnt === 5)) {
+      layoutClass = 'hero-' + bCnt;
+    }
+
+    const bData = [
+      { id: 'Image1', t: safeB1Title, s: safeB1Sub, i: safeB1Img, l: safeB1Link },
+      { id: 'Image2', t: safeB2Title, s: safeB2Sub, i: safeB2Img, l: safeB2Link },
+      { id: 'Image3', t: safeB3Title, s: safeB3Sub, i: safeB3Img, l: safeB3Link },
+      { id: 'Image4', t: safeB4Title, s: safeB4Sub, i: safeB4Img, l: safeB4Link },
+      { id: 'Image5', t: safeB5Title, s: safeB5Sub, i: safeB5Img, l: safeB5Link }
+    ];
+
+    let bHtml = `<div class='intro-banners-wrapper'>
+      <b:section id='intro-section' name='INTRO SECTION - 5 圖文視覺選單' class='intro-section ` + layoutClass + `' showaddelement='yes'>`;
+
+    for (let idx = 0; idx < bCnt; idx++) {
+      const item = bData[idx];
+      bHtml += `
+        <b:widget id='` + item.id + `' locked='false' title='` + item.t + `' type='Image' version='2'>
+          <b:includable id='main'>
+            <b:if cond='data:view.isHomepage'>
+              <a class='visual-banner-item' expr:href='data:link ?: "` + (item.l || '#') + `"'>
+                <div class='visual-banner-img-wrap'>
+                  <img expr:alt='data:title ?: "` + item.t + `"' expr:src='data:sourceUrl ?: "` + item.i + `"' loading='lazy'/>
+                  <div class='visual-banner-overlay'></div>
+                </div>
+                <div class='visual-banner-content'>
+                  <b:if cond='data:caption'>
+                    <div class='visual-banner-sub'><data:caption/></div>
+                  <b:else/>
+                    ` + (item.s ? `<div class='visual-banner-sub'>` + item.s + `</div>` : '') + `
+                  </b:if>
+                  <h3 class='visual-banner-title'><b:eval expr='data:title ?: "` + item.t + `"'/></h3>
+                </div>
+              </a>
+            </b:if>
+          </b:includable>
+        </b:widget>`;
+    }
+    bHtml += `
+      </b:section>
+    </div>`;
+    return bHtml;
+  })() : '') + `
+
+  <!-- 3. FEATURED POST HERO SECTION (Full Width Band below Intro) -->
+  ` + (state.showFeaturedPost ? `
+  <div class='featured-post-wrapper'>
+    <b:section id='feature-post-section' name='置頂精選文章 (Featured Post)' class='feature-section' showaddelement='yes' maxwidgets='1'>
+      <b:widget id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
+        <b:includable id='main'>
+          <b:if cond='data:view.isHomepage'>
+            <b:if cond='data:post.title'>
+              <div class='featured-hero-box'>
+                <b:if cond='data:post.firstImageUrl'>
+                  <div class='featured-hero-thumb'>
+                    <a expr:href='data:post.url'>
+                      <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
+                    </a>
+                    <span class='featured-hero-badge'>★ 精選推薦</span>
+                  </div>
+                </b:if>
+                <div class='featured-hero-body'>
+                  <div class='card-meta-top'>
+                    <b:if cond='data:post.labels'>
+                      <b:loop values='data:post.labels' var='label'>
+                        <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
+                      </b:loop>
+                    </b:if>
+                    <span class='card-date'><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
+                  </div>
+                  <h2 class='featured-hero-title'>
+                    <a expr:href='data:post.url'><data:post.title/></a>
+                  </h2>
+                  <div class='card-snippet'>
+                    <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 150, links: false, linebreaks: false }'/>
+                  </div>
+                  <div style='margin-top: 14px;'>
+                    <a class='card-readmore' expr:href='data:post.url'>閱讀專題全文 →</a>
+                  </div>
+                </div>
+              </div>
+            </b:if>
+          </b:if>
+        </b:includable>
+      </b:widget>
+    </b:section>
+  </div>
+  ` : '') + `
+
+  <!-- 4. MAIN CONTENT & SIDEBAR (Side-by-side Columns in Backend & Frontend!) -->
   <div class='site-main-container'>
     <div class='layout-wrapper'>
       <!-- Posts Stream -->
       <main class='content-column'>
-      <!-- Top Feature 1: Visual Banners (1 ~ 5 Tiles, Equal or Hero Layout) -->
-      ` + (state.showVisualBanner ? (function() {
-        const bCnt = Math.min(5, Math.max(1, state.bannerCount || 3));
-        const isH = state.bannerLayout === 'hero';
-        let layoutClass = 'equal-' + bCnt;
-        if (isH && (bCnt === 3 || bCnt === 5)) {
-          layoutClass = 'hero-' + bCnt;
-        }
+        <div class='section-divider-title'>
+          <span>開始探險 »</span>
+          <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>全部文章列表</span>
+        </div>
 
-        const bData = [
-          { t: safeB1Title, s: safeB1Sub, i: safeB1Img, l: safeB1Link },
-          { t: safeB2Title, s: safeB2Sub, i: safeB2Img, l: safeB2Link },
-          { t: safeB3Title, s: safeB3Sub, i: safeB3Img, l: safeB3Link },
-          { t: safeB4Title, s: safeB4Sub, i: safeB4Img, l: safeB4Link },
-          { t: safeB5Title, s: safeB5Sub, i: safeB5Img, l: safeB5Link }
-        ];
-
-        let bHtml = `<div class='visual-banners-container'><div class='visual-banners-inner ` + layoutClass + `'>`;
-        for (let idx = 0; idx < bCnt; idx++) {
-          const item = bData[idx];
-          bHtml += `
-          <a class='visual-banner-item' href='` + (item.l || '#') + `'>
-            <div class='visual-banner-img-wrap'>
-              <img src='` + item.i + `' alt='` + item.t + `' loading='lazy'/>
-              <div class='visual-banner-overlay'></div>
-            </div>
-            <div class='visual-banner-content'>
-              ` + (item.s ? `<div class='visual-banner-sub'>` + item.s + `</div>` : '') + `
-              <h3 class='visual-banner-title'>` + item.t + `</h3>
-            </div>
-          </a>`;
-        }
-        bHtml += `</div></div>`;
-        return bHtml;
-      })() : '') + `
-
-      <!-- Top Feature 2: Blogger Native Featured Post (Scheme B) -->
-      <b:if cond='data:view.isHomepage'>
-        <b:section id='feature-post-section' name='置頂精選文章區' maxwidgets='1' showaddelement='yes'>
-          <b:widget id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
-            <b:includable id='main'>
-              <b:if cond='data:post.title'>
-                <div class='featured-hero-box'>
-                  <b:if cond='data:post.firstImageUrl'>
-                    <div class='featured-hero-thumb'>
-                      <a expr:href='data:post.url'>
-                        <img expr:alt='data:post.title' expr:src='data:post.firstImageUrl' loading='lazy'/>
-                      </a>
-                      <span class='featured-hero-badge'>★ 精選推薦</span>
-                    </div>
-                  </b:if>
-                  <div class='featured-hero-body'>
-                    <div class='card-meta-top'>
-                      <b:if cond='data:post.labels'>
-                        <b:loop values='data:post.labels' var='label'>
-                          <a class='card-tag' expr:href='data:label.url'><data:label.name/></a>
-                        </b:loop>
-                      </b:if>
-                      <span class='card-date'><b:eval expr='data:post.date format "yyyy 年 MM 月 dd 日" ?: data:post.date ?: data:post.dateHeader'/></span>
-                    </div>
-                    <h2 class='featured-hero-title'>
-                      <a expr:href='data:post.url'><data:post.title/></a>
-                    </h2>
-                    <div class='card-snippet'>
-                      <b:eval expr='data:post.snippet ?: data:post.body snippet { length: 150, links: false, linebreaks: false }'/>
-                    </div>
-                    <div style='margin-top: 14px;'>
-                      <a class='card-readmore' expr:href='data:post.url'>閱讀專題全文 →</a>
-                    </div>
-                  </div>
-                </div>
-              </b:if>
-            </b:includable>
-          </b:widget>
-        </b:section>
-      </b:if>
-
-      <div class='section-divider-title'>
-        <span>開始探險 »</span>
-        <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>全部文章列表</span>
-      </div>
-
-        <b:section id='main-posts' name='網誌文章主區' showaddelement='no'>
+        <b:section id='main' name='網誌文章主區 (Main Posts)' class='main' showaddelement='no'>
           <b:widget id='Blog1' locked='true' title='網誌文章' type='Blog' version='2'>
             <!-- Main includable -->
             <b:includable id='main'>
@@ -3128,7 +3218,6 @@
                 <div class='posts-grid'>
                   <b:loop values='data:posts' var='post'>
                     <article class='post-card'>
-                      <!-- Thumbnail with image fallback -->
                       <b:if cond='data:post.firstImageUrl'>
                         <div class='card-thumbnail-wrap'>
                           <a expr:href='data:post.url'>
@@ -3269,7 +3358,7 @@
 
       <!-- Sidebar Section -->
       <aside class='sidebar-column'>
-        <b:section id='sidebar-widgets' name='側邊欄小工具' showaddelement='yes'>
+        <b:section id='sidebar' name='側邊欄小工具 (Sidebar)' class='sidebar' showaddelement='yes'>
           <!-- Author Card Widget (HTML Widget: Always reliably rendered & 100% matches Editor) -->
           <b:widget id='HTML2' locked='false' title='關於作者' type='HTML' version='2'>
             <b:includable id='main'>
@@ -3316,10 +3405,10 @@
     </div>
   </div>
 
-  <!-- Footer Section -->
+  <!-- 5. FOOTER SECTION (Full Width Bottom) -->
   <footer class='site-footer'>
     <div style='max-width: var(--container-max-width); margin: 0 auto;'>
-      <b:section id='footer-section' name='頁尾宣告' maxwidgets='1' showaddelement='no'>
+      <b:section id='footer' name='頁尾區域 (Footer)' class='footer' showaddelement='yes'>
         <b:widget id='HTML1' locked='true' title='頁尾文字' type='HTML' version='2'>
           <b:includable id='main'>
             <div>© ` + sTag + `document.write(new Date().getFullYear())` + eTag + ` <data:blog.title/>. 極簡卡片主題版型.</div>
@@ -3330,6 +3419,7 @@
   </footer>
 
   ` + (state.backToTop ? `<button id='back-to-top-btn' title='回到頂部' type='button'>↑</button>` : '') + `
+
 
   <!-- Interactive Scripts (Dark mode & Progress) -->
   ` + sTag + `
