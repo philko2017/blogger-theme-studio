@@ -2,7 +2,7 @@
 
 ## 點開就可以使用
 https://philko2017.github.io/blogger-theme-studio/
-<img width="1680" height="955" alt="image" src="https://github.com/user-attachments/assets/ccd4f20c-cabd-42df-a6cc-adf16b5fa862" />
+<img width="1678" height="959" alt="image" src="https://github.com/user-attachments/assets/5d29250e-5cc1-4f7e-8931-8275499cabdb" />
 
 
 > 一款專為 Google Blogger 打造的開源視覺化版面編輯器與現代極簡卡片主題生成器。  
