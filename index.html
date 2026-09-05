@@ -2533,8 +2533,8 @@
     padding: 0;
   }
   
-  /* ==========================================================================
-     Intelligent Auto-Detect Quantity Layouts & 16:9 Aspect Ratio Rules
+    /* ==========================================================================
+     Intelligent Dynamic Quantity Layouts (1, 2, 3, 4, 5 Widgets Auto-Adapt)
      ========================================================================== */
 
   #intro-section {
@@ -2543,233 +2543,182 @@
     width: 100%;
   }
 
-  /* All widgets & contents stretch */
-  #intro-section .widget,
+  #intro-section .widget {
+    display: flex !important;
+    flex-direction: column !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    box-sizing: border-box !important;
+    overflow: hidden !important;
+  }
+
   #intro-section .widget-content {
     display: flex !important;
     flex-direction: column !important;
     height: 100% !important;
+    width: 100% !important;
+    min-width: 0 !important;
+    max-width: 100% !important;
     margin: 0 !important;
     padding: 0 !important;
     box-sizing: border-box !important;
+    position: relative !important;
+    overflow: hidden !important;
   }
 
-  .visual-banner-item {
-    text-decoration: none;
-    position: relative;
-    border-radius: var(--radius-card);
-    overflow: hidden;
-    display: flex;
-    align-items: flex-end;
-    padding: 18px;
-    box-shadow: var(--card-shadow);
-    border: var(--card-border);
-    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
-    box-sizing: border-box !important;
-    width: 100%;
-  }
-  .visual-banner-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 24px -2px rgba(0,0,0,0.22);
-  }
-  .visual-banner-img-wrap img {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    object-fit: cover;
-    z-index: 1;
-    transition: transform 0.4s ease;
-  }
-  .visual-banner-item:hover .visual-banner-img-wrap img {
-    transform: scale(1.06);
-  }
-  .visual-banner-overlay {
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.05) 100%);
-    z-index: 2;
-  }
-  .visual-banner-content {
-    position: relative;
-    z-index: 3;
-    color: #ffffff;
-  }
-  .visual-banner-sub {
-    font-size: 11.5px;
-    color: rgba(255, 255, 255, 0.88);
-    margin-bottom: 4px;
-    font-weight: 500;
-    letter-spacing: 0.02em;
-  }
-  .visual-banner-title {
-    font-size: 17.5px;
-    font-weight: 700;
-    line-height: 1.3;
-    color: #ffffff;
-    letter-spacing: -0.01em;
-  }
-
-  /* CASE 1: 1 Widget -> Single 16:9 Banner across full width */
-  #intro-section:has(> .widget:nth-child(1)):not(:has(> .widget:nth-child(2))),
-  #intro-section.count-1,
-  #intro-section[data-count='1'],
-  #intro-section.equal-1 {
+  #intro-section img {
+    max-width: 100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    object-fit: cover !important;
     display: block !important;
-    width: 100%;
   }
-  #intro-section:has(> .widget:nth-child(1)):not(:has(> .widget:nth-child(2))) .visual-banner-item,
-  #intro-section.count-1 .visual-banner-item,
+
+  /* 1 Widget Layout: Single 16:9 banner across full width */
+  #intro-section.layout-count-1,
+  #intro-section[data-count='1'],
+  #intro-section.count-1,
+  #intro-section:has(> .widget:nth-child(1)):not(:has(> .widget:nth-child(2))) {
+    display: block !important;
+    width: 100% !important;
+  }
+  #intro-section.layout-count-1 .visual-banner-item,
   #intro-section[data-count='1'] .visual-banner-item,
-  #intro-section.equal-1 .visual-banner-item {
+  #intro-section.count-1 .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(1)):not(:has(> .widget:nth-child(2))) .visual-banner-item {
     aspect-ratio: 16 / 9 !important;
     max-height: 480px;
+    width: 100% !important;
   }
 
-  /* CASE 2: 2 Widgets -> 2 Columns side-by-side, strictly 16:9 */
-  #intro-section:has(> .widget:nth-child(2)):not(:has(> .widget:nth-child(3))),
-  #intro-section.count-2,
+  /* 2 Widgets Layout: 2 columns 16:9 side-by-side */
+  #intro-section.layout-count-2,
   #intro-section[data-count='2'],
-  #intro-section.equal-2 {
+  #intro-section.count-2,
+  #intro-section:has(> .widget:nth-child(2)):not(:has(> .widget:nth-child(3))) {
     display: grid !important;
     grid-template-columns: repeat(2, 1fr) !important;
     gap: 16px !important;
-    width: 100%;
+    width: 100% !important;
   }
-  #intro-section:has(> .widget:nth-child(2)):not(:has(> .widget:nth-child(3))) .visual-banner-item,
-  #intro-section.count-2 .visual-banner-item,
+  #intro-section.layout-count-2 .visual-banner-item,
   #intro-section[data-count='2'] .visual-banner-item,
-  #intro-section.equal-2 .visual-banner-item {
+  #intro-section.count-2 .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(2)):not(:has(> .widget:nth-child(3))) .visual-banner-item {
     aspect-ratio: 16 / 9 !important;
     width: 100% !important;
   }
 
-  /* CASE 4: 4 Widgets -> 2x2 Grid (2 rows, 2 each), strictly 16:9 */
-  #intro-section:has(> .widget:nth-child(4)):not(:has(> .widget:nth-child(5))),
-  #intro-section.count-4,
-  #intro-section[data-count='4'],
-  #intro-section.equal-4 {
-    display: grid !important;
-    grid-template-columns: repeat(2, 1fr) !important;
-    gap: 16px !important;
-    width: 100%;
-  }
-  #intro-section:has(> .widget:nth-child(4)):not(:has(> .widget:nth-child(5))) .visual-banner-item,
-  #intro-section.count-4 .visual-banner-item,
-  #intro-section[data-count='4'] .visual-banner-item,
-  #intro-section.equal-4 .visual-banner-item {
-    aspect-ratio: 16 / 9 !important;
-    width: 100% !important;
-  }
-
-  /* CASE 3: 3 Widgets -> Left Enlarged Hero + Right 2 Stacked 16:9 */
-  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))),
-  #intro-section.count-3,
+  /* 3 Widgets Layout: Left enlarged hero + Right 2 stacked 16:9 */
+  #intro-section.layout-count-3,
   #intro-section[data-count='3'],
-  #intro-section.hero-3 {
+  #intro-section.count-3,
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) {
     display: grid !important;
     grid-template-columns: 1.35fr 1fr !important;
-    grid-template-rows: auto auto !important;
+    grid-template-rows: 1fr 1fr !important;
     gap: 14px !important;
-    width: 100%;
+    width: 100% !important;
   }
-  /* Card 1: Spans vertically across both rows */
-  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1),
-  #intro-section.count-3 > .widget:nth-child(1),
+  #intro-section.layout-count-3 > .widget:nth-child(1),
   #intro-section[data-count='3'] > .widget:nth-child(1),
-  #intro-section.hero-3 > .widget:nth-child(1),
-  #intro-section.hero-3 #Image1 {
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) {
     grid-column: 1 / 2 !important;
     grid-row: 1 / 3 !important;
     height: 100% !important;
     display: flex !important;
   }
-  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) .visual-banner-item,
-  #intro-section.count-3 > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.layout-count-3 > .widget:nth-child(1) .visual-banner-item,
   #intro-section[data-count='3'] > .widget:nth-child(1) .visual-banner-item,
-  #intro-section.hero-3 > .widget:nth-child(1) .visual-banner-item,
-  #intro-section.hero-3 #Image1 .visual-banner-item {
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) .visual-banner-item {
     height: 100% !important;
     min-height: 100% !important;
     flex: 1 1 100% !important;
   }
-  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) .visual-banner-title,
-  #intro-section.count-3 > .widget:nth-child(1) .visual-banner-title,
-  #intro-section.hero-3 > .widget:nth-child(1) .visual-banner-title {
+  #intro-section.layout-count-3 > .widget:nth-child(1) .visual-banner-title,
+  #intro-section[data-count='3'] > .widget:nth-child(1) .visual-banner-title,
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) .visual-banner-title {
     font-size: 24px !important;
   }
-  /* Card 2 & 3: Strictly 16:9 */
-  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(2) .visual-banner-item,
-  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(3) .visual-banner-item,
-  #intro-section.count-3 > .widget:nth-child(2) .visual-banner-item,
-  #intro-section.count-3 > .widget:nth-child(3) .visual-banner-item,
+  #intro-section.layout-count-3 > .widget:nth-child(2) .visual-banner-item,
+  #intro-section.layout-count-3 > .widget:nth-child(3) .visual-banner-item,
   #intro-section[data-count='3'] > .widget:nth-child(2) .visual-banner-item,
   #intro-section[data-count='3'] > .widget:nth-child(3) .visual-banner-item,
-  #intro-section.hero-3 > .widget:nth-child(2) .visual-banner-item,
-  #intro-section.hero-3 > .widget:nth-child(3) .visual-banner-item,
-  #intro-section.hero-3 #Image2 .visual-banner-item,
-  #intro-section.hero-3 #Image3 .visual-banner-item {
+  #intro-section.count-3 > .widget:nth-child(2) .visual-banner-item,
+  #intro-section.count-3 > .widget:nth-child(3) .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(2) .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(3) .visual-banner-item {
     aspect-ratio: 16 / 9 !important;
     width: 100% !important;
     height: auto !important;
   }
 
-  /* CASE 5: 5 Widgets -> Left Enlarged Hero + Right 4 in 2x2 Grid, all 16:9! */
-  #intro-section:has(> .widget:nth-child(5)),
-  #intro-section.count-5,
+  /* 4 Widgets Layout: 2x2 grid (2 rows of 2), all 16:9 */
+  #intro-section.layout-count-4,
+  #intro-section[data-count='4'],
+  #intro-section.count-4,
+  #intro-section:has(> .widget:nth-child(4)):not(:has(> .widget:nth-child(5))) {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    width: 100% !important;
+  }
+  #intro-section.layout-count-4 .visual-banner-item,
+  #intro-section[data-count='4'] .visual-banner-item,
+  #intro-section.count-4 .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(4)):not(:has(> .widget:nth-child(5))) .visual-banner-item {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+  }
+
+  /* 5 Widgets Layout: Left enlarged hero + Right 4 in 2x2 grid (all 4 right cards strictly 16:9!) */
+  #intro-section.layout-count-5,
   #intro-section[data-count='5'],
-  #intro-section.hero-5 {
+  #intro-section.count-5,
+  #intro-section:has(> .widget:nth-child(5)) {
     display: grid !important;
     grid-template-columns: 1.35fr 1fr 1fr !important;
-    grid-template-rows: auto auto !important;
+    grid-template-rows: 1fr 1fr !important;
     gap: 14px !important;
-    width: 100%;
+    width: 100% !important;
   }
-  /* Card 1: Spans vertically across both rows */
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1),
-  #intro-section.count-5 > .widget:nth-child(1),
+  #intro-section.layout-count-5 > .widget:nth-child(1),
   #intro-section[data-count='5'] > .widget:nth-child(1),
-  #intro-section.hero-5 > .widget:nth-child(1),
-  #intro-section.hero-5 #Image1 {
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) {
     grid-column: 1 / 2 !important;
     grid-row: 1 / 3 !important;
     height: 100% !important;
     display: flex !important;
   }
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) .visual-banner-item,
-  #intro-section.count-5 > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.layout-count-5 > .widget:nth-child(1) .visual-banner-item,
   #intro-section[data-count='5'] > .widget:nth-child(1) .visual-banner-item,
-  #intro-section.hero-5 > .widget:nth-child(1) .visual-banner-item,
-  #intro-section.hero-5 #Image1 .visual-banner-item {
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) .visual-banner-item {
     height: 100% !important;
     min-height: 100% !important;
     flex: 1 1 100% !important;
   }
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) .visual-banner-title,
-  #intro-section.count-5 > .widget:nth-child(1) .visual-banner-title,
-  #intro-section.hero-5 > .widget:nth-child(1) .visual-banner-title {
+  #intro-section.layout-count-5 > .widget:nth-child(1) .visual-banner-title,
+  #intro-section[data-count='5'] > .widget:nth-child(1) .visual-banner-title,
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) .visual-banner-title {
     font-size: 24px !important;
   }
-  /* Cards 2 to 5: 2x2 Grid Coordinates & Strictly 16:9! */
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(2), #intro-section.count-5 > .widget:nth-of-type(2), #intro-section.hero-5 #Image2 { grid-column: 2 / 3 !important; grid-row: 1 / 2 !important; }
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(3), #intro-section.count-5 > .widget:nth-of-type(3), #intro-section.hero-5 #Image3 { grid-column: 3 / 4 !important; grid-row: 1 / 2 !important; }
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(4), #intro-section.count-5 > .widget:nth-of-type(4), #intro-section.hero-5 #Image4 { grid-column: 2 / 3 !important; grid-row: 2 / 3 !important; }
-  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(5), #intro-section.count-5 > .widget:nth-of-type(5), #intro-section.hero-5 #Image5 { grid-column: 3 / 4 !important; grid-row: 2 / 3 !important; }
+  #intro-section.layout-count-5 > .widget:nth-child(2), #intro-section[data-count='5'] > .widget:nth-child(2), #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(2) { grid-column: 2 / 3 !important; grid-row: 1 / 2 !important; }
+  #intro-section.layout-count-5 > .widget:nth-child(3), #intro-section[data-count='5'] > .widget:nth-child(3), #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(3) { grid-column: 3 / 4 !important; grid-row: 1 / 2 !important; }
+  #intro-section.layout-count-5 > .widget:nth-child(4), #intro-section[data-count='5'] > .widget:nth-child(4), #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(4) { grid-column: 2 / 3 !important; grid-row: 2 / 3 !important; }
+  #intro-section.layout-count-5 > .widget:nth-child(5), #intro-section[data-count='5'] > .widget:nth-child(5), #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(5) { grid-column: 3 / 4 !important; grid-row: 2 / 3 !important; }
 
-  #intro-section:has(> .widget:nth-child(5)) > .widget:not(:nth-child(1)) .visual-banner-item,
-  #intro-section.count-5 > .widget:not(:nth-child(1)) .visual-banner-item,
+  #intro-section.layout-count-5 > .widget:not(:nth-child(1)) .visual-banner-item,
   #intro-section[data-count='5'] > .widget:not(:nth-child(1)) .visual-banner-item,
-  #intro-section.hero-5 > .widget:not(:nth-child(1)) .visual-banner-item,
-  #intro-section.hero-5 #Image2 .visual-banner-item,
-  #intro-section.hero-5 #Image3 .visual-banner-item,
-  #intro-section.hero-5 #Image4 .visual-banner-item,
-  #intro-section.hero-5 #Image5 .visual-banner-item {
+  #intro-section.count-5 > .widget:not(:nth-child(1)) .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(5)) > .widget:not(:nth-child(1)) .visual-banner-item {
     aspect-ratio: 16 / 9 !important;
     width: 100% !important;
     height: auto !important;
   }
 
-  /* Responsive Fallback on Mobile (< 768px) */
   @media (max-width: 768px) {
     #intro-section {
       display: flex !important;
@@ -3529,10 +3478,11 @@
       <b:class cond='!data:view.isHomepage' name='hide-on-subpage'/>
       <b:section id='intro-section' name='INTRO SECTION - 5 圖文視覺選單' class='intro-section ` + layoutClass + `' showaddelement='yes'>`;
 
-    for (let idx = 0; idx < bCnt; idx++) {
+    for (let idx = 0; idx < 5; idx++) {
       const item = bData[idx];
+      const isVis = idx < bCnt;
       bHtml += `
-        <b:widget id='` + item.id + `' locked='false' title='` + item.t + `' type='Image' version='2'>
+        <b:widget id='` + item.id + `' locked='false' title='` + item.t + `' type='Image' version='2' visible='` + (isVis ? 'true' : 'false') + `'>
           <b:includable id='main'>
             <b:if cond='data:view.isHomepage'>
               <a class='visual-banner-item' expr:href='data:link ?: "` + (item.l || '#') + `"'>
@@ -3921,10 +3871,16 @@
       var introSec = document.getElementById('intro-section');
       if (introSec) {
         var wList = introSec.querySelectorAll('.widget');
-        if (wList.length > 0) {
-          introSec.setAttribute('data-count', wList.length);
-          introSec.classList.add('count-' + wList.length);
+        var visCount = 0;
+        for (var wi = 0; wi < wList.length; wi++) {
+          if (wList[wi].offsetParent !== null || wList[wi].style.display !== 'none') {
+            visCount++;
+          }
         }
+        if (visCount === 0) visCount = wList.length;
+        var finalCount = Math.min(5, Math.max(1, visCount));
+        introSec.setAttribute('data-count', finalCount);
+        introSec.classList.add('layout-count-' + finalCount);
       }
 
       var isDark = document.documentElement.classList.contains('dark');
