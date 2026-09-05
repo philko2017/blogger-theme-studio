@@ -1289,6 +1289,13 @@
           <div class="control-group">
             <div class="control-group-title">卡片元素開關</div>
             <div class="switch-row">
+              <span class="switch-label">啟用側邊欄「熱門文章」小工具 (雙欄 16:9 縮圖，單數首篇跨滿)</span>
+              <label class="switch">
+                <input type="checkbox" id="check-showPopularPosts" checked onchange="updateSetting('showPopularPosts', this.checked)">
+                <span class="slider-toggle"></span>
+              </label>
+            </div>
+            <div class="switch-row">
               <span class="switch-label">顯示分類標籤 (Tags)</span>
               <label class="switch">
                 <input type="checkbox" id="check-showTags" checked onchange="updateSetting('showTags', this.checked)">
@@ -1487,6 +1494,7 @@
 
       // Author & Sidebar Profile
       // Top Features & Banners
+      showPopularPosts: true,
       showVisualBanner: true,
       showFeaturedPost: true,
       bannerCount: 3,
@@ -2109,6 +2117,25 @@
         if (isSidebar && state.device !== 'mobile') {
           html += `
             <aside style="width: ${state.sidebarWidth}px; flex-shrink: 0; order: ${sidebarOrder}; display: flex; flex-direction: column; gap: 24px;">
+              ${state.showPopularPosts ? `
+              <!-- Popular Posts Card in Sidebar Preview (Odd/Even Auto-Layout) -->
+              <div style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: 24px;">
+                <div style="font-size: 14px; font-weight: 700; color: ${text}; margin-bottom: 14px; padding-bottom: 8px; border-bottom: 1px solid ${border};">熱門文章</div>
+                <div class="popular-posts-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+                  ${samplePosts.slice(0, 4).map(p => `
+                    <div style="display: flex; flex-direction: column; overflow: hidden; border-radius: ${Math.max(4, state.cardRadius - 4)}px;">
+                      <div style="position: relative; width: 100%; aspect-ratio: 16 / 9; overflow: hidden; border-radius: ${Math.max(4, state.cardRadius - 4)}px; background: ${border};">
+                        <img src="${p.image}" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover;">
+                      </div>
+                      <div style="font-size: 12px; font-weight: 600; color: ${text}; line-height: 1.35; margin-top: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;">
+                        ${p.title}
+                      </div>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+              ` : ''}
+
               <!-- Author Card (Linked with State!) -->
               <div style="background: ${cardBg}; border-radius: ${state.cardRadius}px; border: ${borderCss}; box-shadow: ${shadowCss}; padding: 24px; text-align: center;">
                 <img src="${state.authorAvatar}" style="width: 76px; height: 76px; border-radius: 50%; object-fit: cover; margin: 0 auto 12px; display: block; border: 3px solid ${state.accent}33;">
@@ -3191,6 +3218,99 @@
     color: var(--accent);
   }
 
+  
+  /* ==========================================================================
+     Sidebar Popular Posts Card (2 Columns Grid, Odd/Even Intelligent Auto-Layout)
+     ========================================================================== */
+  .popular-posts-card {
+    background: var(--bg-card);
+    border-radius: var(--radius-card);
+    border: var(--card-border);
+    box-shadow: var(--card-shadow);
+    padding: 24px;
+    margin-bottom: 24px;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .popular-posts-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  .popular-post-item {
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    border-radius: calc(var(--radius-card) - 4px);
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .popular-post-item:hover {
+    transform: translateY(-3px);
+  }
+
+  .popular-post-thumb-wrap {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9 !important;
+    border-radius: calc(var(--radius-card) - 4px);
+    overflow: hidden;
+    background: var(--border-color);
+  }
+  .popular-post-thumb-wrap img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.3s ease;
+  }
+  .popular-post-item:hover .popular-post-thumb-wrap img {
+    transform: scale(1.06);
+  }
+  .popular-post-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--border-color);
+    color: var(--accent);
+    font-size: 20px;
+  }
+
+  .popular-post-title {
+    font-size: 12.5px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.35;
+    margin-top: 6px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    transition: color 0.15s ease;
+  }
+  .popular-post-item:hover .popular-post-title {
+    color: var(--accent);
+  }
+
+  /* ODD QUANTITY QUERY: If total count is ODD, first item spans across BOTH columns! */
+  .popular-posts-grid > .popular-post-item:first-child:nth-last-child(odd),
+  .popular-post-item.popular-hero-span {
+    grid-column: 1 / -1 !important;
+  }
+  .popular-posts-grid > .popular-post-item:first-child:nth-last-child(odd) .popular-post-title,
+  .popular-post-item.popular-hero-span .popular-post-title {
+    font-size: 14px !important;
+    font-weight: 700 !important;
+    margin-top: 8px !important;
+  }
+
   /* Sidebar Widgets */
   .sidebar-widget {
     background: var(--bg-card);
@@ -3680,6 +3800,38 @@
       <!-- Sidebar Section -->
       <aside class='sidebar-column'>
         <b:section id='sidebar' name='側邊欄小工具 (Sidebar)' class='sidebar' showaddelement='yes'>
+          ` + (state.showPopularPosts ? `
+          <!-- Popular Posts Widget (2 Columns Grid, Odd/Even Intelligent Auto-Layout) -->
+          <b:widget id='PopularPosts1' locked='false' title='熱門文章' type='PopularPosts' version='2'>
+            <b:widget-settings>
+              <b:widget-setting name='numItemsToShow'>4</b:widget-setting>
+              <b:widget-setting name='showThumbnails'>true</b:widget-setting>
+              <b:widget-setting name='showSnippets'>false</b:widget-setting>
+              <b:widget-setting name='timeRange'>ALL_TIME</b:widget-setting>
+            </b:widget-settings>
+            <b:includable id='main'>
+              <div class='sidebar-widget popular-posts-card'>
+                <div class='widget-title'><data:title/></div>
+                <div class='popular-posts-grid'>
+                  <b:loop values='data:posts' var='post'>
+                    <a class='popular-post-item' expr:href='data:post.href' expr:title='data:post.title'>
+                      <div class='popular-post-thumb-wrap'>
+                        <b:if cond='data:post.featuredImage'>
+                          <img expr:alt='data:post.title' expr:src='data:post.featuredImage' loading='lazy'/>
+                        <b:elseif cond='data:post.thumbnail'/>
+                          <img expr:alt='data:post.title' expr:src='data:post.thumbnail' loading='lazy'/>
+                        <b:else/>
+                          <div class='popular-post-placeholder'>✦</div>
+                        </b:if>
+                      </div>
+                      <div class='popular-post-title'><data:post.title/></div>
+                    </a>
+                  </b:loop>
+                </div>
+              </div>
+            </b:includable>
+          </b:widget>
+          ` : '') + `
           <!-- Author Card Widget (Native Image Widget: Directly uploadable in Blogger Backend!) -->
           <b:widget id='Image10' locked='false' title='${safeAuthorName}' type='Image' version='2'>
             <b:includable id='main'>
@@ -3756,6 +3908,16 @@
         if (!icon) return;
         
       // Auto-detect widget count in intro-section to enforce exact 16:9 layouts
+      
+      // Helper for Popular Posts odd count layout
+      var popGrid = document.querySelector('.popular-posts-grid');
+      if (popGrid) {
+        var pItems = popGrid.querySelectorAll('.popular-post-item');
+        if (pItems.length % 2 !== 0 && pItems.length > 0) {
+          pItems[0].classList.add('popular-hero-span');
+        }
+      }
+
       var introSec = document.getElementById('intro-section');
       if (introSec) {
         var wList = introSec.querySelectorAll('.widget');
