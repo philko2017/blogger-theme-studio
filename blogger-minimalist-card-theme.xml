@@ -169,6 +169,29 @@
 
   
   /* Top Wrappers for Intro & Featured */
+  /* Complete suppression of top banners and featured section on subpages (Articles, Labels, Search, Pages) */
+  .hide-on-subpage,
+  html.is-subpage .intro-banners-wrapper,
+  html.is-subpage .featured-post-wrapper,
+  html.is-subpage #intro-section,
+  html.is-subpage #feature-post-section,
+  body.is-subpage .intro-banners-wrapper,
+  body.is-subpage .featured-post-wrapper,
+  body.is-subpage #intro-section,
+  body.is-subpage #feature-post-section,
+  body:not(.is-homepage) .intro-banners-wrapper,
+  body:not(.is-homepage) .featured-post-wrapper,
+  body:not(.is-homepage) #intro-section,
+  body:not(.is-homepage) #feature-post-section {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+    visibility: hidden !important;
+  }
+
   .intro-banners-wrapper {
     max-width: var(--container-max-width);
     margin: 32px auto 0;
@@ -190,85 +213,260 @@
     margin: 0;
     padding: 0;
   }
-  #intro-section.equal-1 { display: grid; grid-template-columns: 1fr; }
-  #intro-section.equal-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; }
-  #intro-section.equal-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
-  #intro-section.equal-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  #intro-section.equal-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; }
-  #intro-section.equal-1 .visual-banner-item { height: 220px; }
-  #intro-section.equal-2 .visual-banner-item { height: 190px; }
-  #intro-section.equal-3 .visual-banner-item { height: 175px; }
-  #intro-section.equal-4 .visual-banner-item { height: 165px; }
-  #intro-section.equal-5 .visual-banner-item { height: 160px; }
+  
+  /* ==========================================================================
+     Intelligent Auto-Detect Quantity Layouts & 16:9 Aspect Ratio Rules
+     ========================================================================== */
 
-  /* Hero Grid Heights & Full-Stretch Rules for Both 3 and 5 items */
-  #intro-section.hero-3 {
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 14px;
-    height: 360px;
-  }
-  #intro-section.hero-5 {
-    display: grid;
-    grid-template-columns: 1.35fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr;
-    gap: 14px;
-    height: 380px;
+  #intro-section {
+    padding: 0;
+    margin: 0;
+    width: 100%;
   }
 
-  /* Force all nesting levels in Hero mode to fill 100% of grid cells */
-  #intro-section.hero-3 .widget,
-  #intro-section.hero-5 .widget,
-  #intro-section.hero-3 .widget-content,
-  #intro-section.hero-5 .widget-content,
-  #intro-section.hero-3 .visual-banner-item,
-  #intro-section.hero-5 .visual-banner-item {
+  /* All widgets & contents stretch */
+  #intro-section .widget,
+  #intro-section .widget-content {
+    display: flex !important;
+    flex-direction: column !important;
     height: 100% !important;
-    min-height: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
     box-sizing: border-box !important;
   }
 
-  /* Item 1 spans 2 rows vertically */
-  #intro-section.hero-3 > .widget:first-of-type,
+  .visual-banner-item {
+    text-decoration: none;
+    position: relative;
+    border-radius: var(--radius-card);
+    overflow: hidden;
+    display: flex;
+    align-items: flex-end;
+    padding: 18px;
+    box-shadow: var(--card-shadow);
+    border: var(--card-border);
+    transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.25s;
+    box-sizing: border-box !important;
+    width: 100%;
+  }
+  .visual-banner-item:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 24px -2px rgba(0,0,0,0.22);
+  }
+  .visual-banner-img-wrap img {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    object-fit: cover;
+    z-index: 1;
+    transition: transform 0.4s ease;
+  }
+  .visual-banner-item:hover .visual-banner-img-wrap img {
+    transform: scale(1.06);
+  }
+  .visual-banner-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: linear-gradient(to top, rgba(0,0,0,0.88) 0%, rgba(0,0,0,0.35) 60%, rgba(0,0,0,0.05) 100%);
+    z-index: 2;
+  }
+  .visual-banner-content {
+    position: relative;
+    z-index: 3;
+    color: #ffffff;
+  }
+  .visual-banner-sub {
+    font-size: 11.5px;
+    color: rgba(255, 255, 255, 0.88);
+    margin-bottom: 4px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+  }
+  .visual-banner-title {
+    font-size: 17.5px;
+    font-weight: 700;
+    line-height: 1.3;
+    color: #ffffff;
+    letter-spacing: -0.01em;
+  }
+
+  /* CASE 1: 1 Widget -> Single 16:9 Banner across full width */
+  #intro-section:has(> .widget:nth-child(1)):not(:has(> .widget:nth-child(2))),
+  #intro-section.count-1,
+  #intro-section[data-count='1'],
+  #intro-section.equal-1 {
+    display: block !important;
+    width: 100%;
+  }
+  #intro-section:has(> .widget:nth-child(1)):not(:has(> .widget:nth-child(2))) .visual-banner-item,
+  #intro-section.count-1 .visual-banner-item,
+  #intro-section[data-count='1'] .visual-banner-item,
+  #intro-section.equal-1 .visual-banner-item {
+    aspect-ratio: 16 / 9 !important;
+    max-height: 480px;
+  }
+
+  /* CASE 2: 2 Widgets -> 2 Columns side-by-side, strictly 16:9 */
+  #intro-section:has(> .widget:nth-child(2)):not(:has(> .widget:nth-child(3))),
+  #intro-section.count-2,
+  #intro-section[data-count='2'],
+  #intro-section.equal-2 {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    width: 100%;
+  }
+  #intro-section:has(> .widget:nth-child(2)):not(:has(> .widget:nth-child(3))) .visual-banner-item,
+  #intro-section.count-2 .visual-banner-item,
+  #intro-section[data-count='2'] .visual-banner-item,
+  #intro-section.equal-2 .visual-banner-item {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+  }
+
+  /* CASE 4: 4 Widgets -> 2x2 Grid (2 rows, 2 each), strictly 16:9 */
+  #intro-section:has(> .widget:nth-child(4)):not(:has(> .widget:nth-child(5))),
+  #intro-section.count-4,
+  #intro-section[data-count='4'],
+  #intro-section.equal-4 {
+    display: grid !important;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 16px !important;
+    width: 100%;
+  }
+  #intro-section:has(> .widget:nth-child(4)):not(:has(> .widget:nth-child(5))) .visual-banner-item,
+  #intro-section.count-4 .visual-banner-item,
+  #intro-section[data-count='4'] .visual-banner-item,
+  #intro-section.equal-4 .visual-banner-item {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+  }
+
+  /* CASE 3: 3 Widgets -> Left Enlarged Hero + Right 2 Stacked 16:9 */
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))),
+  #intro-section.count-3,
+  #intro-section[data-count='3'],
+  #intro-section.hero-3 {
+    display: grid !important;
+    grid-template-columns: 1.35fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 14px !important;
+    width: 100%;
+  }
+  /* Card 1: Spans vertically across both rows */
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1),
+  #intro-section.count-3 > .widget:nth-child(1),
+  #intro-section[data-count='3'] > .widget:nth-child(1),
   #intro-section.hero-3 > .widget:nth-child(1),
-  #intro-section.hero-3 #Image1,
-  #intro-section.hero-5 > .widget:first-of-type,
+  #intro-section.hero-3 #Image1 {
+    grid-column: 1 / 2 !important;
+    grid-row: 1 / 3 !important;
+    height: 100% !important;
+    display: flex !important;
+  }
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.count-3 > .widget:nth-child(1) .visual-banner-item,
+  #intro-section[data-count='3'] > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.hero-3 > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.hero-3 #Image1 .visual-banner-item {
+    height: 100% !important;
+    min-height: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(1) .visual-banner-title,
+  #intro-section.count-3 > .widget:nth-child(1) .visual-banner-title,
+  #intro-section.hero-3 > .widget:nth-child(1) .visual-banner-title {
+    font-size: 24px !important;
+  }
+  /* Card 2 & 3: Strictly 16:9 */
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(2) .visual-banner-item,
+  #intro-section:has(> .widget:nth-child(3)):not(:has(> .widget:nth-child(4))) > .widget:nth-child(3) .visual-banner-item,
+  #intro-section.count-3 > .widget:nth-child(2) .visual-banner-item,
+  #intro-section.count-3 > .widget:nth-child(3) .visual-banner-item,
+  #intro-section[data-count='3'] > .widget:nth-child(2) .visual-banner-item,
+  #intro-section[data-count='3'] > .widget:nth-child(3) .visual-banner-item,
+  #intro-section.hero-3 > .widget:nth-child(2) .visual-banner-item,
+  #intro-section.hero-3 > .widget:nth-child(3) .visual-banner-item,
+  #intro-section.hero-3 #Image2 .visual-banner-item,
+  #intro-section.hero-3 #Image3 .visual-banner-item {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
+
+  /* CASE 5: 5 Widgets -> Left Enlarged Hero + Right 4 in 2x2 Grid, all 16:9! */
+  #intro-section:has(> .widget:nth-child(5)),
+  #intro-section.count-5,
+  #intro-section[data-count='5'],
+  #intro-section.hero-5 {
+    display: grid !important;
+    grid-template-columns: 1.35fr 1fr 1fr !important;
+    grid-template-rows: auto auto !important;
+    gap: 14px !important;
+    width: 100%;
+  }
+  /* Card 1: Spans vertically across both rows */
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1),
+  #intro-section.count-5 > .widget:nth-child(1),
+  #intro-section[data-count='5'] > .widget:nth-child(1),
   #intro-section.hero-5 > .widget:nth-child(1),
   #intro-section.hero-5 #Image1 {
     grid-column: 1 / 2 !important;
     grid-row: 1 / 3 !important;
     height: 100% !important;
+    display: flex !important;
   }
-  #intro-section.hero-3 > .widget:first-of-type .visual-banner-title,
-  #intro-section.hero-5 > .widget:first-of-type .visual-banner-title,
-  #intro-section.hero-3 #Image1 .visual-banner-title,
-  #intro-section.hero-5 #Image1 .visual-banner-title {
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.count-5 > .widget:nth-child(1) .visual-banner-item,
+  #intro-section[data-count='5'] > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.hero-5 > .widget:nth-child(1) .visual-banner-item,
+  #intro-section.hero-5 #Image1 .visual-banner-item {
+    height: 100% !important;
+    min-height: 100% !important;
+    flex: 1 1 100% !important;
+  }
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-child(1) .visual-banner-title,
+  #intro-section.count-5 > .widget:nth-child(1) .visual-banner-title,
+  #intro-section.hero-5 > .widget:nth-child(1) .visual-banner-title {
     font-size: 24px !important;
   }
+  /* Cards 2 to 5: 2x2 Grid Coordinates & Strictly 16:9! */
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(2), #intro-section.count-5 > .widget:nth-of-type(2), #intro-section.hero-5 #Image2 { grid-column: 2 / 3 !important; grid-row: 1 / 2 !important; }
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(3), #intro-section.count-5 > .widget:nth-of-type(3), #intro-section.hero-5 #Image3 { grid-column: 3 / 4 !important; grid-row: 1 / 2 !important; }
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(4), #intro-section.count-5 > .widget:nth-of-type(4), #intro-section.hero-5 #Image4 { grid-column: 2 / 3 !important; grid-row: 2 / 3 !important; }
+  #intro-section:has(> .widget:nth-child(5)) > .widget:nth-of-type(5), #intro-section.count-5 > .widget:nth-of-type(5), #intro-section.hero-5 #Image5 { grid-column: 3 / 4 !important; grid-row: 2 / 3 !important; }
 
-  /* Items 2 to 5 grid positions in 5-Hero mode */
-  #intro-section.hero-5 > .widget:nth-of-type(2), #intro-section.hero-5 #Image2 { grid-column: 2 / 3 !important; grid-row: 1 / 2 !important; height: 100% !important; }
-  #intro-section.hero-5 > .widget:nth-of-type(3), #intro-section.hero-5 #Image3 { grid-column: 3 / 4 !important; grid-row: 1 / 2 !important; height: 100% !important; }
-  #intro-section.hero-5 > .widget:nth-of-type(4), #intro-section.hero-5 #Image4 { grid-column: 2 / 3 !important; grid-row: 2 / 3 !important; height: 100% !important; }
-  #intro-section.hero-5 > .widget:nth-of-type(5), #intro-section.hero-5 #Image5 { grid-column: 3 / 4 !important; grid-row: 2 / 3 !important; height: 100% !important; }
+  #intro-section:has(> .widget:nth-child(5)) > .widget:not(:nth-child(1)) .visual-banner-item,
+  #intro-section.count-5 > .widget:not(:nth-child(1)) .visual-banner-item,
+  #intro-section[data-count='5'] > .widget:not(:nth-child(1)) .visual-banner-item,
+  #intro-section.hero-5 > .widget:not(:nth-child(1)) .visual-banner-item,
+  #intro-section.hero-5 #Image2 .visual-banner-item,
+  #intro-section.hero-5 #Image3 .visual-banner-item,
+  #intro-section.hero-5 #Image4 .visual-banner-item,
+  #intro-section.hero-5 #Image5 .visual-banner-item {
+    aspect-ratio: 16 / 9 !important;
+    width: 100% !important;
+    height: auto !important;
+  }
 
+  /* Responsive Fallback on Mobile (< 768px) */
   @media (max-width: 768px) {
-    #intro-section.hero-5, #intro-section.hero-3,
-    #intro-section.equal-3, #intro-section.equal-4, #intro-section.equal-5 {
+    #intro-section {
       display: flex !important;
       flex-direction: column !important;
-      height: auto !important;
       gap: 12px !important;
     }
     #intro-section > .widget {
-      height: 160px !important;
-      grid-column: auto !important;
-      grid-row: auto !important;
+      width: 100% !important;
+    }
+    #intro-section .visual-banner-item {
+      aspect-ratio: 16 / 9 !important;
+      width: 100% !important;
+      height: auto !important;
     }
   }
 
-  /* Visual Image Banners (1 ~ 5 Tiles, Equal or Hero Grid) */
   .visual-banners-container {
     margin-bottom: 32px;
   }
@@ -485,11 +683,14 @@
   .card-thumbnail-wrap {
     position: relative;
     width: 100%;
-    aspect-ratio: 16/9;
+    aspect-ratio: 16 / 9 !important;
     overflow: hidden;
     background: var(--border-color);
   }
   .card-thumbnail-wrap img {
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
@@ -635,6 +836,27 @@
     border-bottom: 1px solid var(--border-color);
     margin-bottom: 28px;
   }
+  
+  /* Clear inline styles (Word/Docs pasted white background & black text) in dark mode */
+  html.dark .single-post-body,
+  html.dark .single-post-body *,
+  html.dark .single-post-body p,
+  html.dark .single-post-body span,
+  html.dark .single-post-body font,
+  html.dark .single-post-body div {
+    color: var(--text-main) !important;
+    background-color: transparent !important;
+  }
+  html.dark .single-post-body blockquote {
+    background-color: var(--bg-page) !important;
+    color: var(--text-muted) !important;
+  }
+  html.dark .single-post-body pre,
+  html.dark .single-post-body code {
+    background-color: rgba(255, 255, 255, 0.06) !important;
+    color: var(--text-main) !important;
+  }
+
   .single-post-body {
     font-size: 16px;
     line-height: 1.85;
@@ -813,6 +1035,7 @@
   <script>
     //<![CDATA[
     (function() {
+      // Theme dark/light check
       var saved = localStorage.getItem('theme');
       var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
       if (saved === 'dark' || (!saved && prefersDark)) {
@@ -820,11 +1043,19 @@
       } else {
         document.documentElement.classList.remove('dark');
       }
+
+      // Page type check (homepage vs subpage) to prevent blank banner space on subpages
+      var p = window.location.pathname;
+      if (p === '/' || p === '' || p === '/index.html' || window.location.search.indexOf('m=') !== -1 && (p === '/' || p === '')) {
+        document.documentElement.classList.add('is-homepage');
+      } else {
+        document.documentElement.classList.add('is-subpage');
+      }
     })();
     //]]>
   </script>
 </head>
-<body>
+<body expr:class='data:view.isHomepage ? "is-homepage" : "is-subpage"'>
 
   <div id='reading-progress-bar'></div>
 
@@ -867,7 +1098,8 @@
 
   <!-- 2. INTRO SECTION - 5 IMAGE GADGETS (Full Width Band below Header) -->
   <div class='intro-banners-wrapper'>
-      <b:section id='intro-section' name='INTRO SECTION - 5 圖文視覺選單' class='intro-section equal-3' showaddelement='yes'>
+      <b:class cond='!data:view.isHomepage' name='hide-on-subpage'/>
+      <b:section id='intro-section' name='INTRO SECTION - 5 圖文視覺選單' class='intro-section hero-3' showaddelement='yes'>
         <b:widget id='Image1' locked='false' title='流亡者地圖' type='Image' version='2'>
           <b:includable id='main'>
             <b:if cond='data:view.isHomepage'>
@@ -934,6 +1166,7 @@
   <!-- 3. FEATURED POST HERO SECTION (Full Width Band below Intro) -->
   
   <div class='featured-post-wrapper'>
+    <b:class cond='!data:view.isHomepage' name='hide-on-subpage'/>
     <b:section id='feature-post-section' name='置頂精選文章 (Featured Post)' class='feature-section' showaddelement='yes' maxwidgets='1'>
       <b:widget cond='data:view.isHomepage' id='FeaturedPost1' locked='false' title='精選推薦文章' type='FeaturedPost' version='2'>
         <b:widget-settings>
@@ -983,10 +1216,17 @@
     <div class='layout-wrapper'>
       <!-- Posts Stream -->
       <main class='content-column'>
-        <div class='section-divider-title'>
-          <span>開始探險 »</span>
-          <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>全部文章列表</span>
-        </div>
+        <b:if cond='data:view.isMultipleItems'>
+          <div class='section-divider-title'>
+            <b:if cond='data:view.isLabelSearch'>
+              <span>分類標籤：<data:view.search.label/> »</span>
+              <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>標籤相關文章</span>
+            <b:else/>
+              <span>開始探險 »</span>
+              <span style='font-size: 12px; color: var(--text-muted); font-weight: 500;'>全部文章列表</span>
+            </b:if>
+          </div>
+        </b:if>
 
         <b:section id='main' name='網誌文章主區 (Main Posts)' class='main' showaddelement='no'>
           <b:widget id='Blog1' locked='true' title='網誌文章' type='Blog' version='2'>
@@ -1113,14 +1353,40 @@
 
             <b:includable id='comments' var='post'>
               <b:if cond='data:post.allowComments'>
-                <div class='comments-container' style='margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-color);'>
-                  <h3 style='font-size: 18px; margin-bottom: 16px;'>發表留言</h3>
+                <div class='comments-container' id='comments' style='margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--border-color);'>
+                  <h3 style='font-size: 18px; font-weight: 700; color: var(--text-main); margin-bottom: 16px;'>發表留言</h3>
+
+                  <!-- Comments List if any exist -->
+                  <b:if cond='data:post.comments.notEmpty'>
+                    <div class='comments-list' style='margin-bottom: 24px;'>
+                      <b:loop values='data:post.comments' var='comment'>
+                        <div class='comment-item' style='padding: 14px 16px; background: var(--bg-page); border-radius: var(--radius-card); border: var(--card-border); margin-bottom: 12px;'>
+                          <div style='display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px;'>
+                            <strong style='font-size: 13px; color: var(--text-main);'><data:comment.author/></strong>
+                            <span style='font-size: 11px; color: var(--text-muted);'><data:comment.timestamp/></span>
+                          </div>
+                          <div style='font-size: 13.5px; color: var(--text-main); line-height: 1.5;'>
+                            <data:comment.body/>
+                          </div>
+                        </div>
+                      </b:loop>
+                    </div>
+                  </b:if>
+
+                  <!-- Blogger Native Embedded Comment Iframe Form -->
                   <b:include data='post' name='comment-form'/>
                 </div>
               </b:if>
             </b:includable>
 
-            <b:includable id='comment-form'/>
+            <b:includable id='comment-form' var='post'>
+              <div class='comment-form'>
+                <a name='comment-form'/>
+                <b:if cond='data:post.commentFormIframeSrc'>
+                  <iframe allowtransparency='true' class='blogger-iframe-colorize blogger-comment-from-post' frameborder='0' height='360' id='comment-editor' name='comment-editor' expr:src='data:post.commentFormIframeSrc' style='width: 100%; border: none; min-height: 280px;' width='100%'/>
+                </b:if>
+              </div>
+            </b:includable>
             <b:includable id='backlinks'/>
             <b:includable id='status-message'/>
             <b:includable id='shareButtons'/>
@@ -1212,7 +1478,18 @@
 
       function updateIcon() {
         if (!icon) return;
-        var isDark = document.documentElement.classList.contains('dark');
+        
+      // Auto-detect widget count in intro-section to enforce exact 16:9 layouts
+      var introSec = document.getElementById('intro-section');
+      if (introSec) {
+        var wList = introSec.querySelectorAll('.widget');
+        if (wList.length > 0) {
+          introSec.setAttribute('data-count', wList.length);
+          introSec.classList.add('count-' + wList.length);
+        }
+      }
+
+      var isDark = document.documentElement.classList.contains('dark');
         icon.textContent = isDark ? '☀️' : '🌙';
       }
       updateIcon();
